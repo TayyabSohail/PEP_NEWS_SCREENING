@@ -1,5 +1,7 @@
 import { App as AntdApp, ConfigProvider } from "antd";
 
+import { Router } from "./Router";
+
 export const App = () => {
   return (
     <AntdApp>
@@ -16,7 +18,7 @@ export const App = () => {
             },
           }}
         >
-          App
+          <Router />
         </ConfigProvider>
       </div>
     </AntdApp>
