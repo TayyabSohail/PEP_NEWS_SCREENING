@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { DatePicker, Space, Form, Upload, Button, Image } from "antd";
 
+import { Image, Form, DatePicker, Upload } from "antd";
 import {
-  CalendarTwoTone,
+  CalendarOutlined,
   UploadOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { PrimaryButton } from "../components/Button/PrimaryButton";
+
+import { PrimaryButton, LinkButton } from "../components/Button";
 
 import loginImage from "../assets/images/login.png";
-import logoImage from "../assets/icons/logo.svg";
 
 import { styles } from "../assets/styles";
 
@@ -47,23 +47,22 @@ export const Home = () => {
   };
 
   return (
-    <div className="w-full h-screen flex">
+    <div className="w-full h-[93vh] flex">
       <Image
         preview={false}
         src={loginImage}
         alt="Login Image"
-        height={"100%"}
+        height="100%"
         width={"50%"}
-        className="object-cover"
+        className="m-0 object-cover"
       />
 
-      <div className="w-1/2 h-full flex flex-col justify-center items-center p-10 gap-5">
-        {/* Logo */}
-        <Image preview={false} src={logoImage} alt="Logo Image" width={"20%"} />
-
+      <div className="w-1/2 h-full flex flex-col justify-center p-10 gap-10">
         {/* Page Title */}
-        <h2 className={styles.heading3}>PEP Adverse NEWS Screening</h2>
-        <h3 className={styles.heading4}>PEP and High Risk Entities Upload</h3>
+        <div className="flex flex-col items-center gap-5">
+          <h2 className={styles.heading3}>PEP Adverse NEWS Screening</h2>
+          <h5 className={styles.heading5}>PEP and High Risk Entities Upload</h5>
+        </div>
 
         <Form
           form={form}
@@ -76,83 +75,88 @@ export const Home = () => {
           scrollToFirstError
           autoComplete="off"
         >
-          <div className="w-full flex flex-col gap-5">
-            <div className="w-full flex gap-5">
-              <Space direction="vertical" className="w-1/2">
-                <label className="text-sm font-medium  text-black mb-1">
-                  Starting Date
-                </label>
-                <DatePicker
-                  className="w-full border border-gray rounded-md p-2"
-                  onChange={handleStartDateChange}
-                  suffixIcon={<CalendarTwoTone className="text-gray text-lg" />}
-                />
-              </Space>
-              <Space direction="vertical" className="w-1/2">
-                <label className="text-sm font-medium  text-black mb-1">
-                  Ending Date
-                </label>
-                <DatePicker
-                  className="w-full border border-gray rounded-md p-2"
-                  onChange={handleEndDateChange}
-                  suffixIcon={<CalendarTwoTone className="text-gray text-lg" />}
-                />
-              </Space>
-            </div>
-
+          <div className="min-w-[60%] flex gap-5">
             <Form.Item
-              name="meta_data"
-              valuePropName="file"
+              name="startingDate"
+              label={<span className={styles.label}>Starting Date</span>}
+              className="w-1/2 m-0"
               rules={[
                 {
                   required: true,
-                  message: "Please upload the accounts information",
+                  message: "Please select the starting date!",
                 },
               ]}
-              className="m-0 w-full"
             >
-              {formData.file ? (
-                <div className=" bg-blue rounded-lg p-4">
-                  <p className=" text-sm font-medium text-black mb-1">
-                    Uploaded File: {formData.file.name}
-                  </p>
-                  <Button
-                    type="text"
-                    icon={<DeleteOutlined />}
-                    onClick={handleRemoveFile}
-                    className="absolute top-2 right-2 text-black"
-                  >
-                    Remove
-                  </Button>
-                </div>
-              ) : (
-                <Upload.Dragger
-                  accept=".xlsx,.csv,.xls"
-                  beforeUpload={handleFileUpload}
-                  maxCount={1}
-                >
-                  <p className="ant-upload-drag-icon">
-                    <UploadOutlined />
-                  </p>
-                  <p className="ant-upload-text">
-                    <h2 className="text-sm font-medium text-black mb-1">
-                      Upload Screening List
-                    </h2>
-                  </p>
-                </Upload.Dragger>
-              )}
+              <DatePicker
+                className="w-full !bg-[transparent] [&>input]:!bg-[transparent]"
+                onChange={handleStartDateChange}
+                suffixIcon={<CalendarOutlined className="text-gray text-lg" />}
+              />
             </Form.Item>
 
-            <h2 className="text-sm font-medium text-black text-center">
-              Download List Template?
-            </h2>
+            <Form.Item
+              name="endingDate"
+              label={<span className={styles.label}>Ending Date</span>}
+              className="w-1/2 m-0"
+              rules={[
+                {
+                  required: true,
+                  message: "Please select the ending date!",
+                },
+              ]}
+            >
+              <DatePicker
+                className="w-full !bg-[transparent] [&>input]:!bg-[transparent]"
+                onChange={handleEndDateChange}
+                suffixIcon={<CalendarOutlined className="text-gray text-lg" />}
+              />
+            </Form.Item>
           </div>
+
+          <Form.Item
+            name="screeningList"
+            valuePropName="file"
+            rules={[
+              {
+                required: true,
+                message: "Please upload the screening list!",
+              },
+            ]}
+            className="min-w-[60%] m-0"
+          >
+            {formData.file ? (
+              <div className="flex justify-between items-center bg-light_blue rounded-lg p-3">
+                <p className={styles.label}>{formData?.file?.name}</p>
+                <LinkButton
+                  type="text"
+                  icon={<DeleteOutlined />}
+                  onClick={handleRemoveFile}
+                >
+                  Remove
+                </LinkButton>
+              </div>
+            ) : (
+              <Upload.Dragger
+                accept=".xlsx,.csv,.xls"
+                beforeUpload={handleFileUpload}
+                maxCount={1}
+              >
+                <p className="ant-upload-drag-icon">
+                  <UploadOutlined />
+                </p>
+                <p className={`${styles.label} hover:!text-primary`}>
+                  Upload Screening List
+                </p>
+              </Upload.Dragger>
+            )}
+          </Form.Item>
+
+          <LinkButton>Download List Template?</LinkButton>
+
           <PrimaryButton
             htmlType="submit"
             disabled={!isFormComplete}
-            className={`${
-              isFormComplete ? "" : "!text-white !bg-primary !opacity-50"
-            }`}
+            className={`${!isFormComplete && styles.disabled} mt-5`}
           >
             Upload
           </PrimaryButton>
