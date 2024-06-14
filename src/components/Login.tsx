@@ -48,7 +48,7 @@ export const Login = () => {
 
       <div className="w-1/2 h-full flex flex-col justify-center items-center p-10 gap-5">
         {/* Logo */}
-        <Image preview={false} src={logoImage} alt="Logo Image" width={"30%"} />
+        <Image preview={false} src={logoImage} alt="Logo Image" width={"20%"} />
 
         {/* Page Title */}
         <h2 className={styles.heading3}>PEP Adverse NEWS Screening</h2>
