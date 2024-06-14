@@ -1,6 +1,6 @@
 import { Button, ButtonProps } from "antd";
 
-export const PrimaryButton = (props: ButtonProps) => {
+const PrimaryButton = (props: ButtonProps) => {
   return (
     <Button
       {...props}
@@ -12,3 +12,5 @@ export const PrimaryButton = (props: ButtonProps) => {
     </Button>
   );
 };
+
+export default PrimaryButton;
