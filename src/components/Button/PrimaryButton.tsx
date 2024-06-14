@@ -6,7 +6,7 @@ export const PrimaryButton = (props: ButtonProps) => {
       {...props}
       htmlType={props?.htmlType}
       onClick={props?.onClick}
-      className={`w-fit font-semibold font-lato px-8 py-4 bg-primary text-white rounded-full ${props?.className}`}
+      className={`w-fit font-medium px-8 py-4 bg-primary text-white rounded-full ${props?.className}`}
     >
       {props.children}
     </Button>
