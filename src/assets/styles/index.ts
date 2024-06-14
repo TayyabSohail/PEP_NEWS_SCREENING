@@ -8,9 +8,8 @@ export const styles = {
   heading4:
     "m-0 p-0 font-lato font-bold text-[20px] leading-[28px] text-primary",
   heading5:
-    "m-0 p-0 font-lato font-bold text-[16px] leading-[24px] text-primary",
+    "m-0 p-0 font-lato font-bold text-[18px] leading-[24px] text-primary",
 
-  label:
-    "!m-0 !p-0 !font-lato !font-bold !text-[16px] !leading-[24px] !text-black",
-  disabled: "!text-white !bg-primary !opacity-50",
+  label: "!m-0 !p-0 !font-semibold !text-[16px] !leading-[20px] !text-black",
+  disabled: "!text-white !bg-primary !opacity-30",
 };
