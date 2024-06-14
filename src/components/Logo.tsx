@@ -1,9 +1,10 @@
 import { Image } from "antd";
-import logo from "../assets/Icons/logo.svg";
+
+import logo from "../assets/icons/logo.svg";
 
 interface LogoProps {
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   className?: string;
 }
 
