@@ -5,9 +5,9 @@ import {
 } from "react-router-dom";
 
 import { Layout } from "./layout";
-import { Home } from "./components/Home";
+import { Home } from "./pages/Home";
 
-import { Login } from "./components/Login";
+import { Login } from "./pages/Login";
 
 import { ROUTES } from "./constants/routes";
 

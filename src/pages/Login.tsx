@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { Image, Form, Input } from "antd";
 import { UserOutlined, KeyOutlined } from "@ant-design/icons";
 
-import { Logo } from "./Logo";
-import { PrimaryButton } from "./Button";
+import { Logo } from "../components/Logo";
+import { PrimaryButton } from "../components/Button";
 
 import loginImage from "../assets/images/login.png";
 
