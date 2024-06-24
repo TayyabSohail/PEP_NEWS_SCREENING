@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { Image, Form, Input } from "antd";
 import { UserOutlined, KeyOutlined } from "@ant-design/icons";
 
+import { Logo } from "./Logo";
 import { PrimaryButton } from "./Button";
 
 import loginImage from "../assets/images/login.png";
-import logoImage from "../assets/icons/logo.svg";
 
 import { styles } from "../assets/styles";
 
@@ -46,13 +46,15 @@ export const Login = () => {
         className="object-cover"
       />
 
-      <div className="w-1/2 h-full flex flex-col justify-center items-center p-10 gap-5">
-        {/* Logo */}
-        <Image preview={false} src={logoImage} alt="Logo Image" width={"20%"} />
+      <div className="w-1/2 h-full flex flex-col justify-center p-10 gap-10">
+        <div className="flex flex-col items-center gap-5">
+          {/* Logo */}
+          <Logo width="15%" />
 
-        {/* Page Title */}
-        <h2 className={styles.heading3}>PEP Adverse NEWS Screening</h2>
-        <h3 className={styles.heading4}>Login</h3>
+          {/* Page Title */}
+          <h2 className={styles.heading3}>PEP Adverse NEWS Screening</h2>
+          <h5 className={styles.heading5}>Login</h5>
+        </div>
 
         <Form
           form={form}
@@ -69,7 +71,7 @@ export const Login = () => {
           <Form.Item<LoginData>
             name="email"
             label={<span className={styles.label}>Email</span>}
-            className="min-w-[50%] m-0"
+            className="min-w-[60%] m-0"
             rules={[
               {
                 required: true,
@@ -90,7 +92,7 @@ export const Login = () => {
           {/* Password */}
           <Form.Item<LoginData>
             name="password"
-            className="min-w-[50%] m-0"
+            className="min-w-[60%] m-0"
             label={<span className={styles.label}>Password</span>}
             rules={[
               { required: true, message: "Please input your password!" },
@@ -108,7 +110,7 @@ export const Login = () => {
 
           <PrimaryButton
             htmlType="submit"
-            className={`${!submittable && styles.disabled}`}
+            className={`${!submittable && styles.disabled} mt-5`}
             disabled={!submittable}
           >
             Login

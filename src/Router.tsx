@@ -1,15 +1,34 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  redirect,
+} from "react-router-dom";
+
+import { Layout } from "./layout";
+import { Home } from "./components/Home";
 
 import { Login } from "./components/Login";
+
+import { ROUTES } from "./constants/routes";
 
 // Create a router
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        loader: () => redirect(ROUTES.home),
+      },
+      {
+        path: ROUTES.home,
+        element: <Home />,
+      },
+    ],
   },
   {
-    path: "/login",
+    path: ROUTES.login,
     element: <Login />,
   },
 ]);
