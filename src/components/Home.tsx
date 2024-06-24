@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import dayjs from "dayjs";
 import { Image, Form, DatePicker, Upload } from "antd";
 import {
   CalendarOutlined,
@@ -8,24 +8,18 @@ import {
 } from "@ant-design/icons";
 
 import { PrimaryButton, LinkButton } from "../components/Button";
-
 import loginImage from "../assets/images/login.png";
-
 import { styles } from "../assets/styles";
 
 interface HomeData {
-  startingDate: string;
-  endingDate: string;
+  startingDate: Date | null;
+  endingDate: Date | null;
   screeningList: File | null;
 }
 
 export const Home = () => {
   const [form] = Form.useForm<HomeData>();
-
-  // Submittable state for form submit button
   const [submittable, setSubmittable] = useState<boolean>(false);
-
-  // Watch all values
   const values = Form.useWatch([], form);
 
   useEffect(() => {
@@ -45,7 +39,11 @@ export const Home = () => {
   };
 
   const onFinish = () => {
-    form.validateFields();
+    // submit logic pending below
+  };
+
+  const disableDatesAfterToday = (current: dayjs.Dayjs) => {
+    return current && current > dayjs().endOf("day");
   };
 
   return (
@@ -60,7 +58,6 @@ export const Home = () => {
       />
 
       <div className="w-1/2 h-full flex flex-col justify-center p-10 gap-10">
-        {/* Page Title */}
         <div className="flex flex-col items-center gap-5">
           <h2 className={styles.heading3}>PEP Adverse NEWS Screening</h2>
           <h5 className={styles.heading5}>PEP and High Risk Entities Upload</h5>
@@ -87,11 +84,23 @@ export const Home = () => {
                   required: true,
                   message: "Please select the starting date!",
                 },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    const endingDate = getFieldValue("endingDate");
+                    if (!value || !endingDate || value.isBefore(endingDate)) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error("Starting date must be before ending date!")
+                    );
+                  },
+                }),
               ]}
             >
               <DatePicker
                 className="w-full !bg-[transparent] [&>input]:!bg-[transparent]"
                 suffixIcon={<CalendarOutlined className="text-gray text-lg" />}
+                disabledDate={disableDatesAfterToday}
               />
             </Form.Item>
 
@@ -104,11 +113,27 @@ export const Home = () => {
                   required: true,
                   message: "Please select the ending date!",
                 },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    const startingDate = getFieldValue("startingDate");
+                    if (
+                      !value ||
+                      !startingDate ||
+                      value.isAfter(startingDate)
+                    ) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error("Ending date must be after starting date!")
+                    );
+                  },
+                }),
               ]}
             >
               <DatePicker
                 className="w-full !bg-[transparent] [&>input]:!bg-[transparent]"
                 suffixIcon={<CalendarOutlined className="text-gray text-lg" />}
+                disabledDate={disableDatesAfterToday}
               />
             </Form.Item>
           </div>
