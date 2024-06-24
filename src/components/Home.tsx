@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Image, Form, DatePicker, Upload } from "antd";
 import {
@@ -13,37 +13,40 @@ import loginImage from "../assets/images/login.png";
 
 import { styles } from "../assets/styles";
 
+interface HomeData {
+  startingDate: string;
+  endingDate: string;
+  screeningList: File | null;
+}
+
 export const Home = () => {
-  const [form] = Form.useForm();
-  const [formData, setFormData] = useState({
-    file: null,
-    startDate: null,
-    endDate: null,
-  });
+  const [form] = Form.useForm<HomeData>();
+
+  // Submittable state for form submit button
+  const [submittable, setSubmittable] = useState<boolean>(false);
+
+  // Watch all values
+  const values = Form.useWatch([], form);
+
+  useEffect(() => {
+    form
+      .validateFields({ validateOnly: true })
+      .then(() => setSubmittable(true))
+      .catch(() => setSubmittable(false));
+  }, [form, values]);
 
   const handleFileUpload = (file) => {
     console.log("Uploaded file:", file);
-    setFormData((prevState) => ({ ...prevState, file: file }));
+    form.setFieldsValue({ screeningList: file });
     return false;
   };
 
-  const handleStartDateChange = (date, dateString) => {
-    setFormData((prevState) => ({ ...prevState, startDate: dateString }));
-  };
-
-  const handleEndDateChange = (date, dateString) => {
-    setFormData((prevState) => ({ ...prevState, endDate: dateString }));
-  };
-
   const handleRemoveFile = () => {
-    setFormData((prevState) => ({ ...prevState, file: null }));
+    form.setFieldsValue({ screeningList: null });
   };
-
-  const isFormComplete =
-    (formData.file && formData.startDate && formData.endDate) ?? false;
 
   const onFinish = () => {
-    // TODO: Implement login functionality
+    form.validateFields();
   };
 
   return (
@@ -76,7 +79,7 @@ export const Home = () => {
           autoComplete="off"
         >
           <div className="min-w-[60%] flex gap-5">
-            <Form.Item
+            <Form.Item<HomeData>
               name="startingDate"
               label={<span className={styles.label}>Starting Date</span>}
               className="w-1/2 m-0"
@@ -89,12 +92,11 @@ export const Home = () => {
             >
               <DatePicker
                 className="w-full !bg-[transparent] [&>input]:!bg-[transparent]"
-                onChange={handleStartDateChange}
                 suffixIcon={<CalendarOutlined className="text-gray text-lg" />}
               />
             </Form.Item>
 
-            <Form.Item
+            <Form.Item<HomeData>
               name="endingDate"
               label={<span className={styles.label}>Ending Date</span>}
               className="w-1/2 m-0"
@@ -107,13 +109,11 @@ export const Home = () => {
             >
               <DatePicker
                 className="w-full !bg-[transparent] [&>input]:!bg-[transparent]"
-                onChange={handleEndDateChange}
                 suffixIcon={<CalendarOutlined className="text-gray text-lg" />}
               />
             </Form.Item>
           </div>
-
-          <Form.Item
+          <Form.Item<HomeData>
             name="screeningList"
             valuePropName="file"
             rules={[
@@ -124,9 +124,11 @@ export const Home = () => {
             ]}
             className="min-w-[60%] m-0"
           >
-            {formData.file ? (
+            {form.getFieldValue("screeningList") ? (
               <div className="flex justify-between items-center bg-light_blue rounded-lg p-3">
-                <p className={styles.label}>{formData?.file?.name}</p>
+                <p className={styles.label}>
+                  {form.getFieldValue("screeningList").file?.name}
+                </p>
                 <LinkButton
                   type="text"
                   icon={<DeleteOutlined />}
@@ -155,8 +157,8 @@ export const Home = () => {
 
           <PrimaryButton
             htmlType="submit"
-            disabled={!isFormComplete}
-            className={`${!isFormComplete && styles.disabled} mt-5`}
+            disabled={!submittable}
+            className={`${!submittable && styles.disabled} mt-5`}
           >
             Upload
           </PrimaryButton>
