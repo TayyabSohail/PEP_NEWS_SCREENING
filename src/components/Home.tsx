@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+
 import dayjs from "dayjs";
+
 import { Image, Form, DatePicker, Upload } from "antd";
 import {
   CalendarOutlined,
@@ -8,7 +10,9 @@ import {
 } from "@ant-design/icons";
 
 import { PrimaryButton, LinkButton } from "../components/Button";
+
 import loginImage from "../assets/images/login.png";
+
 import { styles } from "../assets/styles";
 
 interface HomeData {
@@ -19,7 +23,11 @@ interface HomeData {
 
 export const Home = () => {
   const [form] = Form.useForm<HomeData>();
+
+  // Submittable state for form submit button
   const [submittable, setSubmittable] = useState<boolean>(false);
+
+  // Watch all values
   const values = Form.useWatch([], form);
 
   useEffect(() => {
@@ -30,18 +38,19 @@ export const Home = () => {
   }, [form, values]);
 
   const handleFileUpload = (file: File) => {
-    form.setFieldsValue({ screeningList: file });
+    form.setFieldValue("screeningList", file);
     return false;
   };
 
   const handleRemoveFile = () => {
-    form.setFieldsValue({ screeningList: null });
+    form.setFieldValue("screeningList", null);
   };
 
   const onFinish = () => {
-    // submit logic pending below
+    // TODO: Implement upload functionality
   };
 
+  // Disable dates after today
   const disableDatesAfterToday = (current: dayjs.Dayjs) => {
     return current && current > dayjs().endOf("day");
   };
