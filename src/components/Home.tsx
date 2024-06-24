@@ -35,8 +35,7 @@ export const Home = () => {
       .catch(() => setSubmittable(false));
   }, [form, values]);
 
-  const handleFileUpload = (file) => {
-    console.log("Uploaded file:", file);
+  const handleFileUpload = (file: File) => {
     form.setFieldsValue({ screeningList: file });
     return false;
   };
