@@ -48,71 +48,84 @@ const data: ResultTable[] = [
 ];
 
 const columns: ColumnsType = [
-    {
-      title: "Serial Number",
-      dataIndex: "Serial_Number",
-      key: "Serial_Number",
+  {
+    title: "Serial Number",
+    dataIndex: "Serial_Number",
+    key: "Serial_Number",
     width: 120,
     align: "center",
-    },
-    {
-      title: "English Name",
-      dataIndex: "English_Name",
-      key: "English_Name",
+  },
+  {
+    title: "English Name",
+    dataIndex: "English_Name",
+    key: "English_Name",
     align: "center",
-      render: (text: string) => <a>{text}</a>,
-    },
-    {
-      title: "Designation",
-      dataIndex: "Designation",
-      key: "Designation",
-    },
-    {
-      title: "Organization",
-      dataIndex: "Organization",
-      key: "Organization",
-    },
-    {
-      title: "NEWS Events",
-      dataIndex: "NEWS_Events",
-      key: "NEWS_Events",
-      render: (NEWS_Events: number) => (
-        <Tag color="blue" key={NEWS_Events}>
-          {NEWS_Events}
-        </Tag>
-      ),
-    },
-    {
-      title: "Keywords",
-      dataIndex: "Keywords",
-      key: "Keywords",
-      render: (keywords: number) => (
-        <Tag color="pink" key={keywords}>
-          {keywords}
-        </Tag>
-      ),
-    },
-    {
-      title: "Critical",
-      dataIndex: "Critical",
-      key: "Critical",
-      render: (Critical: number) => (
-        <Tag color="red" key={Critical}>
-          {Critical}
-        </Tag>
-      ),
-    },
-    {
-      title: "Non-Critical",
-      dataIndex: "Non_Critical",
-      key: "Non_Critical",
-      render: (Non_Critical: number) => (
-        <Tag color="green" key={Non_Critical}>
-          {Non_Critical}
-        </Tag>
-      ),
-    },
-  ];
+    render: (text: string) => <a>{text}</a>,
+  },
+  {
+    title: "Designation",
+    dataIndex: "Designation",
+    key: "Designation",
+  },
+  {
+    title: "Organization",
+    dataIndex: "Organization",
+    key: "Organization",
+    align: "center",
+  },
+  {
+    title: "NEWS Events",
+    dataIndex: "NEWS_Events",
+    key: "NEWS_Events",
+    align: "center",
+    render: (NEWS_Events: number) => (
+      <Tag color="#DEEFFF" key={NEWS_Events} className={styles.Table_Tag}>
+        {NEWS_Events}
+      </Tag>
+    ),
+  },
+  {
+    title: "Keywords",
+    dataIndex: "Keywords",
+    key: "Keywords",
+    align: "center",
+    render: (keywords: number) => (
+      <Tag color="#FBDBFE" key={keywords} className={styles.Table_Tag}>
+        {keywords}
+      </Tag>
+    ),
+  },
+  {
+    title: "Critical",
+    dataIndex: "Critical",
+    key: "Critical",
+    align: "center",
+    render: (Critical: number) => (
+      <Tag color="#FFC9C9" key={Critical} className={styles.Table_Tag}>
+        {Critical}
+      </Tag>
+    ),
+  },
+  {
+    title: "Non-Critical",
+    dataIndex: "Non_Critical",
+    key: "Non_Critical",
+    align: "center",
+    render: (Non_Critical: number) => (
+      <Tag color="#D1FADB" key={Non_Critical} className={styles.Table_Tag}>
+        {Non_Critical}
+      </Tag>
+    ),
+  },
+];
 
-  return <Table columns={columns} dataSource={data} />;
+export const ResultTable = () => {
+  return (
+    <Table
+      columns={columns}
+      dataSource={data}
+      className="result-table"
+      bordered
+    />
+  );
 };
