@@ -25,7 +25,7 @@ export const Preview = () => {
       {/* Preview Table */}
       <PreviewTable />
       <div className="flex items-center gap-5">
-        <LinkButton>Cancel</LinkButton>
+        <LinkButton >Cancel</LinkButton>
         <PrimaryButton>Scan</PrimaryButton>
       </div>
     </section>
