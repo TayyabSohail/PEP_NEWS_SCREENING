@@ -1,5 +1,8 @@
 import { Table, Tag } from "antd";
 
+import { styles } from "../../assets/styles";
+import { ColumnsType } from "antd/es/table";
+
 interface ResultTable {
   Serial_Number: number;
   English_Name: string;
@@ -32,19 +35,31 @@ const data: ResultTable[] = [
     Critical: 3,
     Non_Critical: 5,
   },
+  {
+    Serial_Number: 3,
+    English_Name: "Jane Smith",
+    Designation: "Product Manager",
+    Organization: "XYZ Corp.",
+    NEWS_Events: 5,
+    Keywords: 8,
+    Critical: 3,
+    Non_Critical: 5,
+  },
 ];
 
-export const ResultTable = () => {
-  const columns = [
+const columns: ColumnsType = [
     {
       title: "Serial Number",
       dataIndex: "Serial_Number",
       key: "Serial_Number",
+    width: 120,
+    align: "center",
     },
     {
       title: "English Name",
       dataIndex: "English_Name",
       key: "English_Name",
+    align: "center",
       render: (text: string) => <a>{text}</a>,
     },
     {

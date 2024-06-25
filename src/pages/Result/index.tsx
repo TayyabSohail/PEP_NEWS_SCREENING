@@ -15,7 +15,10 @@ export const Result = () => {
           05/07/2020 - 05/07/2022
         </p>
         <div className="flex gap-5">
-          <LinkButton icon={<DownloadOutlined />} className="text-primary">
+          <LinkButton
+            icon={<DownloadOutlined />}
+            className="text-primary font-bold"
+          >
             Download
           </LinkButton>
         </div>
@@ -24,7 +27,9 @@ export const Result = () => {
       {/* Result Table */}
       <ResultTable />
       <div className="flex items-center gap-5">
-        <LinkButton>Exit</LinkButton>
+        <LinkButton className="w-fit border-2 text-base border-primary font-medium px-6 py-1 bg-white text-primary rounded-full">
+          Exit
+        </LinkButton>
       </div>
     </section>
   );
