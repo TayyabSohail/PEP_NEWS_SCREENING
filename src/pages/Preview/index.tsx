@@ -1,4 +1,8 @@
-import { CloseOutlined, SaveOutlined } from "@ant-design/icons";
+import {
+  DownloadOutlined,
+  CloseOutlined,
+  SaveOutlined,
+} from "@ant-design/icons";
 
 import { LinkButton, PrimaryButton } from "../../components/Button";
 
@@ -19,6 +23,14 @@ export const Preview = () => {
           <LinkButton icon={<SaveOutlined />} className="text-primary">
             Save Changes
           </LinkButton>
+          <div className="flex gap-5">
+            <LinkButton
+              icon={<DownloadOutlined />}
+              className="text-primary font-bold"
+            >
+              Download
+            </LinkButton>
+          </div>
         </div>
       </div>
 
