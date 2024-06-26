@@ -1,6 +1,6 @@
 import { DownloadOutlined } from "@ant-design/icons";
 
-import { LinkButton } from "../../components/Button";
+import { LinkButton, SecondaryButton } from "../../components/Button";
 
 import { styles } from "../../assets/styles";
 import { ResultTable } from "./ResultTable";
@@ -27,9 +27,7 @@ export const Result = () => {
       {/* Result Table */}
       <ResultTable />
       <div className="flex items-center gap-5">
-        <LinkButton className="w-fit border-2 text-base border-primary font-medium px-6 py-1 bg-white text-primary rounded-full">
-          Exit
-        </LinkButton>
+        <SecondaryButton>Exit</SecondaryButton>
       </div>
     </section>
   );
