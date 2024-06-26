@@ -12,4 +12,6 @@ export const styles = {
 
   label: "!m-0 !p-0 !font-semibold !text-[16px] !leading-[20px] !text-black",
   disabled: "!text-white !bg-primary !opacity-30",
+
+  section: "flex flex-col p-10 gap-10",
 };

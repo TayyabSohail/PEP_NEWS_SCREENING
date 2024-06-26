@@ -16,6 +16,12 @@ export const App = () => {
               colorText: "#454545",
               colorTextSecondary: "#454545",
             },
+            components: {
+              Table: {
+                headerBg: "#FFFFFF",
+                headerColor: "#085FAB",
+              },
+            },
           }}
         >
           <Router />

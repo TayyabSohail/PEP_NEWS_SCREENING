@@ -6,6 +6,7 @@ import {
 
 import { Layout } from "./layout";
 import { Home } from "./pages/Home";
+import { Preview } from "./pages/Preview";
 
 import { Login } from "./pages/Login";
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.home,
         element: <Home />,
+      },
+      {
+        path: ROUTES.preview,
+        element: <Preview />,
       },
     ],
   },
