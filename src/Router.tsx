@@ -6,11 +6,12 @@ import {
 
 import { Layout } from "./layout";
 import { Home } from "./pages/Home";
+import { Preview } from "./pages/Preview";
+import { Result } from "./pages/Result";
 
 import { Login } from "./pages/Login";
 
 import { ROUTES } from "./constants/routes";
-import { Result } from "./pages/Result";
 
 // Create a router
 const router = createBrowserRouter([
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.home,
         element: <Home />,
+      },
+      {
+        path: ROUTES.preview,
+        element: <Preview />,
       },
       {
         path: ROUTES.result,

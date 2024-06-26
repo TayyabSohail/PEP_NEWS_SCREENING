@@ -3,5 +3,6 @@ export const ROUTES = {
   profile: "/profile",
 
   home: "/home",
-  result: "/result"
+  preview: "/preview",
+  result: "/result",
 } as const;

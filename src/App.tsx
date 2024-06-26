@@ -20,9 +20,6 @@ export const App = () => {
               Table: {
                 headerBg: "#FFFFFF",
                 headerColor: "#085FAB",
-                cellFontSize: 16,
-                cellPaddingBlock: 10,
-                cellPaddingInline: 30,
               },
             },
           }}
