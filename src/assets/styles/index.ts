@@ -15,5 +15,5 @@ export const styles = {
 
   section: "flex flex-col p-10 gap-10",
 
-  Table_Tag: "font-medium !text-black text-lg text-center py-1 px-4 rounded-lg",
+  tableTags: "font-medium !text-black !text-[14px] py-1 px-3 rounded-lg",
 };

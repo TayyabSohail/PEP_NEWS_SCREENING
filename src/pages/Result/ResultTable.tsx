@@ -1,7 +1,7 @@
 import { Table, Tag } from "antd";
+import { ColumnsType } from "antd/es/table";
 
 import { styles } from "../../assets/styles";
-import { ColumnsType } from "antd/es/table";
 
 interface ResultTable {
   Serial_Number: number;
@@ -52,7 +52,7 @@ const columns: ColumnsType = [
     title: "Serial Number",
     dataIndex: "Serial_Number",
     key: "Serial_Number",
-    width: 120,
+    width: 130,
     align: "center",
   },
   {
@@ -60,12 +60,12 @@ const columns: ColumnsType = [
     dataIndex: "English_Name",
     key: "English_Name",
     align: "center",
-    render: (text: string) => <a>{text}</a>,
   },
   {
     title: "Designation",
     dataIndex: "Designation",
     key: "Designation",
+    align: "center",
   },
   {
     title: "Organization",
@@ -79,7 +79,10 @@ const columns: ColumnsType = [
     key: "NEWS_Events",
     align: "center",
     render: (NEWS_Events: number) => (
-      <Tag color="#DEEFFF" key={NEWS_Events} className={styles.Table_Tag}>
+      <Tag
+        key={NEWS_Events}
+        className={`bg-blue border-none ${styles.tableTags}`}
+      >
         {NEWS_Events}
       </Tag>
     ),
@@ -90,7 +93,7 @@ const columns: ColumnsType = [
     key: "Keywords",
     align: "center",
     render: (keywords: number) => (
-      <Tag color="#FBDBFE" key={keywords} className={styles.Table_Tag}>
+      <Tag key={keywords} className={`bg-pink border-none ${styles.tableTags}`}>
         {keywords}
       </Tag>
     ),
@@ -101,7 +104,7 @@ const columns: ColumnsType = [
     key: "Critical",
     align: "center",
     render: (Critical: number) => (
-      <Tag color="#FFC9C9" key={Critical} className={styles.Table_Tag}>
+      <Tag key={Critical} className={`bg-red border-none ${styles.tableTags}`}>
         {Critical}
       </Tag>
     ),
@@ -112,7 +115,10 @@ const columns: ColumnsType = [
     key: "Non_Critical",
     align: "center",
     render: (Non_Critical: number) => (
-      <Tag color="#D1FADB" key={Non_Critical} className={styles.Table_Tag}>
+      <Tag
+        key={Non_Critical}
+        className={`bg-green border-none ${styles.tableTags}`}
+      >
         {Non_Critical}
       </Tag>
     ),
@@ -120,12 +126,5 @@ const columns: ColumnsType = [
 ];
 
 export const ResultTable = () => {
-  return (
-    <Table
-      columns={columns}
-      dataSource={data}
-      className="result-table"
-      bordered
-    />
-  );
+  return <Table size="middle" columns={columns} dataSource={data} />;
 };
