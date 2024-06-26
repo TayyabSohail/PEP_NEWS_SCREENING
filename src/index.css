@@ -22,6 +22,36 @@ input:-webkit-autofill:active {
 }
 /* Customize Antd Dragger End */
 
-.preview-table th {
-  font-weight: bold !important;
+/* Customize Antd Table Start */
+
+table th.ant-table-cell::before {
+  content: none !important;
 }
+
+table th {
+  font-weight: bold !important;
+  border-top: 1px solid #f0f0f0 !important;
+  border-left: 1px solid #f0f0f0 !important;
+}
+
+table th:last-child {
+  border-right: 1px solid #f0f0f0 !important;
+}
+
+table td {
+  border-left: 1px solid #f0f0f0 !important;
+}
+
+table td:last-child {
+  border-right: 1px solid #f0f0f0 !important;
+}
+
+table tr:last-of-type td:first-child {
+  border-bottom-left-radius: 6px !important;
+}
+
+table tr:last-of-type td:last-child {
+  border-bottom-right-radius: 6px !important;
+}
+
+/* Customize Antd Table End */

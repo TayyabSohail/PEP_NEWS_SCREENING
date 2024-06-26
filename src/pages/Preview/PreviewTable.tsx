@@ -80,12 +80,5 @@ const data: DataType[] = [
 ];
 
 export const PreviewTable = () => {
-  return (
-    <Table
-      columns={columns}
-      dataSource={data}
-      className="preview-table"
-      bordered
-    />
-  );
+  return <Table size="middle" columns={columns} dataSource={data} />;
 };
