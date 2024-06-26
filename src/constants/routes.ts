@@ -4,4 +4,5 @@ export const ROUTES = {
 
   home: "/home",
   preview: "/preview",
+  result: "/result",
 } as const;

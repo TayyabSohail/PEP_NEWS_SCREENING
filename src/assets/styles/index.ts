@@ -14,4 +14,6 @@ export const styles = {
   disabled: "!text-white !bg-primary !opacity-30",
 
   section: "flex flex-col p-10 gap-10",
+
+  tableTags: "font-medium !text-black !text-[14px] py-1 px-3 rounded-lg",
 };
