@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 import type { GetRef, InputRef } from "antd";
 import { Form, Input, Table } from "antd";
 
 type FormInstance<T> = GetRef<typeof Form<T>>;
 
-const EditableContext = React.createContext<FormInstance<unknown> | null>(null);
+const EditableContext = createContext<FormInstance<unknown> | null>(null);
 
 interface Item {
   key: string;
@@ -16,6 +16,7 @@ interface Item {
   Alias_Urdu: string;
   Organization: string;
 }
+
 type EditableRowProps = {
   index: number;
 } & React.HTMLAttributes<HTMLTableRowElement>;
@@ -66,11 +67,8 @@ const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
   const save = async () => {
     try {
       const values = await form.validateFields();
-      if(!values){
-        throw new Error("values not found")
-      }
       toggleEdit();
-      handleSave({ ...record, ...values });
+      values && handleSave({ ...record, ...values });
     } catch (errInfo) {
       console.log("Save failed:", errInfo);
     }
@@ -81,8 +79,8 @@ const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
   if (editable) {
     childNode = editing ? (
       <Form.Item
-        style={{ margin: 0 }}
         name={dataIndex}
+        className="m-0"
         rules={[
           {
             required: true,
@@ -90,16 +88,15 @@ const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
           },
         ]}
       >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+        <Input
+          className="!w-fit !h-6"
+          ref={inputRef}
+          onPressEnter={save}
+          onBlur={save}
+        />
       </Form.Item>
     ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{ paddingRight: 24 }}
-        onClick={toggleEdit}
-      >
-        {children}
-      </div>
+      <div onClick={toggleEdit}>{children}</div>
     );
   }
 
@@ -239,7 +236,6 @@ export const PreviewTable = () => {
     <Table
       components={components}
       size="middle"
-      rowClassName={() => "editable-row"}
       dataSource={dataSource}
       columns={columns as ColumnTypes}
     />
