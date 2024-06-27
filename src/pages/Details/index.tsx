@@ -2,6 +2,7 @@ import { DownloadOutlined } from "@ant-design/icons";
 import { SecondaryButton, LinkButton } from "../../components/Button";
 
 import { styles } from "../../assets/styles";
+import { PEPDetailsCard } from "./PEPDetails";
 
 export const Details = () => {
   return (
@@ -25,6 +26,7 @@ export const Details = () => {
         </div>
       </div>
 
+      <PEPDetailsCard />
       {/* add sections */}
       <div className="flex items-center gap-5">
         <SecondaryButton>Back</SecondaryButton>
