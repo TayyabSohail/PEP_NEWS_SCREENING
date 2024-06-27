@@ -54,4 +54,8 @@ table tr:last-of-type td:last-child {
   border-bottom-right-radius: 6px !important;
 }
 
+.ant-form-item-control-input {
+  min-height: 0px !important;
+}
+
 /* Customize Antd Table End */
