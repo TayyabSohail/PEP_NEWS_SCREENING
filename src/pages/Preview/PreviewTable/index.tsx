@@ -1,13 +1,11 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
-import type { GetRef, InputRef } from "antd";
-import { Form, Input, Table } from "antd";
+import { Table } from "antd";
 
-type FormInstance<T> = GetRef<typeof Form<T>>;
+import { EditableRow } from "./EditableRow";
+import { EditableCell } from "./EditableCell";
 
-const EditableContext = createContext<FormInstance<unknown> | null>(null);
-
-interface Item {
+export interface Item {
   key: string;
   Serial: string;
   English_Name: string;
@@ -17,107 +15,14 @@ interface Item {
   Organization: string;
 }
 
-type EditableRowProps = {
-  index: number;
-} & React.HTMLAttributes<HTMLTableRowElement>;
+export type DataType = Item;
 
-const EditableRow = (props: EditableRowProps) => {
-  const [form] = Form.useForm();
-  return (
-    <Form form={form} component={false}>
-      <EditableContext.Provider value={form}>
-        <tr {...props} />
-      </EditableContext.Provider>
-    </Form>
-  );
-};
+export type EditableTableProps = Parameters<typeof Table>[0];
 
-interface EditableCellProps {
-  title: React.ReactNode;
-  editable: boolean;
-  dataIndex: keyof Item;
-  record: Item;
-  handleSave: (record: Item) => void;
-}
-
-const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
-  title,
-  editable,
-  children,
-  dataIndex,
-  record,
-  handleSave,
-  ...restProps
-}) => {
-  const [editing, setEditing] = useState(false);
-  const inputRef = useRef<InputRef>(null);
-  const form = useContext(EditableContext)!;
-
-  useEffect(() => {
-    if (editing) {
-      inputRef.current?.focus();
-    }
-  }, [editing]);
-
-  const toggleEdit = () => {
-    setEditing(!editing);
-    form.setFieldsValue({ [dataIndex]: record[dataIndex] });
-  };
-
-  const save = async () => {
-    try {
-      const values = await form.validateFields();
-      toggleEdit();
-      values && handleSave({ ...record, ...values });
-    } catch (errInfo) {
-      console.log("Save failed:", errInfo);
-    }
-  };
-
-  let childNode = children;
-
-  if (editable) {
-    childNode = editing ? (
-      <Form.Item
-        name={dataIndex}
-        className="m-0"
-        rules={[
-          {
-            required: true,
-            message: `${title} is required.`,
-          },
-        ]}
-      >
-        <Input
-          className="!w-fit !h-6"
-          ref={inputRef}
-          onPressEnter={save}
-          onBlur={save}
-        />
-      </Form.Item>
-    ) : (
-      <div onClick={toggleEdit}>{children}</div>
-    );
-  }
-
-  return <td {...restProps}>{childNode}</td>;
-};
-
-type EditableTableProps = Parameters<typeof Table>[0];
-
-interface DataType {
-  key: React.Key;
-  Serial: string;
-  English_Name: string;
-  Urdu_Name: string;
-  Alias_English: string;
-  Alias_Urdu: string;
-  Organization: string;
-}
-
-type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
+export type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 
 export const PreviewTable = () => {
+  // TODO: add data from API
   const [dataSource, setDataSource] = useState<DataType[]>([
     {
       key: "0",
@@ -148,6 +53,7 @@ export const PreviewTable = () => {
     },
   ]);
 
+  // defaultColumns
   const defaultColumns: (ColumnTypes[number] & {
     editable?: boolean;
     dataIndex: string;
@@ -166,7 +72,6 @@ export const PreviewTable = () => {
       align: "center",
       editable: true,
     },
-
     {
       title: "Urdu Name",
       dataIndex: "Urdu_Name",
@@ -188,7 +93,6 @@ export const PreviewTable = () => {
       align: "center",
       editable: true,
     },
-
     {
       title: "Organization",
       dataIndex: "Organization",
@@ -198,6 +102,7 @@ export const PreviewTable = () => {
     },
   ];
 
+  // handleSave function
   const handleSave = (row: DataType) => {
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
@@ -209,6 +114,7 @@ export const PreviewTable = () => {
     setDataSource(newData);
   };
 
+  // components for editable table
   const components = {
     body: {
       row: EditableRow,
@@ -216,6 +122,7 @@ export const PreviewTable = () => {
     },
   };
 
+  // transform columns to editable columns
   const columns = defaultColumns.map((col) => {
     if (!col.editable) {
       return col;
