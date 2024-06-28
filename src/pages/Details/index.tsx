@@ -3,6 +3,7 @@ import { SecondaryButton, LinkButton } from "../../components/Button";
 
 import { styles } from "../../assets/styles";
 import { PEPDetailsCard } from "./PEPDetails";
+import { Sources } from "./Sources";
 
 export const Details = () => {
   return (
@@ -27,6 +28,7 @@ export const Details = () => {
       </div>
 
       <PEPDetailsCard />
+      <Sources />
       {/* add sections */}
       <div className="flex items-center gap-5">
         <SecondaryButton>Back</SecondaryButton>
