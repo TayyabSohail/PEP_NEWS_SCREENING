@@ -1,19 +1,16 @@
-import { Divider } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import { SecondaryButton, LinkButton } from "../../components/Button";
 
 import { LanguageFilter } from "./languageFilter";
 import { PEPDetailsCard } from "./PEPDetails";
-import { EventFilters} from "./Events/EventFilters";
+import { EventFilters } from "./Events/EventFilters";
 import { Sources } from "./Sources";
 
 import { styles } from "../../assets/styles";
 
-
-
 export const Details = () => {
   return (
-    <section className={styles.section}>
+    <section className={`!gap-3 ${styles.section}`}>
       <div className="!m-0 !p-0 flex flex-row gap-10">
         <h2 className={styles.heading2}>01 Imran Khan Niazi</h2>
         <h2 className={styles.heading2}>عمران خان نیازی</h2>
@@ -32,23 +29,20 @@ export const Details = () => {
         </LinkButton>
       </div>
 
-      <Divider style={{ backgroundColor: "lightgray", padding: 0 }} />
+      <div className="border-t border-slate_gray my-0 py-0"></div>
 
       {/* Add language filter */}
       <LanguageFilter />
-      <div className="flex flex-row gap-5">
+      <div className="flex flex-row gap-10">
         <div className=" w-2/3">
           <EventFilters />
         </div>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-5">
           <PEPDetailsCard />
-          {/* add source component here */}
           <Sources />
         </div>
       </div>
 
-      
-     
       {/* add sections */}
       <div className="flex items-center gap-5">
         <SecondaryButton>Back</SecondaryButton>

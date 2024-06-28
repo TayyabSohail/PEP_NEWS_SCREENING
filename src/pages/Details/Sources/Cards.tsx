@@ -13,7 +13,7 @@ interface CardProps {
   url: string;
 }
 
-const Cards: React.FC<CardProps> = ({ title, url }) => {
+export const Cards: React.FC<CardProps> = ({ title, url }) => {
   let icon;
   const iconClass = "text-xl";
 
@@ -26,11 +26,11 @@ const Cards: React.FC<CardProps> = ({ title, url }) => {
   }
 
   return (
-    <AntCard className="mb-4 border-none shadow-none bg-white">
+    <AntCard className=" border-none shadow-none bg-white mb-4">
       <div className="flex items-center">
         <div className="mr-4">{icon}</div>
         <div>
-          <h3 className={`mb-2 ${styles.label}`}>{title}</h3>
+          <h3 className={` ${styles.label}`}>{title}</h3>
           <a href={url} className="text-black">
             {url}
           </a>
@@ -39,5 +39,3 @@ const Cards: React.FC<CardProps> = ({ title, url }) => {
     </AntCard>
   );
 };
-
-export default Cards;
