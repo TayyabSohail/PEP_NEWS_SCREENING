@@ -17,4 +17,9 @@ export const styles = {
 
   tableTags: "font-medium !text-black !text-[14px] py-1 px-3 rounded-lg",
   filtertags: "font-medium !text-black !text-[14px] px-1 rounded-lg",
+  cardTags: "border-none rounded-full w-4 h-4 mt-7",
+
+  cardTitle: "!m-0 !p-0 !font-bold !text-[18px] !leading-[20px] !text-black",
+  cardContent: "!m-0 !p-0 font-normal !text-[16px] !leading-[20px] !text-black",
+  date: "!m-0 !p-0 font-normal !text-[14px] !leading-[20px] !text-gray",
 };
