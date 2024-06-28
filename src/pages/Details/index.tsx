@@ -4,6 +4,7 @@ import { SecondaryButton, LinkButton } from "../../components/Button";
 import { LanguageFilter } from "./languageFilter";
 
 import { styles } from "../../assets/styles";
+import { PEPDetailsCard } from "./PEPDetails";
 
 export const Details = () => {
   return (
@@ -30,6 +31,7 @@ export const Details = () => {
       {/* Add language filter */}
       <LanguageFilter />
 
+      <PEPDetailsCard />
       {/* add sections */}
       <div className="flex items-center gap-5">
         <SecondaryButton>Back</SecondaryButton>
