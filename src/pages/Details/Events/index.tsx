@@ -40,7 +40,7 @@ export const Events = () => {
   return (
     <div>
       <EventFilters />
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-10 mt-5">
         {newsevents.map((event, index) => (
           <EventCard
             key={index}
