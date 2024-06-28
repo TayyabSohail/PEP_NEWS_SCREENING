@@ -19,11 +19,11 @@ export const PEPDetailsCard = () => {
   return (
     <div className="border border-light_gray rounded-lg bg-white p-4">
       <h2 className={`mb-4 ${styles.heading5}`}>PEP Details</h2>
-      <div className="space-y-4">
+      <div className="space-y-4 font-lato  text-black">
         {details.map((detail, index) => (
           <div key={index} className="flex flex-row">
-            <p className={`${styles.label} w-36 font-lato`}>{detail.label}</p>
-            <div className="font-lato text-black">
+            <p className={`${styles.label} w-36`}>{detail.label}</p>
+            <div>
               {Array.isArray(detail.value) ? (
                 detail.value.map((item, idx) => (
                   <React.Fragment key={idx}>

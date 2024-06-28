@@ -5,8 +5,11 @@ import { SecondaryButton, LinkButton } from "../../components/Button";
 import { LanguageFilter } from "./languageFilter";
 import { PEPDetailsCard } from "./PEPDetails";
 import { EventFilters} from "./Events/EventFilters";
+import { Sources } from "./Sources";
 
 import { styles } from "../../assets/styles";
+
+
 
 export const Details = () => {
   return (
@@ -40,10 +43,12 @@ export const Details = () => {
         <div className="flex flex-col gap-6">
           <PEPDetailsCard />
           {/* add source component here */}
-          <PEPDetailsCard />
+          <Sources />
         </div>
       </div>
 
+      
+     
       {/* add sections */}
       <div className="flex items-center gap-5">
         <SecondaryButton>Back</SecondaryButton>
