@@ -13,8 +13,8 @@ export const styles = {
   label: "!m-0 !p-0 !font-semibold !text-[16px] !leading-[20px] !text-black",
   disabled: "!text-white !bg-primary !opacity-30",
 
-  section: "flex flex-col p-10 gap-10",
-
+  section: "flex flex-col p-10 gap-5",
+  
   tableTags: "font-medium !text-black !text-[14px] py-1 px-3 rounded-lg",
   filtertags: "font-medium !text-black !text-[14px] px-1 rounded-lg",
   cardTags: "border-none rounded-full w-4 h-4 mt-7",

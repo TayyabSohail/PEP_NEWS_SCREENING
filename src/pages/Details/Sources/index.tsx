@@ -18,13 +18,14 @@ const sourcesData = [
 
 export const Sources = () => {
   return (
-    <div className="border border-light_gray rounded-lg bg-white p-4">
-      <h2 className={`mb-4 ${styles.heading5}`}>Sources</h2>
-      <h3 className={`mb-4 ${styles.label}`}>
-        Pakistan minister ditched offshore plans amid ‘concerns’ over tax
-        authority
-      </h3>
-
+    <div className=" border border-light_gray rounded-lg bg-white p-4">
+      <div className="flex flex-col gap-3 mb-2">
+        <h2 className={` ${styles.heading5}`}>Sources</h2>
+        <h3 className={` ${styles.label}`}>
+          Pakistan minister ditched offshore plans amid ‘concerns’ over tax
+          authority
+        </h3>
+      </div>
       {sourcesData.map((source, index) => (
         <Cards key={index} title={source.title} url={source.url} />
       ))}

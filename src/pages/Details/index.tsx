@@ -1,4 +1,3 @@
-import { Divider } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import { SecondaryButton, LinkButton } from "../../components/Button";
 
@@ -11,7 +10,7 @@ import { styles } from "../../assets/styles";
 
 export const Details = () => {
   return (
-    <section className={styles.section}>
+    <section className={`!gap-3 ${styles.section}`}>
       <div className="!m-0 !p-0 flex flex-row gap-10">
         <h2 className={styles.heading2}>01 Imran Khan Niazi</h2>
         <h2 className={styles.heading2}>عمران خان نیازی</h2>
@@ -30,7 +29,7 @@ export const Details = () => {
         </LinkButton>
       </div>
 
-      <Divider style={{ backgroundColor: "lightgray", padding: 0 }} />
+      <div className="border-t border-slate_gray my-0 py-0"></div>
 
       {/* Add language filter */}
       <LanguageFilter />
@@ -38,9 +37,8 @@ export const Details = () => {
         <div className=" w-2/3">
           <Events />
         </div>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-5">
           <PEPDetailsCard />
-          {/* add source component here */}
           <Sources />
         </div>
       </div>
