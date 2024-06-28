@@ -13,7 +13,7 @@ export default {
         pink: "#FBDBFE",
         red: "#FFC9C9",
         green: "#CFFFD8",
-
+        slate_gray: "#E7E7E7",
         // Brand colors,
         primary: "#085FAB",
         secondary: "#08ABA6",
