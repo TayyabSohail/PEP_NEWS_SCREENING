@@ -17,7 +17,7 @@ export const PEPDetailsCard = () => {
   ];
 
   return (
-    <div className="border border-light_gray rounded-lg bg-white ml-auto p-4 mb-4">
+    <div className="border border-light_gray rounded-lg bg-white p-4">
       <h2 className={`mb-4 ${styles.heading5}`}>PEP Details</h2>
       <div className="space-y-4">
         {details.map((detail, index) => (
