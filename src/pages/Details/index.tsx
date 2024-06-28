@@ -1,10 +1,12 @@
+import { Divider } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import { SecondaryButton, LinkButton } from "../../components/Button";
 
 import { LanguageFilter } from "./languageFilter";
+import { PEPDetailsCard } from "./PEPDetails";
+import { EventFilters} from "./Events/EventFilters";
 
 import { styles } from "../../assets/styles";
-import { PEPDetailsCard } from "./PEPDetails";
 
 export const Details = () => {
   return (
@@ -26,12 +28,22 @@ export const Details = () => {
           Download
         </LinkButton>
       </div>
-      <hr className={styles.line} />
+
+      <Divider style={{ backgroundColor: "lightgray", padding: 0 }} />
 
       {/* Add language filter */}
       <LanguageFilter />
+      <div className="flex flex-row gap-5">
+        <div className=" w-2/3">
+          <EventFilters />
+        </div>
+        <div className="flex flex-col gap-6">
+          <PEPDetailsCard />
+          {/* add source component here */}
+          <PEPDetailsCard />
+        </div>
+      </div>
 
-      <PEPDetailsCard />
       {/* add sections */}
       <div className="flex items-center gap-5">
         <SecondaryButton>Back</SecondaryButton>
