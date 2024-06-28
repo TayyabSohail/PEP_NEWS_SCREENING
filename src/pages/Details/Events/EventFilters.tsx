@@ -10,7 +10,7 @@ const CheckboxGroup = Checkbox.Group;
 const plainOptions = ["Keywords", "Critical", "Non Critical"];
 const defaultCheckedList = ["Keywords"];
 
-export const EventFilters= () => {
+export const EventFilters = () => {
   const [checkedList, setCheckedList] = useState<string[]>(defaultCheckedList);
 
   const checkAll = plainOptions.length === checkedList.length;
@@ -33,7 +33,7 @@ export const EventFilters= () => {
         checked={checkAll}
       >
         All Events{" "}
-        <Tag className={`bg-blue border-none ${styles.filtertags}`}>05</Tag>
+        <Tag className={`bg-blue border-none ${styles.filtertags}`}>25</Tag>
       </Checkbox>
 
       <CheckboxGroup value={checkedList} onChange={onChange}>
