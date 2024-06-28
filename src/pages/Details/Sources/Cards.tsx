@@ -13,7 +13,7 @@ interface CardProps {
   url: string;
 }
 
-const Cards: React.FC<CardProps> = ({ title, url }) => {
+ export const Cards: React.FC<CardProps> = ({ title, url }) => {
   let icon;
   const iconClass = "text-xl";
 
@@ -40,4 +40,3 @@ const Cards: React.FC<CardProps> = ({ title, url }) => {
   );
 };
 
-export default Cards;
