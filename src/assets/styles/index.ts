@@ -20,6 +20,6 @@ export const styles = {
   cardTags: " w-3 h-3 mt-1 mr-5 border-none rounded-full",
 
   cardTitle: "mb-2 !p-0 !font-bold !text-[18px] !leading-[20px] !text-black",
-  cardContent: "mb-2 !p-0 font-normal !text-[16px] !leading-[20px] !text-black",
-  date: "!m-0 !p-0 font-normal !text-[14px] !leading-[20px] !text-gray",
+  cardContent: "mb-2 !p-0 font-lato !text-[16px] !leading-[20px] !text-black",
+  date: "mb-2 !p-0  font-lato !text-[14px] !leading-[20px] !text-gray",
 };
