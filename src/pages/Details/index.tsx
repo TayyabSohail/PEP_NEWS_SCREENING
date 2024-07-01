@@ -44,9 +44,8 @@ export const Details = () => {
       </div>
 
       {/* add sections */}
-      <div className="flex items-center gap-5">
-        <SecondaryButton>Back</SecondaryButton>
-      </div>
+
+      <SecondaryButton>Back</SecondaryButton>
     </section>
   );
 };
