@@ -58,4 +58,30 @@ table tr:last-of-type td:last-child {
   min-height: 0px !important;
 }
 
-/* Customize Antd Table End */
+.ant-card .ant-card-body{
+  padding: 0px;
+
+}
+/* NEWS CONTAINER IN SUMMARY PAGE SCROLL BAR STYLING */
+.news-container {
+  overflow-y: auto;
+  max-height: 384px; 
+  padding-right: 4px; 
+}
+
+.news-container::-webkit-scrollbar {
+  width: 4px; 
+}
+
+.news-container::-webkit-scrollbar-thumb {
+  background-color: #007bff; 
+  border-radius: 4px; 
+}
+
+.news-container::-webkit-scrollbar-thumb:hover {
+  background-color: #0056b3;
+}
+
+.news-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
