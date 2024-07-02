@@ -1,5 +1,7 @@
 import { DownloadOutlined } from "@ant-design/icons";
 import { SecondaryButton, LinkButton } from "../../components/Button";
+import { PEPDetailsCard } from "./pepDetails";
+import { NewsComponent } from "./Sources";
 
 import { EventTab } from "./eventTab";
 import { SummaryCard } from "./summaryCard";
@@ -15,10 +17,10 @@ export const Summary = () => {
       </p>
 
       <div className="!m-0 !p-0 flex flex-row gap-10">
-        <h3 className={styles.heading3}>
+        <h2 className={styles.heading2}>
           Pakistan minister ditched offshore plans amid ‘concerns’ over tax
           authority
-        </h3>
+        </h2>
       </div>
       <p className={styles.label}>Imran Khan Niazi</p>
       <div className=" !m-0 !p-0 flex justify-between">
@@ -30,15 +32,22 @@ export const Summary = () => {
           Download
         </LinkButton>
       </div>
+      <div className="border-t border-slate_gray"></div>
 
-      <div className="border-t border-slate_gray my-0 py-0"></div>
+      <div className="flex flex-row gap-5">
+        <div className=" w-2/3">
+          <NewsComponent />
+        </div>
 
-      {/* add sections */}
-      <div className="flex flex-row gap-5 h-1/3 ">
-        {/* add sources wala daba */}
-        {/* add pep details wala daba */}
+        <div className="w-1/3">
+          <PEPDetailsCard />
+        </div>
       </div>
-      <div className=" p-7 rounded-md shadow-md bg-light_blue ">
+
+      <div className="flex">
+        {/* Additional content or components can be added here */}
+      </div>
+      <div className=" mt-5 mb-5 p-7 rounded-md shadow-md bg-light_blue ">
         <EventTab />
         <SummaryCard />
       </div>
