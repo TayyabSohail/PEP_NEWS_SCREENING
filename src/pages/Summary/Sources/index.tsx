@@ -4,35 +4,55 @@ export const NewsComponent = () => {
   const newsData = [
     {
       title: "DAWN NEWS",
-      url: "https://example.com/dawn-news",
       news: "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority",
+      date: "15/07/2022",
     },
     {
       title: "ARY NEWS",
-      url: "https://example.com/ary-news",
       news: "A minister of Pakistan ditched offshore plans dues to some concerns over tax authority",
+      date: "15/07/2022",
     },
     {
       title: "Samaa TV",
-      url: "https://example.com/samaa-tv",
       news: "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority",
+      date: "15/07/2022",
     },
     {
       title: "Geo NEWS",
-      url: "https://example.com/geo-news",
       news: "A minister of Pakistan ditched offshore plans dues to some concerns over tax authority",
+      date: "15/07/2022",
     },
     {
       title: "BOL NEWS",
-      url: "https://example.com/bol-news",
       news: "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority",
+      date: "15/07/2022",
+    },
+    {
+      title: "BOL NEWS",
+      news: "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority",
+      date: "15/07/2022",
+    },
+    {
+      title: "BOL NEWS",
+      news: "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority",
+      date: "15/07/2022",
+    },
+    {
+      title: "BOL NEWS",
+      news: "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority",
+      date: "15/07/2022",
     },
   ];
 
   return (
-    <div className="overflow-y-auto max-h-full pr-4" style={{ flex: "2" }}>
+    <div className="news-container">
       {newsData.map((item, index) => (
-        <Cards key={index} title={item.title} url={item.url} news={item.news} />
+        <Cards
+          key={index}
+          title={item.title}
+          news={item.news}
+          date={item.date}
+        />
       ))}
     </div>
   );

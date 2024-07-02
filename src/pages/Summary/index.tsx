@@ -9,17 +9,17 @@ import { styles } from "../../assets/styles";
 
 export const Summary = () => {
   return (
-    <section className={`!gap-2 ${styles.section} flex flex-col h-full`}>
+    <section className={`!gap-2 ${styles.section}`}>
       <p>
         <span className={styles.label}>Date Range: </span>
         05/07/2020 - 05/07/2022
       </p>
 
       <div className="flex items-center justify-between mb-4">
-        <h2 className={styles.heading2}>
+        <h3 className={styles.heading3}>
           Pakistan minister ditched offshore plans amid ‘concerns’ over tax
           authority
-        </h2>
+        </h3>
         <LinkButton
           icon={<DownloadOutlined />}
           className="text-primary font-bold"
@@ -31,11 +31,16 @@ export const Summary = () => {
       <p className={styles.label}>Imran Khan Niazi</p>
       <p className="font-semibold text-black">Primary PEP</p>
 
-      <div className="border-t border-slate_gray my-4"></div>
+      <div className="border-t border-slate_gray"></div>
 
-      <div className="flex flex-row h-2/3">
-        <NewsComponent />
-        <PEPDetailsCard />
+      <div className="flex flex-row gap-5">
+        <div className=" w-2/3">
+          <NewsComponent />
+        </div>
+
+        <div className="w-1/3">
+          <PEPDetailsCard />
+        </div>
       </div>
 
       <div className="flex">

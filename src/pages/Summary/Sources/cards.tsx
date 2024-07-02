@@ -10,15 +10,15 @@ import { styles } from "../../../assets/styles";
 
 interface CardProps {
   title: string;
-  url: string;
   news: string;
+  date: string;
 }
 
-export const Cards: React.FC<CardProps> = ({ title, url }) => {
-  let icon;
+export const Cards: React.FC<CardProps> = ({ title, news, date }) => {
   const iconClass = "text-xl";
+  let icon;
 
-  if (title === "Dawn NEWS") {
+  if (title === "DAWN NEWS") {
     icon = <FileTextOutlined className={iconClass} />;
   } else if (title === "ARY NEWS") {
     icon = <ReadOutlined className={iconClass} />;
@@ -27,14 +27,13 @@ export const Cards: React.FC<CardProps> = ({ title, url }) => {
   }
 
   return (
-    <AntCard className=" bg-white mb-4">
+    <AntCard className={`bg-white mb-2 p-1 `}>
       <div className="flex items-center">
         <div className="mr-4">{icon}</div>
         <div>
-          <h3 className={` ${styles.label}`}>{title}</h3>
-          <a href={url} className="text-black">
-            {url}
-          </a>
+          <p className={`text-black ${styles.label}`}>{news}</p>
+          <h3>{title}</h3>
+          <p className="text-gray">{date}</p>
         </div>
       </div>
     </AntCard>
