@@ -15,10 +15,10 @@ export const Summary = () => {
       </p>
 
       <div className="!m-0 !p-0 flex flex-row gap-10">
-        <h2 className={styles.heading2}>
+        <h3 className={styles.heading3}>
           Pakistan minister ditched offshore plans amid ‘concerns’ over tax
           authority
-        </h2>
+        </h3>
       </div>
       <p className={styles.label}>Imran Khan Niazi</p>
       <div className=" !m-0 !p-0 flex justify-between">
