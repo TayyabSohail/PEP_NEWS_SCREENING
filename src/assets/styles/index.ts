@@ -13,7 +13,13 @@ export const styles = {
   label: "!m-0 !p-0 !font-semibold !text-[16px] !leading-[20px] !text-black",
   disabled: "!text-white !bg-primary !opacity-30",
 
-  section: "flex flex-col p-10 gap-5",
+  section: " flex flex-col p-10 gap-5",
 
   tableTags: "font-medium !text-black !text-[14px] py-1 px-3 rounded-lg",
+  filtertags: "font-medium !text-black !text-[14px] px-1 rounded-lg",
+  cardTags: " w-3 h-3 mt-1 mr-5 border-none rounded-full",
+
+  cardTitle: "mb-2 !p-0 !font-bold !text-[18px] !leading-[20px] !text-black",
+  cardContent: "mb-2 !p-0 font-normal !text-[16px] !leading-[20px] !text-black",
+  date: "!m-0 !p-0 font-normal !text-[14px] !leading-[20px] !text-gray",
 };
