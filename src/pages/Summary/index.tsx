@@ -1,16 +1,28 @@
+import { Tabs } from "antd";
+import type { TabsProps } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
+
 import { SecondaryButton, LinkButton } from "../../components/Button";
 import { PEPDetailsCard } from "./PEPDetails";
 import { NewsComponent } from "./Sources";
-
-import { EventTab } from "./eventTab";
-import { SummaryCard } from "./summaryCard";
+import { NewsSummary } from "./NewsSummary";
 
 import { styles } from "../../assets/styles";
 
+const items: TabsProps["items"] = [
+  {
+    key: "1",
+    label: "Event Summary",
+  },
+  {
+    key: "2",
+    label: "NEWS Event",
+  },
+];
+
 export const Summary = () => {
   return (
-    <section className={`!gap-2 ${styles.section}`}>
+    <section className={`${styles.section}`}>
       <p>
         <span className={styles.label}>Date Range: </span>
         05/07/2020 - 05/07/2022
@@ -32,7 +44,6 @@ export const Summary = () => {
           Download
         </LinkButton>
       </div>
-
       <span className={styles.line} />
 
       <div className="flex flex-row gap-5">
@@ -45,12 +56,9 @@ export const Summary = () => {
         </div>
       </div>
 
-      <div className="flex">
-        {/* Additional content or components can be added here */}
-      </div>
-      <div className=" mt-5 mb-5 p-7 rounded-md shadow-md bg-light_blue ">
-        <EventTab />
-        <SummaryCard />
+      <div className=" mt-5 mb-5 p-7 shadow-md bg-light_blue ">
+        <Tabs defaultActiveKey="1" items={items} />
+        <NewsSummary />
       </div>
 
       <SecondaryButton>Back</SecondaryButton>
