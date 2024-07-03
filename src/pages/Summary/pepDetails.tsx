@@ -17,9 +17,9 @@ export const PEPDetailsCard = () => {
   ];
 
   return (
-    <div className="border border-light_gray rounded-lg bg-white p-4">
-      <h2 className={`mb-4 ${styles.heading5}`}>PEP Details</h2>
-      <div className="space-y-4 font-lato  text-black">
+    <div className={styles.box}>
+      <h3 className={`${styles.heading3}`}>PEP Details</h3>
+      <div className="flex flex-col gap-5">
         {details.map((detail, index) => (
           <div key={index} className="flex flex-row">
             <p className={`${styles.label} w-36`}>{detail.label}</p>

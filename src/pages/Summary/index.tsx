@@ -1,6 +1,6 @@
 import { DownloadOutlined } from "@ant-design/icons";
 import { SecondaryButton, LinkButton } from "../../components/Button";
-import { PEPDetailsCard } from "./pepDetails";
+import { PEPDetailsCard } from "./PEPDetails";
 import { NewsComponent } from "./Sources";
 
 import { EventTab } from "./eventTab";
@@ -32,7 +32,8 @@ export const Summary = () => {
           Download
         </LinkButton>
       </div>
-      <div className="border-t border-slate_gray"></div>
+
+      <span className={styles.line} />
 
       <div className="flex flex-row gap-5">
         <div className=" w-2/3">
