@@ -144,7 +144,10 @@ export const NewsEvents = () => {
               "!font-normal !text-text_color"
             }`}
           >
-            Keywords <Tag className={`bg-pink ${styles.filtertags}`}>05</Tag>
+            Keywords{" "}
+            <Tag className={`${TAG_COLORS["Keywords"]} ${styles.filtertags}`}>
+              05
+            </Tag>
           </Checkbox>
           <Checkbox
             value="Critical"
@@ -153,7 +156,10 @@ export const NewsEvents = () => {
               "!font-normal !text-text_color"
             }`}
           >
-            Critical <Tag className={`bg-red ${styles.filtertags}`}>05</Tag>
+            Critical{" "}
+            <Tag className={`${TAG_COLORS["Critical"]} ${styles.filtertags}`}>
+              05
+            </Tag>
           </Checkbox>
           <Checkbox
             value="Non Critical"
@@ -163,7 +169,11 @@ export const NewsEvents = () => {
             }`}
           >
             Non Critical{" "}
-            <Tag className={`bg-green ${styles.filtertags}`}>05</Tag>
+            <Tag
+              className={`${TAG_COLORS["Non Critical"]} ${styles.filtertags}`}
+            >
+              05
+            </Tag>
           </Checkbox>
         </CheckboxGroup>
       </div>
