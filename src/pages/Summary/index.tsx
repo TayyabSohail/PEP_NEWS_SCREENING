@@ -1,12 +1,24 @@
+import { Tabs } from "antd";
+import type { TabsProps } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
+
 import { SecondaryButton, LinkButton } from "../../components/Button";
 import { PEPDetailsCard } from "./pepDetails";
 import { NewsComponent } from "./Sources";
-
-import { EventTab } from "./eventTab";
-import { SummaryCard } from "./summaryCard";
+import { NewsSummary } from "./NewsSummary";
 
 import { styles } from "../../assets/styles";
+
+const items: TabsProps["items"] = [
+  {
+    key: "1",
+    label: "Event Summary",
+  },
+  {
+    key: "2",
+    label: "NEWS Event",
+  },
+];
 
 export const Summary = () => {
   return (
@@ -48,8 +60,8 @@ export const Summary = () => {
         {/* Additional content or components can be added here */}
       </div>
       <div className=" mt-5 mb-5 p-7 rounded-md shadow-md bg-light_blue ">
-        <EventTab />
-        <SummaryCard />
+        <Tabs defaultActiveKey="1" items={items} />
+        <NewsSummary />
       </div>
 
       <SecondaryButton>Back</SecondaryButton>
