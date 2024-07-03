@@ -1,8 +1,21 @@
-import { Card, Tag } from "antd";
+import { useState } from "react";
 
-import { NewsFilters } from "./NewsFilters";
+import { Checkbox, Card, Tag } from "antd";
+import type { CheckboxProps } from "antd";
 
-import { styles } from "../../../assets/styles";
+import { styles } from "../../assets/styles";
+
+const CheckboxGroup = Checkbox.Group;
+
+const NEWS_CATEGORIES = ["Keywords", "Critical", "Non Critical"] as const;
+
+type NEWS_CATEGORY_TYPE = (typeof NEWS_CATEGORIES)[number];
+
+const TAG_COLORS = {
+  Keywords: "bg-pink",
+  Critical: "bg-red",
+  "Non Critical": "bg-green",
+};
 
 interface NewsEvent {
   title: string;
@@ -72,16 +85,73 @@ const newsEvents: NewsEvent[] = [
   },
 ];
 
-const TAG_COLORS = {
-  Keywords: "bg-pink",
-  Critical: "bg-red",
-  "Non Critical": "bg-green",
-};
-
 export const NewsEvents = () => {
+  const [checkedList, setCheckedList] = useState<NEWS_CATEGORY_TYPE[]>([
+    "Keywords",
+  ]);
+
+  const checkAll = NEWS_CATEGORIES.length === checkedList.length;
+  const indeterminate =
+    checkedList.length > 0 && checkedList.length < NEWS_CATEGORIES.length;
+
+  const onChange = (list: NEWS_CATEGORY_TYPE[]) => {
+    setCheckedList(list);
+  };
+
+  const onCheckAllChange: CheckboxProps["onChange"] = (e) => {
+    setCheckedList(e.target.checked ? Array.from(NEWS_CATEGORIES) : []);
+  };
+
   return (
     <div className="flex flex-col gap-10">
-      <NewsFilters />
+      <div className="flex gap-5">
+        <Checkbox
+          indeterminate={indeterminate}
+          onChange={onCheckAllChange}
+          checked={checkAll}
+          className={`${styles.label} ${
+            !checkAll && "!font-normal !text-text_color"
+          }`}
+        >
+          All Events <Tag className={`bg-blue ${styles.filtertags}`}>25</Tag>
+        </Checkbox>
+
+        <CheckboxGroup
+          className="flex gap-5"
+          value={checkedList}
+          onChange={onChange}
+        >
+          <Checkbox
+            value="Keywords"
+            className={`${styles.label} ${
+              !checkedList.includes("Keywords") &&
+              "!font-normal !text-text_color"
+            }`}
+          >
+            Keywords <Tag className={`bg-pink ${styles.filtertags}`}>05</Tag>
+          </Checkbox>
+          <Checkbox
+            value="Critical"
+            className={`${styles.label} ${
+              !checkedList.includes("Critical") &&
+              "!font-normal !text-text_color"
+            }`}
+          >
+            Critical <Tag className={`bg-red ${styles.filtertags}`}>05</Tag>
+          </Checkbox>
+          <Checkbox
+            value="Non Critical"
+            className={`${styles.label} ${
+              !checkedList.includes("Non Critical") &&
+              "!font-normal !text-text_color"
+            }`}
+          >
+            Non Critical{" "}
+            <Tag className={`bg-green ${styles.filtertags}`}>05</Tag>
+          </Checkbox>
+        </CheckboxGroup>
+      </div>
+
       <div className="flex flex-col gap-10">
         {newsEvents.map((news, index) => (
           <Card
