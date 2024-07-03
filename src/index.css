@@ -58,7 +58,17 @@ table tr:last-of-type td:last-child {
   min-height: 0px !important;
 }
 
-/* Customize Antd Table End */
-.ant-card .ant-card-body{
-  padding: 0px;
+/* Customize Antd Card  */
+.ant-card .ant-card-body {
+  padding: 0px !important;
+}
+
+/* Customize Antd Checkbox */
+.ant-checkbox + span {
+  padding-inline-end: 0px !important;
+}
+
+/* Customize Antd Tag */
+.ant-tag {
+  margin-inline: 0px !important;
 }
