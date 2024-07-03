@@ -4,8 +4,8 @@ import type { TabsProps } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import { SecondaryButton, LinkButton } from "../../components/Button";
 
-import { PEPDetailsCard } from "./PEPDetails";
-import { Events } from "./Events";
+import { PEPDetails } from "./PEPDetails";
+import { NewsEvents } from "./NewsEvents";
 import { Sources } from "./Sources";
 
 import { styles } from "../../assets/styles";
@@ -48,10 +48,10 @@ export const Details = () => {
       <Tabs defaultActiveKey="1" items={items} />
       <div className="flex flex-row gap-10">
         <div className="w-2/3">
-          <Events />
+          <NewsEvents />
         </div>
         <div className="w-1/3 flex flex-col gap-10">
-          <PEPDetailsCard />
+          <PEPDetails />
           <Sources />
         </div>
       </div>
