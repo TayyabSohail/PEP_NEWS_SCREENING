@@ -1,6 +1,6 @@
 import { styles } from "../../assets/styles";
 
-export const SummaryCard = () => {
+export const NewsSummary = () => {
   return (
     <div>
       <h3 className={`!text-black ${styles.heading3}`}>
