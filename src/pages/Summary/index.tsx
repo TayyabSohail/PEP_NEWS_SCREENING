@@ -3,7 +3,7 @@ import type { TabsProps } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 
 import { SecondaryButton, LinkButton } from "../../components/Button";
-import { PEPDetailsCard } from "./PEPDetails";
+import { PEPDetails } from "./PEPDetails";
 import { NewsComponent } from "./Sources";
 import { NewsSummary } from "./NewsSummary";
 
@@ -52,7 +52,7 @@ export const Summary = () => {
         </div>
 
         <div className="w-1/3">
-          <PEPDetailsCard />
+          <PEPDetails />
         </div>
       </div>
 

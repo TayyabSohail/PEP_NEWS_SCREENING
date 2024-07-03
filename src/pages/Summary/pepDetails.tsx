@@ -1,7 +1,7 @@
 import React from "react";
 import { styles } from "../../assets/styles";
 
-export const PEPDetailsCard = () => {
+export const PEPDetails = () => {
   const details = [
     { label: "PEP Type", value: "Primary" },
     { label: "AKA (English)", value: ["Imran Khan", "Imran"] },
