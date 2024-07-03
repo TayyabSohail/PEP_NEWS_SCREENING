@@ -5,4 +5,5 @@ export const ROUTES = {
   home: "/home",
   preview: "/preview",
   result: "/result",
+  details:"/details",
 } as const;
