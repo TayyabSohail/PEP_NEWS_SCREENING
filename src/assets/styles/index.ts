@@ -14,6 +14,8 @@ export const styles = {
   disabled: "!text-white !bg-primary !opacity-30",
 
   section: "flex flex-col p-10 gap-5",
+  box: "flex flex-col gap-5 p-5 border border-light_gray rounded-lg bg-white",
+  line: "border-t border-light_gray my-0 py-0",
 
   tableTags: "font-medium !text-black !text-[14px] py-1 px-3 rounded-lg",
   filtertags: "font-medium !text-black !text-[14px] px-1 rounded-lg",
