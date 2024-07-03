@@ -8,7 +8,6 @@ export const PEPDetails = () => {
     { label: "AKA (English)", value: ["Imran Khan", "Imran"] },
     { label: "AKA (Urdu)", value: ["عمران خان", "عمران"] },
     { label: "Organization", value: ["Govt. of Pakistan", "PTI"] },
-    { label: "University", value: ["University of Bradford"] },
     {
       label: "Designation",
       value: [
