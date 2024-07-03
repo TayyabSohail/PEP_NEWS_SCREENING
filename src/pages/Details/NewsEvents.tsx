@@ -89,6 +89,12 @@ export const NewsEvents = () => {
   const [checkedList, setCheckedList] = useState<NEWS_CATEGORY_TYPE[]>([
     "Keywords",
   ]);
+  const [filteredNewsEvents, setFilteredNewsEvents] = useState<NewsEvent[]>([
+    // initially show the news events with the selected categories
+    ...newsEvents.filter((news) =>
+      checkedList.includes(news.category as NEWS_CATEGORY_TYPE)
+    ),
+  ]);
 
   const checkAll = NEWS_CATEGORIES.length === checkedList.length;
   const indeterminate =
@@ -96,10 +102,20 @@ export const NewsEvents = () => {
 
   const onChange = (list: NEWS_CATEGORY_TYPE[]) => {
     setCheckedList(list);
+    // filter the news events based on the selected categories
+    setFilteredNewsEvents(
+      newsEvents.filter((news) =>
+        list.includes(news.category as NEWS_CATEGORY_TYPE)
+      )
+    );
   };
 
   const onCheckAllChange: CheckboxProps["onChange"] = (e) => {
     setCheckedList(e.target.checked ? Array.from(NEWS_CATEGORIES) : []);
+    // filter the news events based on the all events checkbox
+    setFilteredNewsEvents(
+      e.target.checked ? newsEvents : newsEvents.filter(() => false)
+    );
   };
 
   return (
@@ -153,7 +169,7 @@ export const NewsEvents = () => {
       </div>
 
       <div className="flex flex-col gap-10">
-        {newsEvents.map((news, index) => (
+        {filteredNewsEvents.map((news, index) => (
           <Card
             key={index}
             bordered={false}
