@@ -22,7 +22,7 @@ const items: TabsProps["items"] = [
 
 export const Summary = () => {
   return (
-    <section className={`!gap-2 ${styles.section}`}>
+    <section className={`${styles.section}`}>
       <p>
         <span className={styles.label}>Date Range: </span>
         05/07/2020 - 05/07/2022
@@ -44,7 +44,7 @@ export const Summary = () => {
           Download
         </LinkButton>
       </div>
-      <div className="border-t border-slate_gray"></div>
+      <span className={styles.line} />
 
       <div className="flex flex-row gap-5">
         <div className=" w-2/3">
@@ -56,10 +56,7 @@ export const Summary = () => {
         </div>
       </div>
 
-      <div className="flex">
-        {/* Additional content or components can be added here */}
-      </div>
-      <div className=" mt-5 mb-5 p-7 rounded-md shadow-md bg-light_blue ">
+      <div className=" mt-5 mb-5 p-7 shadow-md bg-light_blue ">
         <Tabs defaultActiveKey="1" items={items} />
         <NewsSummary />
       </div>

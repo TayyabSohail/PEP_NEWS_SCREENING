@@ -13,8 +13,8 @@ export const NewsSummary = () => {
       >
         https://www.dawn.com/news/1697598/firs-against-tv-anchor
       </a>
-      <p className={styles.date}>15/07/2022</p>
-      <p className={`!text-gray ${styles.cardContent}`}>
+      <p className="mb-5">15/07/2022</p>
+      <p>
         PTI Chairman Imran Khan on Monday urged Chief Election Commissioner
         (CEC) Sikander Sultan Raja to resign, claiming that his party won the
         Punjab by-polls despite the use of state machinery in PML-N's favour as
