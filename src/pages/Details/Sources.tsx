@@ -39,7 +39,7 @@ export const Sources = () => {
         <Card key={index} className="border-none shadow-none">
           <div className="flex items-center gap-5">
             <>{source.icon}</>
-            <div className="w-full flex flex-col gap-2">
+            <div className="line-clamp-1 flex flex-col gap-2">
               <p className={styles.label}>{source.title}</p>
               <a href={source.url} className="line-clamp-1">
                 {source.url}
