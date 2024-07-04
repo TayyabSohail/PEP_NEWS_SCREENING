@@ -9,6 +9,7 @@ export const styles = {
     "m-0 p-0 font-lato font-bold text-[20px] leading-[28px] text-primary",
   heading5:
     "m-0 p-0 font-lato font-bold text-[18px] leading-[24px] text-primary",
+  heading6: "m-0 p-0 font-lato font-bold text-[16px] leading-[20px] text-black",
 
   label: "m-0 p-0 font-semibold !text-[16px] leading-[20px] text-black",
   disabled: "!text-white !bg-primary !opacity-30",
