@@ -25,8 +25,8 @@ export const PEPDetails = () => {
       <div className="flex flex-col gap-5">
         {details.map((detail, index) => (
           <div key={index} className="flex flex-row">
-            <p className={`${styles.label} w-36`}>{detail.label}</p>
-            <div>
+            <p className={`${styles.label} w-1/3`}>{detail.label}</p>
+            <div className="w-2/3">
               {Array.isArray(detail.value) ? (
                 detail.value.map((item, idx) => (
                   <React.Fragment key={idx}>
