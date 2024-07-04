@@ -1,15 +1,48 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { Spin } from "antd";
 import {
   DownloadOutlined,
   CloseOutlined,
   SaveOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons";
 
 import { LinkButton, PrimaryButton } from "../../components/Button";
-
-import { styles } from "../../assets/styles";
 import { PreviewTable } from "./PreviewTable";
 
+import { styles } from "../../assets/styles";
+
+import { ROUTES } from "../../constants/routes";
+
 export const Preview = () => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const performScreening = () => {
+    setLoading(true);
+
+    const timer = setTimeout(() => {
+      setLoading(false);
+      navigate(ROUTES.result);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-[90vh] flex flex-col justify-center gap-5 text-center">
+        <h5 className={`!text-black ${styles.heading5}`}>
+          Please wait while the system processes your file
+        </h5>
+        <p>It may take few minutes</p>
+        <Spin indicator={<LoadingOutlined className="text-[50px]" spin />} />
+      </div>
+    );
+  }
+
   return (
     <section className={styles.section}>
       <h2 className={styles.heading2}>Preview List</h2>
@@ -38,7 +71,7 @@ export const Preview = () => {
       <PreviewTable />
       <div className="flex items-center gap-5">
         <LinkButton>Cancel</LinkButton>
-        <PrimaryButton>Scan</PrimaryButton>
+        <PrimaryButton onClick={performScreening}>Scan</PrimaryButton>
       </div>
     </section>
   );
