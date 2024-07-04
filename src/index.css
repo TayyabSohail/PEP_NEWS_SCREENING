@@ -58,24 +58,39 @@ table tr:last-of-type td:last-child {
   min-height: 0px !important;
 }
 
-.ant-card .ant-card-body{
+.ant-card .ant-card-body {
   padding: 0px;
-
 }
+
+/* Customize Antd Card  */
+.ant-card .ant-card-body {
+  padding: 0px !important;
+}
+
+/* Customize Antd Checkbox */
+.ant-checkbox + span {
+  padding-inline-end: 0px !important;
+}
+
+/* Customize Antd Tag */
+.ant-tag {
+  margin-inline: 0px !important;
+}
+
 /* NEWS CONTAINER IN SUMMARY PAGE SCROLL BAR STYLING */
 .news-container {
   overflow-y: auto;
-  max-height: 384px; 
-  padding-right: 4px; 
+  max-height: 384px;
+  padding-right: 4px;
 }
 
 .news-container::-webkit-scrollbar {
-  width: 4px; 
+  width: 4px;
 }
 
 .news-container::-webkit-scrollbar-thumb {
-  background-color: #007bff; 
-  border-radius: 4px; 
+  background-color: #007bff;
+  border-radius: 4px;
 }
 
 .news-container::-webkit-scrollbar-thumb:hover {

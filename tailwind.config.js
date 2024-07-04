@@ -16,6 +16,7 @@ export default {
         // Brand colors,
         primary: "#085FAB",
         secondary: "#08ABA6",
+        text_color: "#454545",
       },
       fontFamily: {
         lato: ["Lato", "sans-serif"],

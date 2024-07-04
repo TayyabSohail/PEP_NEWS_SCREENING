@@ -8,7 +8,9 @@ import { Layout } from "./layout";
 import { Home } from "./pages/Home";
 import { Preview } from "./pages/Preview";
 import { Result } from "./pages/Result";
+import { Details } from "./pages/Details";
 import { Summary } from "./pages/Summary";
+
 import { Login } from "./pages/Login";
 
 import { ROUTES } from "./constants/routes";
@@ -34,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.result,
         element: <Result />,
+      },
+      {
+        path: ROUTES.details,
+        element: <Details />,
       },
       {
         path: ROUTES.summary,
