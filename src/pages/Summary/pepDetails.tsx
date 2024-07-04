@@ -20,7 +20,7 @@ export const PEPDetails = () => {
   ];
 
   return (
-    <div className={styles.box}>
+    <div className={`w-1/3 ${styles.box}`}>
       <h3 className={`${styles.heading3}`}>PEP Details</h3>
       <div className="flex flex-col gap-5">
         {details.map((detail, index) => (

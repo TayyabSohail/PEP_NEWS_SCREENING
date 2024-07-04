@@ -9,6 +9,7 @@ import { Home } from "./pages/Home";
 import { Preview } from "./pages/Preview";
 import { Result } from "./pages/Result";
 import { Details } from "./pages/Details";
+import { Summary } from "./pages/Summary";
 
 import { Login } from "./pages/Login";
 
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.details,
         element: <Details />,
+      },
+      {
+        path: ROUTES.summary,
+        element: <Summary />,
       },
     ],
   },
