@@ -2,19 +2,21 @@ import { styles } from "../../assets/styles";
 
 export const NewsSummary = () => {
   return (
-    <div>
-      <h3 className={`!text-black ${styles.heading3}`}>
-        Pakistan minister ditched offshore plans amid ‘concerns’ over tax
-        authority
-      </h3>
-      <a
-        className="text-primary"
-        href="https://www.dawn.com/news/1697598/firs-against-tv-anchor"
-      >
-        https://www.dawn.com/news/1697598/firs-against-tv-anchor
-      </a>
-      <p className="mb-5">15/07/2022</p>
-      <p>
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-1">
+        <h3 className={`!text-black ${styles.heading3}`}>
+          Pakistan minister ditched offshore plans amid ‘concerns’ over tax
+          authority
+        </h3>
+        <a
+          className="text-primary"
+          href="https://www.dawn.com/news/1697598/firs-against-tv-anchor"
+        >
+          https://www.dawn.com/news/1697598/firs-against-tv-anchor
+        </a>
+        <p>15/07/2022</p>
+      </div>
+      <p className="flex flex-col gap-5">
         PTI Chairman Imran Khan on Monday urged Chief Election Commissioner
         (CEC) Sikander Sultan Raja to resign, claiming that his party won the
         Punjab by-polls despite the use of state machinery in PML-N's favour as
@@ -40,7 +42,7 @@ export const NewsSummary = () => {
         Chief Minister Hamza Shehbaz had no right to use the police in such a
         way. He also claimed that there were four million deceased voters
         included in the electoral rolls.
-        <h5 className={`!mt-3 mb-3 !text-black ${styles.heading5}`}>
+        <h5 className={`!text-black ${styles.heading5}`}>
           CEC Raja should resign
         </h5>
         Separately, Imran claimed that the CEC tried his best to turn the polls
@@ -50,7 +52,7 @@ export const NewsSummary = () => {
         political party. Raja should immediately resign.
         <br />
         <br />
-        " He said that his party did not trust the CEC, citing the example of
+        "He said that his party did not trust the CEC, citing the example of
         Senate elections in 2021 in which Imran said evidence of bribery was
         seen. "In Sindh's LG (local government) elections, 15 per cent of PPP
         candidates won unopposed, yet nobody investigated it," he recalled.

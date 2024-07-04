@@ -1,4 +1,5 @@
 import React from "react";
+
 import { styles } from "../../assets/styles";
 
 export const PEPDetails = () => {
@@ -7,23 +8,25 @@ export const PEPDetails = () => {
     { label: "AKA (English)", value: ["Imran Khan", "Imran"] },
     { label: "AKA (Urdu)", value: ["عمران خان", "عمران"] },
     { label: "Organization", value: ["Govt. of Pakistan", "PTI"] },
-    { label: "University", value: ["University of Bradford"] },
     {
       label: "Designation",
-      value: ["Prime Minister of Pakistan"],
+      value: [
+        "Prime Minister of Pakistan",
+        "Chancellor of University of Bradford",
+      ],
     },
     { label: "Date", value: "05/07/2020 - 05/07/2022" },
     { label: "Keywords", value: ["Corruption", "Bribery", "Money Laundering"] },
   ];
 
   return (
-    <div className={styles.box}>
+    <div className={`w-1/3 ${styles.box}`}>
       <h3 className={`${styles.heading3}`}>PEP Details</h3>
       <div className="flex flex-col gap-5">
         {details.map((detail, index) => (
           <div key={index} className="flex flex-row">
-            <p className={`${styles.label} w-36`}>{detail.label}</p>
-            <div>
+            <p className={`${styles.label} w-1/3`}>{detail.label}</p>
+            <div className="w-2/3">
               {Array.isArray(detail.value) ? (
                 detail.value.map((item, idx) => (
                   <React.Fragment key={idx}>

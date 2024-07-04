@@ -4,7 +4,7 @@ import { DownloadOutlined } from "@ant-design/icons";
 
 import { SecondaryButton, LinkButton } from "../../components/Button";
 import { PEPDetails } from "./PEPDetails";
-import { NewsComponent } from "./Sources";
+import { NewsDetails } from "./NewsDetails";
 import { NewsSummary } from "./NewsSummary";
 
 import { styles } from "../../assets/styles";
@@ -13,30 +13,31 @@ const items: TabsProps["items"] = [
   {
     key: "1",
     label: "Event Summary",
+    children: <NewsSummary />,
   },
   {
     key: "2",
     label: "NEWS Event",
+    children: <NewsSummary />,
   },
 ];
 
 export const Summary = () => {
   return (
     <section className={`${styles.section}`}>
-      <p>
-        <span className={styles.label}>Date Range: </span>
-        05/07/2020 - 05/07/2022
-      </p>
+      <h2 className={styles.heading2}>
+        Pakistan minister ditched offshore plans amid `concerns` over tax
+        authority
+      </h2>
 
-      <div className="!m-0 !p-0 flex flex-row gap-10">
-        <h3 className={styles.heading3}>
-          Pakistan minister ditched offshore plans amid ‘concerns’ over tax
-          authority
-        </h3>
-      </div>
-      <p className={styles.label}>Imran Khan Niazi</p>
-      <div className=" !m-0 !p-0 flex justify-between">
-        <p className="font-semibold text-black">Primary PEP</p>
+      <p className={styles.label}>Imran Khan Niazi - Primary PEP</p>
+
+      <div className="flex justify-between">
+        <p>
+          <span className={styles.label}>Date Range: </span>
+          05/07/2020 - 05/07/2022
+        </p>
+
         <LinkButton
           icon={<DownloadOutlined />}
           className="text-primary font-bold"
@@ -44,22 +45,19 @@ export const Summary = () => {
           Download
         </LinkButton>
       </div>
+
       <span className={styles.line} />
 
-      <div className="flex flex-row gap-5">
-        <div className=" w-2/3">
-          <NewsComponent />
-        </div>
-
-        <div className="w-1/3">
-          <PEPDetails />
-        </div>
+      <div className="flex flex-row gap-10">
+        <NewsDetails />
+        <PEPDetails />
       </div>
 
-      <div className=" mt-5 mb-5 p-7 shadow-md bg-light_blue ">
-        <Tabs defaultActiveKey="1" items={items} />
-        <NewsSummary />
-      </div>
+      <Tabs
+        defaultActiveKey="1"
+        items={items}
+        className="p-5 rounded-lg bg-light_blue"
+      />
 
       <SecondaryButton>Back</SecondaryButton>
     </section>
