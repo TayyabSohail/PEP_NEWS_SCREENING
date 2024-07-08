@@ -1,4 +1,7 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from "axios";
+
+import { ROUTES } from "../constants/routes";
+import { postLogout } from "../api/auth.api";
 
 export const endpoints = {
   auth: {
@@ -31,3 +34,19 @@ export const PATCH = <Request, Response>(url: string, body: Request) =>
 
 export const DELETE = <Response>(url: string) =>
   apiService.delete<Response>(url);
+
+apiService.interceptors.response.use(
+  (response) => response,
+  async (error: AxiosError) => {
+    if (
+      (!window.location.href.includes(ROUTES.login) &&
+        error.response?.status === 401) ||
+      error.response?.status === 403 ||
+      error.response?.status === 406
+    ) {
+      await postLogout();
+    }
+
+    return Promise.reject(error);
+  }
+);

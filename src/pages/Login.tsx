@@ -3,6 +3,10 @@ import { useState, useEffect } from "react";
 import { Image, Form, Input } from "antd";
 import { UserOutlined, KeyOutlined } from "@ant-design/icons";
 
+import { LoginRequest, login } from "../api/auth.api";
+
+import { useAntdUseApp } from "../hooks/useAntdUseApp";
+
 import { Logo } from "../components/Logo";
 import { PrimaryButton } from "../components/Button";
 
@@ -10,13 +14,9 @@ import loginImage from "../assets/images/login.png";
 
 import { styles } from "../assets/styles";
 
-interface LoginData {
-  email: string;
-  password: string;
-}
-
 export const Login = () => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<LoginRequest>();
+  const notification = useAntdUseApp();
 
   // Submittable state for form submit button
   const [submittable, setSubmittable] = useState<boolean>(false);
@@ -31,8 +31,14 @@ export const Login = () => {
       .catch(() => setSubmittable(false));
   }, [form, values]);
 
-  const onFinish = () => {
-    // TODO: Implement login functionality
+  const onFinish = async (values: LoginRequest) => {
+    await form.validateFields();
+
+    login({
+      email: values.email,
+      password: values.password,
+      notification: notification,
+    });
   };
 
   return (
@@ -68,7 +74,7 @@ export const Login = () => {
           autoComplete="off"
         >
           {/* Email */}
-          <Form.Item<LoginData>
+          <Form.Item<LoginRequest>
             name="email"
             label={<span className={styles.label}>Email</span>}
             className="min-w-[60%] m-0"
@@ -90,7 +96,7 @@ export const Login = () => {
           </Form.Item>
 
           {/* Password */}
-          <Form.Item<LoginData>
+          <Form.Item<LoginRequest>
             name="password"
             className="min-w-[60%] m-0"
             label={<span className={styles.label}>Password</span>}
