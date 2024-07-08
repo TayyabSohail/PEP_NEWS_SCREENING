@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+import Papa from "papaparse";
 
 import dayjs from "dayjs";
 
@@ -14,14 +17,16 @@ import { PrimaryButton, LinkButton } from "../components/Button";
 import loginImage from "../assets/images/login.png";
 
 import { styles } from "../assets/styles";
+import { ROUTES } from "../constants/routes";
 
 interface HomeData {
   startingDate: Date | null;
   endingDate: Date | null;
-  screeningList: File | null;
+  screeningList: File;
 }
 
 export const Home = () => {
+  const navigate = useNavigate();
   const [form] = Form.useForm<HomeData>();
 
   // Submittable state for form submit button
@@ -39,6 +44,7 @@ export const Home = () => {
 
   const handleFileUpload = (file: File) => {
     form.setFieldValue("screeningList", file);
+
     return false;
   };
 
@@ -47,7 +53,23 @@ export const Home = () => {
   };
 
   const onFinish = () => {
-    // TODO: Implement upload functionality
+    const file: File = form.getFieldValue("screeningList").file;
+    Papa.parse(file, {
+      header: true,
+      complete: (result) => {
+        console.log(result.data);
+        navigate(ROUTES.preview, {
+          state: {
+            startingDate: values.startingDate,
+            endingDate: values.endingDate,
+            dataSet: result.data,
+          },
+        });
+      },
+      error: (error: Error) => {
+        console.error("Error parsing CSV file:", error);
+      },
+    });
   };
 
   // Disable dates after today
