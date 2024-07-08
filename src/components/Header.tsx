@@ -2,12 +2,13 @@ import { useNavigate } from "react-router-dom";
 
 import { Layout, Dropdown, Avatar, Space } from "antd";
 import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import type { MenuProps } from "antd";
+
+import { logout } from "../api/auth.api";
 
 import { Logo } from "./Logo";
 
 import { ROUTES } from "../constants/routes";
-
-import type { MenuProps } from "antd";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -25,8 +26,7 @@ export const Header = () => {
       label: "Logout",
       icon: <LogoutOutlined className="!text-lg" />,
       key: "/logout",
-      // TODO: Implement logout logic
-      onClick: () => navigate(ROUTES.login),
+      onClick: () => logout(),
     },
   ];
 
