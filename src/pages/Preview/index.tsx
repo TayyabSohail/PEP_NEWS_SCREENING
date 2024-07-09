@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+
+import dayjs from "dayjs";
 
 import { Spin } from "antd";
 import {
@@ -19,6 +21,11 @@ import { ROUTES } from "../../constants/routes";
 export const Preview = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const { startingDate, endingDate } = location.state;
+  const formattedstartDate = dayjs(startingDate.$d).format("DD/MM/YYYY");
+  const formattedendDate = dayjs(endingDate.$d).format("DD/MM/YYYY");
 
   const performScreening = () => {
     setLoading(true);
@@ -49,7 +56,7 @@ export const Preview = () => {
       <div className="flex justify-between">
         <p>
           <span className={styles.label}>Date Range: </span>
-          05/07/2020 - 05/07/2022
+          {formattedstartDate} - {formattedendDate}
         </p>
         <div className="flex gap-5">
           <LinkButton icon={<CloseOutlined />}>Discard Changes</LinkButton>
