@@ -56,6 +56,7 @@ export const Home = () => {
     const file: File = form.getFieldValue("screeningList").file;
     Papa.parse(file, {
       header: true,
+      skipEmptyLines: true,
       complete: (result) => {
         console.log(result.data);
         navigate(ROUTES.preview, {
