@@ -11,6 +11,8 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 
+import { RequestData, result } from "../../api/result.api";
+
 import { LinkButton, PrimaryButton } from "../../components/Button";
 import { PreviewTable } from "./PreviewTable";
 
@@ -23,19 +25,25 @@ export const Preview = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { startingDate, endingDate } = location.state;
-  const formattedstartDate = dayjs(startingDate.$d).format("DD/MM/YYYY");
-  const formattedendDate = dayjs(endingDate.$d).format("DD/MM/YYYY");
+  const { startDate, endDate } = location.state;
+  const formattedstartDate = dayjs(startDate.$d).format("DD/MM/YYYY");
+  const formattedendDate = dayjs(endDate.$d).format("DD/MM/YYYY");
 
-  const performScreening = () => {
-    setLoading(true);
+  // const performScreening = () => {
+  //   setLoading(true);
 
-    const timer = setTimeout(() => {
-      setLoading(false);
-      navigate(ROUTES.result);
-    }, 5000);
+  //   const timer = setTimeout(() => {
+  //     setLoading(false);
+  //     navigate(ROUTES.result);
+  //   }, 5000);
 
-    return () => clearTimeout(timer);
+  //   return () => clearTimeout(timer);
+  // };
+  const values = location.state;
+
+  const performScreening = async (values: RequestData) => {
+    console.log("DATASET", values);
+    result(values);
   };
 
   if (loading) {
@@ -78,7 +86,9 @@ export const Preview = () => {
       <PreviewTable />
       <div className="flex items-center gap-5">
         <LinkButton>Cancel</LinkButton>
-        <PrimaryButton onClick={performScreening}>Scan</PrimaryButton>
+        <PrimaryButton onClick={() => performScreening(values)}>
+          Scan
+        </PrimaryButton>
       </div>
     </section>
   );

@@ -8,6 +8,7 @@ export const endpoints = {
     signup: "/auth/signup",
     login: "/auth/login",
   },
+  result: "/userEnd/inputRec/saveUserRec",
 };
 
 const apiService = axios.create({
