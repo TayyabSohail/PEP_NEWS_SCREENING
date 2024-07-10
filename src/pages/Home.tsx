@@ -61,8 +61,8 @@ export const Home = () => {
         console.log(result.data);
         navigate(ROUTES.preview, {
           state: {
-            startingDate: values.startingDate,
-            endingDate: values.endingDate,
+            startDate: values.startingDate,
+            endDate: values.endingDate,
             dataSet: result.data,
           },
         });
