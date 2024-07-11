@@ -20,8 +20,8 @@ import { styles } from "../assets/styles";
 import { ROUTES } from "../constants/routes";
 
 interface HomeData {
-  startingDate: Date | null;
-  endingDate: Date | null;
+  startingDate: Date;
+  endingDate: Date;
   screeningList: File;
 }
 
@@ -58,12 +58,28 @@ export const Home = () => {
       header: true,
       skipEmptyLines: true,
       complete: (result) => {
-        console.log(result.data);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const formattedData = result.data.map((item: any) => ({
+          ID: parseInt(item.ID, 10),
+          englishName: item["English Name"],
+          urduName: item["Urdu Name"],
+          akaEnglish: item["AKA (English)"],
+          akaUrdu: item["AKA (Urdu)"],
+          organizations: item.Organization,
+          designations: item.Designation,
+          relationships: item.Relationship || "",
+          primarySecondary: item["Primary/Secondary"],
+          keywords1: item["keywords1"] || "",
+          keywords2: item["keywords2"] || "",
+          keywords3: item["keywords3"] || "",
+          keywords4: item["keywords4"] || "",
+          keywords5: item["keywords5"] || "",
+        }));
         navigate(ROUTES.preview, {
           state: {
-            startDate: values.startingDate,
-            endDate: values.endingDate,
-            dataSet: result.data,
+            startDate: dayjs(values.startingDate).format("DD/MM/YYYY"),
+            endDate: dayjs(values.endingDate).format("DD/MM/YYYY"),
+            dataSet: formattedData,
           },
         });
       },
