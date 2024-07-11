@@ -28,18 +28,18 @@ export const PreviewTable: React.FC = () => {
   const [dataSource, setDataSource] = useState<DataType[]>([]);
 
   const location = useLocation();
-  const { dataSet } = location.state as { dataSet: DataType[] };
+  const { dataset } = location.state;
 
   useEffect(() => {
-    if (dataSet) {
-      const transformedData = dataSet.map((item, index) => ({
+    if (dataset) {
+      const transformedData = dataset.map((item: Item, index: number) => ({
         ...item,
         key: (index + 1).toString(),
         Serial: (index + 1).toString(),
       }));
       setDataSource(transformedData);
     }
-  }, [dataSet]);
+  }, [dataset]);
 
   const defaultColumns: (ColumnTypes[number] & {
     editable?: boolean;

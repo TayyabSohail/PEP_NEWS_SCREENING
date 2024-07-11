@@ -79,7 +79,7 @@ export const Home = () => {
           state: {
             startDate: dayjs(values.startingDate).format("DD/MM/YYYY"),
             endDate: dayjs(values.endingDate).format("DD/MM/YYYY"),
-            dataSet: formattedData,
+            dataset: formattedData,
           },
         });
       },

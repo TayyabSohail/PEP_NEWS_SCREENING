@@ -13,6 +13,8 @@ import {
 
 import { RequestData, result } from "../../api/result.api";
 
+import { useAntdUseApp } from "../../hooks/useAntdUseApp";
+
 import { LinkButton, PrimaryButton } from "../../components/Button";
 import { PreviewTable } from "./PreviewTable";
 
@@ -22,14 +24,20 @@ import { ROUTES } from "../../constants/routes";
 
 export const Preview = () => {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const notification = useAntdUseApp();
+
   const location = useLocation();
 
   const values = location.state;
 
   const performScreening = async (values: RequestData) => {
     console.log("DATASET", values);
-    result(values);
+    await result({
+      startDate: values.startDate,
+      endDate: values.endDate,
+      dataset: values.dataset,
+      notification: notification,
+    });
   };
 
   if (loading) {
