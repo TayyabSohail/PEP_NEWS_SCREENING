@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-
-import dayjs from "dayjs";
+import { useLocation } from "react-router-dom";
 
 import { Spin } from "antd";
 import {
@@ -20,10 +18,8 @@ import { PreviewTable } from "./PreviewTable";
 
 import { styles } from "../../assets/styles";
 
-import { ROUTES } from "../../constants/routes";
-
 export const Preview = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const notification = useAntdUseApp();
 
   const location = useLocation();
