@@ -25,20 +25,6 @@ export const Preview = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { startDate, endDate } = location.state;
-  const formattedstartDate = dayjs(startDate.$d).format("DD/MM/YYYY");
-  const formattedendDate = dayjs(endDate.$d).format("DD/MM/YYYY");
-
-  // const performScreening = () => {
-  //   setLoading(true);
-
-  //   const timer = setTimeout(() => {
-  //     setLoading(false);
-  //     navigate(ROUTES.result);
-  //   }, 5000);
-
-  //   return () => clearTimeout(timer);
-  // };
   const values = location.state;
 
   const performScreening = async (values: RequestData) => {
@@ -64,7 +50,7 @@ export const Preview = () => {
       <div className="flex justify-between">
         <p>
           <span className={styles.label}>Date Range: </span>
-          {formattedstartDate} - {formattedendDate}
+          {values.startDate} - {values.endDate}
         </p>
         <div className="flex gap-5">
           <LinkButton icon={<CloseOutlined />}>Discard Changes</LinkButton>
