@@ -6,7 +6,7 @@ import { endpoints, POST } from "../utils/api.service";
 export interface RequestData {
   startDate: string;
   endDate: string;
-  dataSet: {
+  dataset: {
     ID: number;
     englishName: string;
     urduName: string;
@@ -23,7 +23,6 @@ export interface RequestData {
     keywords5: string;
   }[];
 }
-[];
 
 type EVENTS_TYPE = "urduEvents" | "engEvents";
 
@@ -62,14 +61,13 @@ interface ResultProps extends RequestData {
 export const result = async ({
   startDate,
   endDate,
-  dataSet,
+  dataset,
   notification,
 }: ResultProps) => {
-  console.log({ startDate, endDate, dataSet });
   POST<RequestData, ResponseData>(endpoints.result, {
     startDate,
     endDate,
-    dataSet,
+    dataset,
   })
     .then(({ data }) => {
       notification?.notification.success({
