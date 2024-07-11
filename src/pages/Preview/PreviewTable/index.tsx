@@ -8,15 +8,15 @@ import { EditableCell } from "./EditableCell";
 
 export interface Item {
   key: string;
-  Serial: string;
-  "English Name": string;
-  "Urdu Name": string;
-  "AKA (English)": string;
-  "AKA (Urdu)": string;
-  Organization: string;
-  Designation: string;
-  Relationship: string;
-  "Primary/Secondary": string;
+  ID: number;
+  englishName: string;
+  urduName: string;
+  akaEnglish: string;
+  akaUrdu: string;
+  organizations: string;
+  designations: string;
+  relationships: string;
+  primarySecondary: string;
 }
 
 export type DataType = Item;
@@ -54,56 +54,56 @@ export const PreviewTable: React.FC = () => {
     },
     {
       title: "English Name",
-      dataIndex: "English Name",
+      dataIndex: "englishName",
       key: "English Name",
       align: "center",
       editable: true,
     },
     {
       title: "Urdu Name",
-      dataIndex: "Urdu Name",
+      dataIndex: "urduName",
       key: "Urdu Name",
       align: "center",
       editable: true,
     },
     {
       title: "AKA (English)",
-      dataIndex: "AKA (English)",
+      dataIndex: "akaEnglish",
       key: "AKA (English)",
       align: "center",
       editable: true,
     },
     {
       title: "AKA (Urdu)",
-      dataIndex: "AKA (Urdu)",
+      dataIndex: "akaUrdu",
       key: "AKA (Urdu)",
       align: "center",
       editable: true,
     },
     {
       title: "Organization",
-      dataIndex: "Organization",
+      dataIndex: "organizations",
       key: "Organization",
       align: "center",
       editable: true,
     },
     {
       title: "Designation",
-      dataIndex: "Designation",
+      dataIndex: "designations",
       key: "Designation",
       align: "center",
       editable: true,
     },
     {
       title: "Relationship",
-      dataIndex: "Relationship",
+      dataIndex: "relationships",
       key: "Relationship",
       align: "center",
       editable: true,
     },
     {
       title: "Primary/Secondary",
-      dataIndex: "Primary/Secondary",
+      dataIndex: "primarySecondary",
       key: "Primary/Secondary",
       align: "center",
       editable: true,

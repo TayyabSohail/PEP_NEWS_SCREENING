@@ -53,6 +53,7 @@ export interface ResponseData {
   message: string;
   data: Record<EVENTS_TYPE, Events>;
 }
+[];
 
 interface ResultProps extends RequestData {
   notification: useAppProps;
