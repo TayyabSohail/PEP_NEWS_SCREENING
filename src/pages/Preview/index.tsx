@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { queryClient } from "../../utils/react-query.service";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+
 import { Spin } from "antd";
 import {
   DownloadOutlined,
@@ -8,17 +9,25 @@ import {
   SaveOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
-import { RequestData, result } from "../../api/result.api";
+
+import { RequestData, result, ResponseData } from "../../api/result.api";
+
 import { useAntdUseApp } from "../../hooks/useAntdUseApp";
+
 import { LinkButton, PrimaryButton } from "../../components/Button";
 import { PreviewTable } from "./PreviewTable";
+
+import { ROUTES } from "../../constants/routes";
+
+import { endpoints } from "../../utils/api.service";
+
 import { styles } from "../../assets/styles";
 
 export const Preview = () => {
-  const [loading] = useState(false);
   const notification = useAntdUseApp();
   const location = useLocation();
   const values = location.state;
+  const navigate = useNavigate();
 
   const ScanMutation = useMutation(
     result({
@@ -33,13 +42,16 @@ export const Preview = () => {
       dataset: values.dataset,
     };
 
-    await ScanMutation.mutate(formData);
+    const response: ResponseData = await ScanMutation.mutateAsync(formData);
+    if (response.success) {
+      navigate(ROUTES.result);
+    }
   };
 
-  if (loading) {
+  if (ScanMutation.isPending) {
     return (
       <div className="min-h-[90vh] flex flex-col justify-center gap-5 text-center">
-        <h5 className={`!text-black ${styles.heading5}`}>
+        <h5 className="!text-black">
           Please wait while the system processes your file
         </h5>
         <p>It may take a few minutes</p>
