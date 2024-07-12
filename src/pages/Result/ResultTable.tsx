@@ -2,6 +2,9 @@ import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 
 import { styles } from "../../assets/styles";
+import { queryClient } from "../../utils/react-query.service";
+import { endpoints } from "../../utils/api.service";
+import { ResponseData } from "../../api/result.api";
 
 interface ResultTable {
   Serial_Number: number;
@@ -126,5 +129,10 @@ const columns: ColumnsType = [
 ];
 
 export const ResultTable = () => {
+  const cachedData: ResponseData | undefined = queryClient.getQueryData(
+    endpoints.result.cacheKey
+  );
+  console.log(cachedData);
+
   return <Table size="middle" columns={columns} dataSource={data} />;
 };
