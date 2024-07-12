@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-
+import { useMutation } from "@tanstack/react-query";
 import { Spin } from "antd";
 import {
   DownloadOutlined,
@@ -8,32 +8,32 @@ import {
   SaveOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
-
 import { RequestData, result } from "../../api/result.api";
-
 import { useAntdUseApp } from "../../hooks/useAntdUseApp";
-
 import { LinkButton, PrimaryButton } from "../../components/Button";
 import { PreviewTable } from "./PreviewTable";
-
 import { styles } from "../../assets/styles";
 
 export const Preview = () => {
   const [loading] = useState(false);
   const notification = useAntdUseApp();
-
   const location = useLocation();
-
   const values = location.state;
 
-  const performScreening = async (values: RequestData) => {
-    console.log("DATASET", values);
-    await result({
+  const ScanMutation = useMutation(
+    result({
+      notification: notification,
+    })
+  );
+
+  const handleScanClick = async () => {
+    const formData: RequestData = {
       startDate: values.startDate,
       endDate: values.endDate,
       dataset: values.dataset,
-      notification: notification,
-    });
+    };
+
+    await ScanMutation.mutate(formData);
   };
 
   if (loading) {
@@ -42,7 +42,7 @@ export const Preview = () => {
         <h5 className={`!text-black ${styles.heading5}`}>
           Please wait while the system processes your file
         </h5>
-        <p>It may take few minutes</p>
+        <p>It may take a few minutes</p>
         <Spin indicator={<LoadingOutlined className="text-[50px]" spin />} />
       </div>
     );
@@ -76,9 +76,7 @@ export const Preview = () => {
       <PreviewTable />
       <div className="flex items-center gap-5">
         <LinkButton>Cancel</LinkButton>
-        <PrimaryButton onClick={() => performScreening(values)}>
-          Scan
-        </PrimaryButton>
+        <PrimaryButton onClick={handleScanClick}>Scan</PrimaryButton>
       </div>
     </section>
   );

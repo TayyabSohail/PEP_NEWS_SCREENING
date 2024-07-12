@@ -1,7 +1,8 @@
 import { AxiosError } from "axios";
-
+import { UseMutationOptions } from "@tanstack/react-query";
 import { useAppProps } from "antd/es/app/context";
 import { endpoints, POST } from "../utils/api.service";
+import { queryClient } from "../utils/react-query.service";
 
 export interface RequestData {
   startDate: string;
@@ -40,47 +41,58 @@ interface Events {
   record: {
     negativeSentiments: number;
     positiveSentiments: number;
-    neturalsentSentiments: number;
+    neutralSentiments: number;
     Events: number;
   }[];
 
   OriginalKeyword: string;
 }
-[];
+
 export interface ResponseData {
   success: boolean;
+
   message: string;
   data: Record<EVENTS_TYPE, Events>;
 }
-[];
 
-interface ResultProps extends RequestData {
-  notification: useAppProps;
-}
 
-export const result = async ({
-  startDate,
-  endDate,
-  dataset,
+export const result = ({
   notification,
-}: ResultProps) => {
-  POST<RequestData, ResponseData>(endpoints.result, {
-    startDate,
-    endDate,
-    dataset,
-  })
-    .then(({ data }) => {
-      notification?.notification.success({
-        message: "Record Found",
-      });
-      console.log(data.success);
-    })
-    .catch((error: AxiosError) => {
-      console.error("Error occurred:", error);
-      notification?.notification.error({
-        message: "Record not Found",
-      });
+}: { notification?: useAppProps;}): UseMutationOptions<ResponseData, AxiosError, RequestData> => {
+  return {
+    mutationFn: async (requestData) => {
+      try {
+        const { data } = await POST<RequestData, ResponseData>(
+          endpoints.result.url,
+          requestData
+        );
 
-      return error.response?.data;
-    });
+        if (data.success) {
+          notification?.notification?.success({
+            message: "Record Found",
+          });
+        } else {
+          notification?.notification?.error({
+            message: "Record not Found",
+          });
+        }
+
+        return data;
+      } catch (error) {
+        console.error("Error occurred:", error);
+        notification?.notification?.error({
+          message: "Error fetching data",
+        });
+
+        throw error;
+      }
+    },
+    onSuccess: (data) => {
+      if (data?.success) {
+        queryClient?.invalidateQueries({
+          queryKey: endpoints.result.cacheKey,
+        });
+      }
+    },
+  };
 };

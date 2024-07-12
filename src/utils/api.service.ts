@@ -8,7 +8,10 @@ export const endpoints = {
     signup: "/auth/signup",
     login: "/auth/login",
   },
-  result: "/userEnd/inputRec/saveUserRec",
+  result: {
+    cacheKey: ["results"],
+    url: "/userEnd/inputRec/saveUserRec",
+  },
 };
 
 const apiService = axios.create({
