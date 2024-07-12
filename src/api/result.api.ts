@@ -1,6 +1,8 @@
 import { AxiosError } from "axios";
 import { UseMutationOptions } from "@tanstack/react-query";
+
 import { useAppProps } from "antd/es/app/context";
+
 import { endpoints, POST } from "../utils/api.service";
 import { queryClient } from "../utils/react-query.service";
 
@@ -55,10 +57,11 @@ export interface ResponseData {
   data: Record<EVENTS_TYPE, Events>;
 }
 
-
 export const result = ({
   notification,
-}: { notification?: useAppProps;}): UseMutationOptions<ResponseData, AxiosError, RequestData> => {
+}: {
+  notification?: useAppProps;
+}): UseMutationOptions<ResponseData, AxiosError, RequestData> => {
   return {
     mutationFn: async (requestData) => {
       try {
@@ -89,9 +92,7 @@ export const result = ({
     },
     onSuccess: (data) => {
       if (data?.success) {
-        queryClient?.invalidateQueries({
-          queryKey: endpoints.result.cacheKey,
-        });
+        queryClient.setQueryData(endpoints.result.cacheKey, data);
       }
     },
   };
