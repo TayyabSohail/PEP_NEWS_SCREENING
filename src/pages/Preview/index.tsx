@@ -57,6 +57,10 @@ export const Preview = () => {
     );
   }
 
+  const handleCancelClick = () => {
+    navigate(ROUTES.home);
+  };
+
   return (
     <section className={styles.section}>
       <h2 className={styles.heading2}>Preview List</h2>
@@ -84,7 +88,7 @@ export const Preview = () => {
       {/* Preview Table */}
       <PreviewTable />
       <div className="flex items-center gap-5">
-        <LinkButton>Cancel</LinkButton>
+        <LinkButton onClick={handleCancelClick}>Cancel</LinkButton>
         <PrimaryButton onClick={handleScanClick}>Scan</PrimaryButton>
       </div>
     </section>
