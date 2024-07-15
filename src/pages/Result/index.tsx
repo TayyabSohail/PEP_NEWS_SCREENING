@@ -1,11 +1,18 @@
 import { DownloadOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 import { LinkButton, SecondaryButton } from "../../components/Button";
+
+import { ROUTES } from "../../constants/routes";
 
 import { styles } from "../../assets/styles";
 import { ResultTable } from "./ResultTable";
 
 export const Result = () => {
+  const navigate = useNavigate();
+  const handleExitButton = () => {
+    navigate(ROUTES.home);
+  };
   return (
     <section className={styles.section}>
       <h2 className={styles.heading2}>Result</h2>
@@ -27,7 +34,7 @@ export const Result = () => {
       {/* Result Table */}
       <ResultTable />
       <div className="flex items-center gap-5">
-        <SecondaryButton>Exit</SecondaryButton>
+        <SecondaryButton onClick={handleExitButton}>Exit</SecondaryButton>
       </div>
     </section>
   );
