@@ -1,4 +1,3 @@
-import { queryClient } from "../../utils/react-query.service";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 
@@ -18,8 +17,6 @@ import { LinkButton, PrimaryButton } from "../../components/Button";
 import { PreviewTable } from "./PreviewTable";
 
 import { ROUTES } from "../../constants/routes";
-
-import { endpoints } from "../../utils/api.service";
 
 import { styles } from "../../assets/styles";
 
