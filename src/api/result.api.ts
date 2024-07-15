@@ -29,7 +29,7 @@ export interface RequestData {
 
 type EVENTS_TYPE = "urduEvents" | "engEvents";
 
-interface Events {
+export interface Events {
   item: {
     sources: string[];
     urls: string[];
@@ -38,14 +38,14 @@ interface Events {
     eventName: string;
     dte: string;
     sentiments: string;
-  }[];
+  };
 
   record: {
     negativeSentiments: number;
-    positiveSentiments: number;
-    neutralSentiments: number;
+    postiveSentiments: number;
+    neturalsentSentiments: number;
     Events: number;
-  }[];
+  };
 
   OriginalKeyword: string;
 }
@@ -54,7 +54,7 @@ export interface ResponseData {
   success: boolean;
 
   message: string;
-  data: Record<EVENTS_TYPE, Events>;
+  data: Record<EVENTS_TYPE, Events[]>;
 }
 
 export const result = ({
