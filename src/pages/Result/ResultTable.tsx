@@ -1,10 +1,11 @@
+import { useState, useEffect } from "react";
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 
 import { styles } from "../../assets/styles";
 import { queryClient } from "../../utils/react-query.service";
 import { endpoints } from "../../utils/api.service";
-import { ResponseData } from "../../api/result.api";
+import { Events, ResponseData } from "../../api/result.api";
 
 interface ResultTable {
   Serial_Number: number;
@@ -17,43 +18,10 @@ interface ResultTable {
   Non_Critical: number;
 }
 
-const data: ResultTable[] = [
-  {
-    Serial_Number: 1,
-    English_Name: "John Doe",
-    Designation: "Software Engineer",
-    Organization: "ABC Inc.",
-    NEWS_Events: 3,
-    Keywords: 10,
-    Critical: 5,
-    Non_Critical: 5,
-  },
-  {
-    Serial_Number: 2,
-    English_Name: "Jane Smith",
-    Designation: "Product Manager",
-    Organization: "XYZ Corp.",
-    NEWS_Events: 5,
-    Keywords: 8,
-    Critical: 3,
-    Non_Critical: 5,
-  },
-  {
-    Serial_Number: 3,
-    English_Name: "Jane Smith",
-    Designation: "Product Manager",
-    Organization: "XYZ Corp.",
-    NEWS_Events: 5,
-    Keywords: 8,
-    Critical: 3,
-    Non_Critical: 5,
-  },
-];
-
 const columns: ColumnsType = [
   {
     title: "Serial Number",
-    dataIndex: "Serial_Number",
+    dataIndex: "Serial",
     key: "Serial_Number",
     width: 130,
     align: "center",
@@ -129,10 +97,28 @@ const columns: ColumnsType = [
 ];
 
 export const ResultTable = () => {
+  const [dataSource, setDataSource] = useState<Events[]>([]);
+
   const cachedData: ResponseData | undefined = queryClient.getQueryData(
     endpoints.result.cacheKey
   );
-  console.log(cachedData);
+  const resultdata = cachedData?.data.urduEvents;
 
-  return <Table size="middle" columns={columns} dataSource={data} />;
+  useEffect(() => {
+    if (resultdata) {
+      const transformedData = resultdata.map((item: Events, index: number) => ({
+        ...item,
+        key: (index + 1).toString(),
+        Serial: (index + 1).toString(),
+        English_Name: item.OriginalKeyword,
+        Keywords: item.record.neturalsentSentiments,
+        NEWS_Events: item.record.Events,
+        Critical: item.record.negativeSentiments,
+        Non_Critical: item.record.postiveSentiments,
+      }));
+      setDataSource(transformedData);
+    }
+  }, [resultdata]);
+
+  return <Table size="middle" columns={columns} dataSource={dataSource} />;
 };
