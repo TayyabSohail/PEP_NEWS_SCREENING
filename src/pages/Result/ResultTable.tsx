@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 
-import { styles } from "../../assets/styles";
 import { queryClient } from "../../utils/react-query.service";
 import { endpoints } from "../../utils/api.service";
 import { Events, ResponseData } from "../../api/result.api";
+import { ROUTES } from "../../constants/routes";
 
-interface ResultTable {
+import { styles } from "../../assets/styles";
+
+interface ResultTabledata {
   Serial_Number: number;
   English_Name: string;
   Designation: string;
@@ -97,6 +101,7 @@ const columns: ColumnsType = [
 ];
 
 export const ResultTable = () => {
+  const navigate = useNavigate();
   const [dataSource, setDataSource] = useState<Events[]>([]);
 
   const cachedData: ResponseData | undefined = queryClient.getQueryData(
@@ -120,5 +125,20 @@ export const ResultTable = () => {
     }
   }, [resultdata]);
 
-  return <Table size="middle" columns={columns} dataSource={dataSource} />;
+  const handleRowClick = (record: ResultTabledata) => {
+    navigate(ROUTES.details, {
+      state: record.English_Name,
+    });
+  };
+
+  return (
+    <Table
+      size="middle"
+      columns={columns}
+      dataSource={dataSource}
+      onRow={(record) => ({
+        onClick: () => handleRowClick(record),
+      })}
+    />
+  );
 };
