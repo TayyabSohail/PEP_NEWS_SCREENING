@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Papa from "papaparse";
@@ -18,6 +18,7 @@ import loginImage from "../assets/images/login.png";
 
 import { styles } from "../assets/styles";
 import { ROUTES } from "../constants/routes";
+import { DateRangeContext } from "../contexts/DateRangeContext";
 
 interface HomeData {
   startingDate: Date;
@@ -26,6 +27,9 @@ interface HomeData {
 }
 
 export const Home = () => {
+  // Get the context values
+  const { setStartDate, setEndDate } = useContext(DateRangeContext);
+
   const navigate = useNavigate();
   const [form] = Form.useForm<HomeData>();
 
@@ -75,13 +79,15 @@ export const Home = () => {
           keywords4: item["keywords4"] || "",
           keywords5: item["keywords5"] || "",
         }));
+
+        setStartDate(dayjs(values.startingDate).format("DD/MM/YYYY"));
+        setEndDate(dayjs(values.endingDate).format("DD/MM/YYYY")),
         navigate(ROUTES.preview, {
-          state: {
-            startDate: dayjs(values.startingDate).format("DD/MM/YYYY"),
-            endDate: dayjs(values.endingDate).format("DD/MM/YYYY"),
-            dataset: formattedData,
-          },
-        });
+            state: {
+              
+              dataset: formattedData,
+            },
+          });
       },
       error: (error: Error) => {
         console.error("Error parsing CSV file:", error);
