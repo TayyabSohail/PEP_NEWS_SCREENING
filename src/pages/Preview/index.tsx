@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 
@@ -20,11 +21,15 @@ import { ROUTES } from "../../constants/routes";
 
 import { styles } from "../../assets/styles";
 
+import { DateRangeContext } from "../../contexts/DateRangeContext";
+
 export const Preview = () => {
   const notification = useAntdUseApp();
   const location = useLocation();
   const values = location.state;
   const navigate = useNavigate();
+
+  const { startDate, endDate } = useContext(DateRangeContext);
 
   const ScanMutation = useMutation(
     result({
@@ -34,8 +39,8 @@ export const Preview = () => {
 
   const handleScanClick = async () => {
     const formData: RequestData = {
-      startDate: values.startDate,
-      endDate: values.endDate,
+      startDate: startDate,
+      endDate: endDate,
       dataset: values.dataset,
     };
 
@@ -67,7 +72,7 @@ export const Preview = () => {
       <div className="flex justify-between">
         <p>
           <span className={styles.label}>Date Range: </span>
-          {values.startDate} - {values.endDate}
+          {startDate} - {endDate}
         </p>
         <div className="flex gap-5">
           <LinkButton icon={<CloseOutlined />}>Discard Changes</LinkButton>

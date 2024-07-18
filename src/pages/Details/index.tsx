@@ -1,8 +1,12 @@
 import { Tabs } from "antd";
+
+import { useContext } from "react";
+
 import type { TabsProps } from "antd";
 
 import { DownloadOutlined } from "@ant-design/icons";
 import { SecondaryButton, LinkButton } from "../../components/Button";
+import { DateRangeContext } from "../../contexts/DateRangeContext";
 
 import { PEPDetails } from "./PEPDetails";
 import { NewsEvents } from "./NewsEvents";
@@ -11,6 +15,9 @@ import { Sources } from "./Sources";
 import { styles } from "../../assets/styles";
 
 export const Details = () => {
+
+  const { startDate, endDate } = useContext(DateRangeContext);
+
   const items: TabsProps["items"] = [
     {
       key: "1",
@@ -53,7 +60,7 @@ export const Details = () => {
       <div className="flex justify-between">
         <p>
           <span className={styles.label}>Date Range: </span>
-          05/07/2020 - 05/07/2022
+          {startDate} - {endDate}
         </p>
 
         <LinkButton

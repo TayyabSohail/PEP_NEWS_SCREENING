@@ -1,3 +1,5 @@
+import { useContext } from "react";
+
 import { DownloadOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
@@ -8,18 +10,22 @@ import { ROUTES } from "../../constants/routes";
 import { styles } from "../../assets/styles";
 import { ResultTable } from "./ResultTable";
 
+import { DateRangeContext } from "../../contexts/DateRangeContext";
+
 export const Result = () => {
   const navigate = useNavigate();
   const handleExitButton = () => {
     navigate(ROUTES.home);
   };
+  const { startDate, endDate } = useContext(DateRangeContext);
+
   return (
     <section className={styles.section}>
       <h2 className={styles.heading2}>Result</h2>
       <div className="flex justify-between">
         <p>
           <span className={styles.label}>Date Range: </span>
-          05/07/2020 - 05/07/2022
+          {startDate} - {endDate}
         </p>
         <div className="flex gap-5">
           <LinkButton
