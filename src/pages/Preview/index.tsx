@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useMutation } from "@tanstack/react-query";
 
@@ -27,12 +27,9 @@ import { styles } from "../../assets/styles";
 export const Preview = () => {
   const notification = useAntdUseApp();
 
-  const location = useLocation();
-  const values = location.state;
-
   const navigate = useNavigate();
 
-  const { startDate, endDate } = useContext(DateRangeContext);
+  const { startDate, endDate, data } = useContext(DateRangeContext);
 
   const ScanMutation = useMutation(
     result({
@@ -44,7 +41,7 @@ export const Preview = () => {
     const formData: RequestData = {
       startDate: startDate,
       endDate: endDate,
-      dataset: values.dataset,
+      dataset: data,
     };
 
     const response: ResponseData = await ScanMutation.mutateAsync(formData);

@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+
+import { DateRangeContext } from "../../../contexts/DateRangeContext";
 
 import { Table } from "antd";
 
 import { EditableRow } from "./EditableRow";
 import { EditableCell } from "./EditableCell";
+import { ItemData } from "../../../contexts/DateRangeContext";
 
 export interface Item {
   key: string;
@@ -27,18 +29,17 @@ export type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 export const PreviewTable = () => {
   const [dataSource, setDataSource] = useState<DataType[]>([]);
 
-  const location = useLocation();
-  const { dataset } = location.state;
+  const { data } = useContext(DateRangeContext);
 
   useEffect(() => {
-    if (dataset) {
-      const transformedData = dataset.map((item: Item, index: number) => ({
+    if (data) {
+      const transformedData = data.map((item: ItemData, index: number) => ({
         ...item,
         key: (index + 1).toString(),
       }));
       setDataSource(transformedData);
     }
-  }, [dataset]);
+  }, [data]);
 
   const defaultColumns: (ColumnTypes[number] & {
     editable?: boolean;
