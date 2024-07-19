@@ -1,12 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 
-import { DateRangeContext } from "../../../contexts/DateRangeContext";
-
 import { Table } from "antd";
+
+import { AppContext } from "../../../contexts/AppContext";
+
+import { DatasetItem } from "../../../api/result.api";
 
 import { EditableRow } from "./EditableRow";
 import { EditableCell } from "./EditableCell";
-import { ItemData } from "../../../contexts/DateRangeContext";
 
 export interface Item {
   key: string;
@@ -27,19 +28,22 @@ export type EditableTableProps = Parameters<typeof Table>[0];
 export type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 
 export const PreviewTable = () => {
+  // Get the dataset from the context
+  const { dataset } = useContext(AppContext);
+
   const [dataSource, setDataSource] = useState<DataType[]>([]);
 
-  const { data } = useContext(DateRangeContext);
-
   useEffect(() => {
-    if (data) {
-      const transformedData = data.map((item: ItemData, index: number) => ({
-        ...item,
-        key: (index + 1).toString(),
-      }));
+    if (dataset) {
+      const transformedData = dataset.map(
+        (item: DatasetItem, index: number) => ({
+          ...item,
+          key: (index + 1).toString(),
+        })
+      );
       setDataSource(transformedData);
     }
-  }, [data]);
+  }, [dataset]);
 
   const defaultColumns: (ColumnTypes[number] & {
     editable?: boolean;

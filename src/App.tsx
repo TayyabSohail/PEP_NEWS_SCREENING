@@ -3,7 +3,7 @@ import { App as AntdApp, ConfigProvider } from "antd";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import { DateRangeProvider } from "./contexts/DateRangeContext";
+import { AppContextProvider } from "./contexts/AppContext";
 
 import { Router } from "./Router";
 
@@ -11,7 +11,7 @@ import { queryClient } from "./utils/react-query.service";
 
 export const App = () => {
   return (
-    <DateRangeProvider>
+    <AppContextProvider>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <AntdApp>
@@ -37,6 +37,6 @@ export const App = () => {
           </ConfigProvider>
         </AntdApp>
       </QueryClientProvider>
-    </DateRangeProvider>
+    </AppContextProvider>
   );
 };

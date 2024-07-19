@@ -4,7 +4,7 @@ import { Tabs } from "antd";
 import type { TabsProps } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 
-import { DateRangeContext } from "../../contexts/DateRangeContext";
+import { AppContext } from "../../contexts/AppContext";
 
 import { SecondaryButton, LinkButton } from "../../components/Button";
 
@@ -28,7 +28,8 @@ const items: TabsProps["items"] = [
 ];
 
 export const Summary = () => {
-  const { startDate, endDate } = useContext(DateRangeContext);
+  // Get the context values
+  const { startDate, endDate } = useContext(AppContext);
 
   return (
     <section className={`${styles.section}`}>

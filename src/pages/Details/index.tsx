@@ -4,7 +4,7 @@ import { Tabs } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import type { TabsProps } from "antd";
 
-import { DateRangeContext } from "../../contexts/DateRangeContext";
+import { AppContext } from "../../contexts/AppContext";
 
 import { SecondaryButton, LinkButton } from "../../components/Button";
 
@@ -15,7 +15,8 @@ import { Sources } from "./Sources";
 import { styles } from "../../assets/styles";
 
 export const Details = () => {
-  const { startDate, endDate } = useContext(DateRangeContext);
+  // Get the context values
+  const { startDate, endDate } = useContext(AppContext);
 
   const items: TabsProps["items"] = [
     {

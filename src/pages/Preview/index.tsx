@@ -11,7 +11,7 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 
-import { DateRangeContext } from "../../contexts/DateRangeContext";
+import { AppContext } from "../../contexts/AppContext";
 
 import { RequestData, result, ResponseData } from "../../api/result.api";
 
@@ -25,11 +25,12 @@ import { ROUTES } from "../../constants/routes";
 import { styles } from "../../assets/styles";
 
 export const Preview = () => {
+  // Get the context values
+  const { startDate, endDate, dataset } = useContext(AppContext);
+
   const notification = useAntdUseApp();
 
   const navigate = useNavigate();
-
-  const { startDate, endDate, data } = useContext(DateRangeContext);
 
   const ScanMutation = useMutation(
     result({
@@ -39,9 +40,9 @@ export const Preview = () => {
 
   const handleScanClick = async () => {
     const formData: RequestData = {
-      startDate: startDate,
-      endDate: endDate,
-      dataset: data,
+      startDate,
+      endDate,
+      dataset,
     };
 
     const response: ResponseData = await ScanMutation.mutateAsync(formData);
