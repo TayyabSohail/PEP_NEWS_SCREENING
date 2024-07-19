@@ -4,68 +4,70 @@ import { useNavigate } from "react-router-dom";
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 
+import { Events, ResponseData } from "../../api/result.api";
+
 import { queryClient } from "../../utils/react-query.service";
 import { endpoints } from "../../utils/api.service";
-import { Events, ResponseData } from "../../api/result.api";
+
 import { ROUTES } from "../../constants/routes";
 
 import { styles } from "../../assets/styles";
 
-interface ResultTabledata {
-  Serial_Number: number;
-  English_Name: string;
-  Designation: string;
-  Organization: string;
-  NEWS_Events: number;
-  Keywords: number;
-  Critical: number;
-  Non_Critical: number;
+interface ResultTableData {
+  key: number;
+  englishName: string;
+  designation: string;
+  organization: string;
+  newsEvents: number;
+  keywords: number;
+  critical: number;
+  nonCritical: number;
 }
 
-const columns: ColumnsType = [
+const columns: ColumnsType<ResultTableData> = [
   {
     title: "Serial Number",
-    dataIndex: "Serial",
-    key: "Serial_Number",
+    dataIndex: "key",
+    key: "key",
     width: 130,
     align: "center",
   },
   {
     title: "English Name",
-    dataIndex: "English_Name",
-    key: "English_Name",
+    dataIndex: "englishName",
+    key: "englishName",
     align: "center",
   },
   {
     title: "Designation",
-    dataIndex: "Designation",
-    key: "Designation",
+    dataIndex: "designation",
+    key: "designation",
     align: "center",
   },
   {
     title: "Organization",
-    dataIndex: "Organization",
-    key: "Organization",
+    dataIndex: "organization",
+    key: "organization",
     align: "center",
   },
   {
     title: "NEWS Events",
-    dataIndex: "NEWS_Events",
-    key: "NEWS_Events",
+    dataIndex: "newsEvents",
+    key: "newsEvents",
     align: "center",
-    render: (NEWS_Events: number) => (
+    render: (newsEvents: number) => (
       <Tag
-        key={NEWS_Events}
+        key={newsEvents}
         className={`bg-blue border-none ${styles.tableTags}`}
       >
-        {NEWS_Events}
+        {newsEvents}
       </Tag>
     ),
   },
   {
     title: "Keywords",
-    dataIndex: "Keywords",
-    key: "Keywords",
+    dataIndex: "keywords",
+    key: "keywords",
     align: "center",
     render: (keywords: number) => (
       <Tag key={keywords} className={`bg-pink border-none ${styles.tableTags}`}>
@@ -75,26 +77,26 @@ const columns: ColumnsType = [
   },
   {
     title: "Critical",
-    dataIndex: "Critical",
-    key: "Critical",
+    dataIndex: "critical",
+    key: "critical",
     align: "center",
-    render: (Critical: number) => (
-      <Tag key={Critical} className={`bg-red border-none ${styles.tableTags}`}>
-        {Critical}
+    render: (critical: number) => (
+      <Tag key={critical} className={`bg-red border-none ${styles.tableTags}`}>
+        {critical}
       </Tag>
     ),
   },
   {
     title: "Non-Critical",
-    dataIndex: "Non_Critical",
-    key: "Non_Critical",
+    dataIndex: "nonCritical",
+    key: "nonCritical",
     align: "center",
-    render: (Non_Critical: number) => (
+    render: (nonCritical: number) => (
       <Tag
-        key={Non_Critical}
+        key={nonCritical}
         className={`bg-green border-none ${styles.tableTags}`}
       >
-        {Non_Critical}
+        {nonCritical}
       </Tag>
     ),
   },
@@ -102,7 +104,7 @@ const columns: ColumnsType = [
 
 export const ResultTable = () => {
   const navigate = useNavigate();
-  const [dataSource, setDataSource] = useState<Events[]>([]);
+  const [dataSource, setDataSource] = useState<ResultTableData[]>([]);
 
   const cachedData: ResponseData | undefined = queryClient.getQueryData(
     endpoints.result.cacheKey
@@ -112,22 +114,22 @@ export const ResultTable = () => {
   useEffect(() => {
     if (resultdata) {
       const transformedData = resultdata.map((item: Events, index: number) => ({
-        ...item,
-        key: (index + 1).toString(),
-        Serial: (index + 1).toString(),
-        English_Name: item.OriginalKeyword,
-        Keywords: item.record.neturalsentSentiments,
-        NEWS_Events: item.record.Events,
-        Critical: item.record.negativeSentiments,
-        Non_Critical: item.record.postiveSentiments,
+        key: index + 1,
+        englishName: item.OriginalKeyword,
+        designation: "",
+        organization: "",
+        newsEvents: item.record.Events,
+        critical: item.record.negativeSentiments,
+        nonCritical: item.record.postiveSentiments,
+        keywords: item.record.neturalsentSentiments,
       }));
       setDataSource(transformedData);
     }
   }, [resultdata]);
 
-  const handleRowClick = (record: ResultTabledata) => {
+  const handleRowClick = (record: ResultTableData) => {
     navigate(ROUTES.details, {
-      state: record.English_Name,
+      state: record.englishName,
     });
   };
 

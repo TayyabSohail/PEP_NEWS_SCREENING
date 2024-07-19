@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
 import { useMutation } from "@tanstack/react-query";
 
 import { Spin } from "antd";
@@ -9,6 +10,8 @@ import {
   SaveOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
+
+import { DateRangeContext } from "../../contexts/DateRangeContext";
 
 import { RequestData, result, ResponseData } from "../../api/result.api";
 
@@ -21,12 +24,12 @@ import { ROUTES } from "../../constants/routes";
 
 import { styles } from "../../assets/styles";
 
-import { DateRangeContext } from "../../contexts/DateRangeContext";
-
 export const Preview = () => {
   const notification = useAntdUseApp();
+
   const location = useLocation();
   const values = location.state;
+
   const navigate = useNavigate();
 
   const { startDate, endDate } = useContext(DateRangeContext);

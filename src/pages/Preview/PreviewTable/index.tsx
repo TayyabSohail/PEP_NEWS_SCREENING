@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { Table } from "antd";
@@ -24,7 +24,7 @@ export type DataType = Item;
 export type EditableTableProps = Parameters<typeof Table>[0];
 export type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 
-export const PreviewTable: React.FC = () => {
+export const PreviewTable = () => {
   const [dataSource, setDataSource] = useState<DataType[]>([]);
 
   const location = useLocation();
@@ -35,7 +35,6 @@ export const PreviewTable: React.FC = () => {
       const transformedData = dataset.map((item: Item, index: number) => ({
         ...item,
         key: (index + 1).toString(),
-        Serial: (index + 1).toString(),
       }));
       setDataSource(transformedData);
     }
@@ -43,11 +42,11 @@ export const PreviewTable: React.FC = () => {
 
   const defaultColumns: (ColumnTypes[number] & {
     editable?: boolean;
-    dataIndex: string;
+    dataIndex: keyof Item;
   })[] = [
     {
       title: "Serial Number",
-      dataIndex: "Serial",
+      dataIndex: "key",
       key: "Serial",
       width: 130,
       align: "center",

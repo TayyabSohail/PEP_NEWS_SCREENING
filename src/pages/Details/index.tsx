@@ -1,12 +1,12 @@
-import { Tabs } from "antd";
-
 import { useContext } from "react";
 
+import { Tabs } from "antd";
+import { DownloadOutlined } from "@ant-design/icons";
 import type { TabsProps } from "antd";
 
-import { DownloadOutlined } from "@ant-design/icons";
-import { SecondaryButton, LinkButton } from "../../components/Button";
 import { DateRangeContext } from "../../contexts/DateRangeContext";
+
+import { SecondaryButton, LinkButton } from "../../components/Button";
 
 import { PEPDetails } from "./PEPDetails";
 import { NewsEvents } from "./NewsEvents";
@@ -15,7 +15,6 @@ import { Sources } from "./Sources";
 import { styles } from "../../assets/styles";
 
 export const Details = () => {
-
   const { startDate, endDate } = useContext(DateRangeContext);
 
   const items: TabsProps["items"] = [

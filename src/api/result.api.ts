@@ -38,21 +38,18 @@ export interface Events {
     eventName: string;
     dte: string;
     sentiments: string;
-  };
-
+  }[];
   record: {
     negativeSentiments: number;
     postiveSentiments: number;
     neturalsentSentiments: number;
     Events: number;
   };
-
   OriginalKeyword: string;
 }
 
 export interface ResponseData {
   success: boolean;
-
   message: string;
   data: Record<EVENTS_TYPE, Events[]>;
 }

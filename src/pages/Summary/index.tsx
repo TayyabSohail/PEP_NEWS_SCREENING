@@ -1,11 +1,13 @@
+import { useContext } from "react";
+
 import { Tabs } from "antd";
 import type { TabsProps } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 
-import { useContext } from "react";
-
 import { DateRangeContext } from "../../contexts/DateRangeContext";
+
 import { SecondaryButton, LinkButton } from "../../components/Button";
+
 import { PEPDetails } from "./PEPDetails";
 import { NewsDetails } from "./NewsDetails";
 import { NewsSummary } from "./NewsSummary";

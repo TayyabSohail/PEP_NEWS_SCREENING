@@ -12,13 +12,15 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 
+import { DateRangeContext } from "../contexts/DateRangeContext";
+
 import { PrimaryButton, LinkButton } from "../components/Button";
 
 import loginImage from "../assets/images/login.png";
 
 import { styles } from "../assets/styles";
+
 import { ROUTES } from "../constants/routes";
-import { DateRangeContext } from "../contexts/DateRangeContext";
 
 interface HomeData {
   startingDate: Date;
@@ -26,11 +28,30 @@ interface HomeData {
   screeningList: File;
 }
 
+interface Item {
+  ID: string;
+  "English Name": string;
+  "Urdu Name": string;
+  "AKA (English)": string;
+  "AKA (Urdu)": string;
+  Organization: string;
+  Designation: string;
+  Relationship: string;
+  "Primary/Secondary": string;
+  "Other Attributes": string;
+  keywords1: string;
+  keywords2: string;
+  keywords3: string;
+  keywords4: string;
+  keywords5: string;
+}
+
 export const Home = () => {
   // Get the context values
   const { setStartDate, setEndDate } = useContext(DateRangeContext);
 
   const navigate = useNavigate();
+
   const [form] = Form.useForm<HomeData>();
 
   // Submittable state for form submit button
@@ -58,12 +79,12 @@ export const Home = () => {
 
   const onFinish = () => {
     const file: File = form.getFieldValue("screeningList").file;
-    Papa.parse(file, {
+
+    Papa.parse<Item>(file, {
       header: true,
       skipEmptyLines: true,
       complete: (result) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const formattedData = result.data.map((item: any) => ({
+        const formattedData = result.data.map((item) => ({
           ID: parseInt(item.ID, 10),
           englishName: item["English Name"],
           urduName: item["Urdu Name"],
@@ -82,9 +103,8 @@ export const Home = () => {
 
         setStartDate(dayjs(values.startingDate).format("DD/MM/YYYY"));
         setEndDate(dayjs(values.endingDate).format("DD/MM/YYYY")),
-        navigate(ROUTES.preview, {
+          navigate(ROUTES.preview, {
             state: {
-              
               dataset: formattedData,
             },
           });

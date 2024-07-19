@@ -1,23 +1,25 @@
 import { useContext } from "react";
-
-import { DownloadOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
+import { DownloadOutlined } from "@ant-design/icons";
+
+import { DateRangeContext } from "../../contexts/DateRangeContext";
+
 import { LinkButton, SecondaryButton } from "../../components/Button";
+import { ResultTable } from "./ResultTable";
 
 import { ROUTES } from "../../constants/routes";
 
 import { styles } from "../../assets/styles";
-import { ResultTable } from "./ResultTable";
-
-import { DateRangeContext } from "../../contexts/DateRangeContext";
 
 export const Result = () => {
+  const { startDate, endDate } = useContext(DateRangeContext);
+
   const navigate = useNavigate();
+
   const handleExitButton = () => {
     navigate(ROUTES.home);
   };
-  const { startDate, endDate } = useContext(DateRangeContext);
 
   return (
     <section className={styles.section}>
