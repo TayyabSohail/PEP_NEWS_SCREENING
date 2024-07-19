@@ -48,7 +48,7 @@ interface Item {
 
 export const Home = () => {
   // Get the context values
-  const { setStartDate, setEndDate } = useContext(DateRangeContext);
+  const { setStartDate, setEndDate, DataSet } = useContext(DateRangeContext);
 
   const navigate = useNavigate();
 
@@ -78,36 +78,34 @@ export const Home = () => {
   };
 
   const onFinish = () => {
-    const file: File = form.getFieldValue("screeningList").file;
+    const file: File = form.getFieldValue("screeningList")?.file;
 
     Papa.parse<Item>(file, {
       header: true,
       skipEmptyLines: true,
       complete: (result) => {
-        const formattedData = result.data.map((item) => ({
-          ID: parseInt(item.ID, 10),
-          englishName: item["English Name"],
-          urduName: item["Urdu Name"],
-          akaEnglish: item["AKA (English)"],
-          akaUrdu: item["AKA (Urdu)"],
-          organizations: item.Organization,
-          designations: item.Designation,
-          relationships: item.Relationship || "",
-          primarySecondary: item["Primary/Secondary"],
-          keywords1: item["keywords1"] || "",
-          keywords2: item["keywords2"] || "",
-          keywords3: item["keywords3"] || "",
-          keywords4: item["keywords4"] || "",
-          keywords5: item["keywords5"] || "",
-        }));
+        DataSet(
+          result.data.map((item) => ({
+            ID: parseInt(item.ID, 10),
+            englishName: item["English Name"],
+            urduName: item["Urdu Name"],
+            akaEnglish: item["AKA (English)"],
+            akaUrdu: item["AKA (Urdu)"],
+            organizations: item.Organization,
+            designations: item.Designation,
+            relationships: item.Relationship || "",
+            primarySecondary: item["Primary/Secondary"],
+            keywords1: item["keywords1"] || "",
+            keywords2: item["keywords2"] || "",
+            keywords3: item["keywords3"] || "",
+            keywords4: item["keywords4"] || "",
+            keywords5: item["keywords5"] || "",
+          }))
+        );
 
         setStartDate(dayjs(values.startingDate).format("DD/MM/YYYY"));
-        setEndDate(dayjs(values.endingDate).format("DD/MM/YYYY")),
-          navigate(ROUTES.preview, {
-            state: {
-              dataset: formattedData,
-            },
-          });
+        setEndDate(dayjs(values.endingDate).format("DD/MM/YYYY"));
+        navigate(ROUTES.preview);
       },
       error: (error: Error) => {
         console.error("Error parsing CSV file:", error);
