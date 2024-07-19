@@ -141,6 +141,7 @@ export const ResultTable = () => {
       onRow={(record) => ({
         onClick: () => handleRowClick(record),
       })}
+      rowClassName="cursor-pointer"
     />
   );
 };
