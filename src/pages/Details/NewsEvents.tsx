@@ -1,7 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import { Checkbox, Card, Tag } from "antd";
 import type { CheckboxProps } from "antd";
+
+import { Events, ItemDetails, ResponseData } from "../../api/result.api";
+
+import { queryClient } from "../../utils/react-query.service";
+import { endpoints } from "../../utils/api.service";
 
 import { styles } from "../../assets/styles";
 
@@ -19,77 +25,48 @@ const TAG_COLORS: Record<NEWS_CATEGORY_TYPE, string> = {
 
 interface NewsEvent {
   title: string;
-  details: string;
+  details: string[];
   date: string;
   category: NEWS_CATEGORY_TYPE;
 }
 
-const newsEvents: NewsEvent[] = [
-  {
-    title:
-      "Pakistan minister ditched offshore plans amid concerns over tax authority",
-    details:
-      "A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP).",
-    date: "06/12/2021",
-    category: "Keywords",
-  },
-  {
-    title:
-      "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority",
-    details:
-      "A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP).",
-    date: "06/12/2021",
-    category: "Critical",
-  },
-  {
-    title:
-      "Pakistan minister ditched offshore plans amid concerns over tax authority",
-    details:
-      "A minister in Imran Khan's Pakistan government pulled out of making A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP) as a prominent politician – a “politically exposed person” (PEP),A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)",
-    date: "06/12/2021",
-    category: "Non Critical",
-  },
-  {
-    title:
-      "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority",
-    details:
-      "A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP),A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)",
-    date: "06/12/2021",
-    category: "Keywords",
-  },
-  {
-    title:
-      "Pakistan minister ditched offshore plans amid concerns over tax authority",
-    details:
-      "A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)",
-    date: "06/12/2021",
-    category: "Critical",
-  },
-
-  {
-    title:
-      "Pakistan minister ditched offshore plans amid concerns over tax authority",
-    details:
-      "A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)",
-    date: "06/12/2021",
-    category: "Non Critical",
-  },
-  {
-    title:
-      "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority",
-    details:
-      "A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)A minister in Imran Khan's Pakistan government pulled out of making ... as a prominent politician – a “politically exposed person” (PEP)",
-    date: "06/12/2021",
-    category: "Keywords",
-  },
-];
-
 export const NewsEvents = () => {
+  const location = useLocation();
+  const name = location.state;
+  const [dataSource, setDataSource] = useState<NewsEvent[]>([]);
+  console.log(name);
+  // function to randomly assign categories to each news
+  function getRandomValueFromArray<T>(array: readonly T[]): T {
+    const randomIndex = Math.floor(Math.random() * array.length);
+    return array[randomIndex];
+  }
+
+  useEffect(() => {
+    const cachedData: ResponseData | undefined = queryClient.getQueryData(
+      endpoints.result.cacheKey
+    );
+    const resultdata = cachedData?.data.urduEvents;
+    const news: Events[] =
+      resultdata?.filter((event: Events) => event.OriginalKeyword === name) ||
+      [];
+    const mappedData: NewsEvent[] = news.flatMap(
+      (event) =>
+        event.item?.map((record: ItemDetails) => ({
+          title: record.eventName,
+          details: record.descriptions,
+          date: record.dte,
+          category: getRandomValueFromArray(NEWS_CATEGORIES),
+        })) || []
+    );
+    setDataSource(mappedData);
+  }, [name]);
+  console.log(dataSource);
+
   const [checkedList, setCheckedList] = useState<NEWS_CATEGORY_TYPE[]>([
     "Keywords",
   ]);
   const [filteredNewsEvents, setFilteredNewsEvents] = useState<NewsEvent[]>(
-    newsEvents.filter((news) => checkedList.includes(news.category))
+    dataSource.filter((news) => checkedList.includes(news.category))
   );
 
   // Determine if all checkboxes are checked or some are checked
@@ -101,14 +78,14 @@ export const NewsEvents = () => {
   const onChange = (list: NEWS_CATEGORY_TYPE[]) => {
     setCheckedList(list);
     setFilteredNewsEvents(
-      newsEvents.filter((news) => list.includes(news.category))
+      dataSource.filter((news) => list.includes(news.category))
     );
   };
 
   // Handle "Check All" checkbox change
   const onCheckAllChange: CheckboxProps["onChange"] = (e) => {
     setCheckedList(e.target.checked ? Array.from(NEWS_CATEGORIES) : []);
-    setFilteredNewsEvents(e.target.checked ? newsEvents : []);
+    setFilteredNewsEvents(e.target.checked ? dataSource : []);
   };
 
   return (
