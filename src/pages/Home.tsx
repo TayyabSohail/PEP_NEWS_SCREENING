@@ -12,7 +12,7 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 
-import { DateRangeContext } from "../contexts/DateRangeContext";
+import { AppContext } from "../contexts/AppContext";
 
 import { PrimaryButton, LinkButton } from "../components/Button";
 
@@ -48,7 +48,7 @@ interface Item {
 
 export const Home = () => {
   // Get the context values
-  const { setStartDate, setEndDate, DataSet } = useContext(DateRangeContext);
+  const { setStartDate, setEndDate, setDataset } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -84,7 +84,10 @@ export const Home = () => {
       header: true,
       skipEmptyLines: true,
       complete: (result) => {
-        DataSet(
+        // set data to the app context
+        setStartDate(dayjs(values.startingDate).format("DD/MM/YYYY"));
+        setEndDate(dayjs(values.endingDate).format("DD/MM/YYYY"));
+        setDataset(
           result.data.map((item) => ({
             ID: parseInt(item.ID, 10),
             englishName: item["English Name"],
@@ -103,8 +106,7 @@ export const Home = () => {
           }))
         );
 
-        setStartDate(dayjs(values.startingDate).format("DD/MM/YYYY"));
-        setEndDate(dayjs(values.endingDate).format("DD/MM/YYYY"));
+        // Navigate to the preview page
         navigate(ROUTES.preview);
       },
       error: (error: Error) => {

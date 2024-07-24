@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { DownloadOutlined } from "@ant-design/icons";
 
-import { DateRangeContext } from "../../contexts/DateRangeContext";
+import { AppContext } from "../../contexts/AppContext";
 
 import { LinkButton, SecondaryButton } from "../../components/Button";
 import { ResultTable } from "./ResultTable";
@@ -13,7 +13,8 @@ import { ROUTES } from "../../constants/routes";
 import { styles } from "../../assets/styles";
 
 export const Result = () => {
-  const { startDate, endDate } = useContext(DateRangeContext);
+  // Get the context values
+  const { startDate, endDate } = useContext(AppContext);
 
   const navigate = useNavigate();
 

@@ -6,25 +6,26 @@ import { useAppProps } from "antd/es/app/context";
 import { endpoints, POST } from "../utils/api.service";
 import { queryClient } from "../utils/react-query.service";
 
+export interface DatasetItem {
+  ID: number;
+  englishName: string;
+  urduName: string;
+  akaEnglish: string;
+  akaUrdu: string;
+  organizations: string;
+  designations: string;
+  relationships: string;
+  primarySecondary: string;
+  keywords1: string;
+  keywords2: string;
+  keywords3: string;
+  keywords4: string;
+  keywords5: string;
+}
 export interface RequestData {
   startDate: string;
   endDate: string;
-  dataset: {
-    ID: number;
-    englishName: string;
-    urduName: string;
-    akaEnglish: string;
-    akaUrdu: string;
-    organizations: string;
-    designations: string;
-    relationships: string;
-    primarySecondary: string;
-    keywords1: string;
-    keywords2: string;
-    keywords3: string;
-    keywords4: string;
-    keywords5: string;
-  }[];
+  dataset: DatasetItem[];
 }
 
 type EVENTS_TYPE = "urduEvents" | "engEvents";
