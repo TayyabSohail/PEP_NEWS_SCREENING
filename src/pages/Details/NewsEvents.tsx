@@ -41,6 +41,16 @@ export const NewsEvents = () => {
     return array[randomIndex];
   }
 
+  // formatting the date
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() is zero-based
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  };
+
   useEffect(() => {
     const cachedData: ResponseData | undefined = queryClient.getQueryData(
       endpoints.result.cacheKey
@@ -54,7 +64,7 @@ export const NewsEvents = () => {
         event.item?.map((record: ItemDetails) => ({
           title: record.eventName,
           details: record.descriptions,
-          date: record.dte,
+          date: formatDate(record.dte),
           category: getRandomValueFromArray(NEWS_CATEGORIES),
         })) || []
     );
