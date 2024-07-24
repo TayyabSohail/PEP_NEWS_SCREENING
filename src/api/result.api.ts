@@ -28,17 +28,18 @@ export interface RequestData {
 }
 
 type EVENTS_TYPE = "urduEvents" | "engEvents";
+export interface ItemDetails {
+  sources: string[];
+  urls: string[];
+  descriptions: string[];
+  _id: string;
+  eventName: string;
+  dte: string;
+  sentiments: string;
+}
 
 export interface Events {
-  item: {
-    sources: string[];
-    urls: string[];
-    descriptions: string[];
-    _id: string;
-    eventName: string;
-    dte: string;
-    sentiments: string;
-  }[];
+  item: ItemDetails[];
   record: {
     negativeSentiments: number;
     postiveSentiments: number;
