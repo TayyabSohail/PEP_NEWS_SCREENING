@@ -24,9 +24,7 @@ export const Details = () => {
       label: "English NEWS",
       children: (
         <div className="mt-5 flex gap-10">
-          <div className="w-2/3">
-            <NewsEvents />
-          </div>
+          <div className="w-2/3">{/* <NewsEvents /> */}</div>
           <div className="w-1/3 flex flex-col gap-10">
             <PEPDetails />
             <Sources />
