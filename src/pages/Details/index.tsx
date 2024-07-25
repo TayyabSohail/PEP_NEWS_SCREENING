@@ -9,7 +9,8 @@ import { AppContext } from "../../contexts/AppContext";
 import { SecondaryButton, LinkButton } from "../../components/Button";
 
 import { PEPDetails } from "./PEPDetails";
-import { NewsEvents } from "./NewsEvents";
+import { UrduNewsEvents } from "./UrduNewsEvents";
+import { EnglishNewsEvents } from "./EnglishNewsEvents";
 import { Sources } from "./Sources";
 
 import { styles } from "../../assets/styles";
@@ -24,7 +25,9 @@ export const Details = () => {
       label: "English NEWS",
       children: (
         <div className="mt-5 flex gap-10">
-          <div className="w-2/3">{/* <NewsEvents /> */}</div>
+          <div className="w-2/3">
+            <EnglishNewsEvents />
+          </div>
           <div className="w-1/3 flex flex-col gap-10">
             <PEPDetails />
             <Sources />
@@ -38,7 +41,7 @@ export const Details = () => {
       children: (
         <div className="mt-5  flex flex-row gap-10">
           <div className="w-2/3">
-            <NewsEvents />
+            <UrduNewsEvents />
           </div>
           <div className="w-1/3 flex flex-col gap-10">
             <PEPDetails />

@@ -30,7 +30,7 @@ interface NewsEvent {
   category: NEWS_CATEGORY_TYPE;
 }
 
-export const NewsEvents = () => {
+export const EnglishNewsEvents = () => {
   const location = useLocation();
   const name = location.state;
   const [dataSource, setDataSource] = useState<NewsEvent[]>([]);
