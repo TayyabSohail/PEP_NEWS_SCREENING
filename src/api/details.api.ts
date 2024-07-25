@@ -6,7 +6,7 @@ export interface DetailsRequest {
 
 export interface DetailsResponse {
   Headline: string;
-  DateTime: string;
+  DateTime: Date;
   Url: string;
   Source: string;
   Category: string;
