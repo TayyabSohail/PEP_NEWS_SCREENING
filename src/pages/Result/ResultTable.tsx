@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 
-import { Events, ResponseData } from "../../api/result.api";
+import { AppContext } from "../../contexts/AppContext";
+
+import { DatasetItem, Events, ResponseData } from "../../api/result.api";
 
 import { queryClient } from "../../utils/react-query.service";
 import { endpoints } from "../../utils/api.service";
@@ -12,6 +14,7 @@ import { endpoints } from "../../utils/api.service";
 import { ROUTES } from "../../constants/routes";
 
 import { styles } from "../../assets/styles";
+import { DetailsResponse, fetchDetails } from "../../api/details.api";
 
 interface ResultTableData {
   key: number;
@@ -102,35 +105,60 @@ const columns: ColumnsType<ResultTableData> = [
   },
 ];
 
+const dataSource: ResultTableData[] = [
+  {
+    key: 1,
+    englishName: "Shah Mehmood Qureshi",
+    designation: "Prime Minister",
+    organization: "PTI",
+    newsEvents: 25,
+    keywords: 25,
+    critical: 25,
+    nonCritical: 25,
+  },
+];
 export const ResultTable = () => {
   const navigate = useNavigate();
-  const [dataSource, setDataSource] = useState<ResultTableData[]>([]);
+  const { startDate, endDate, dataset } = useContext(AppContext);
+  //const [dataSource, setDataSource] = useState<ResultTableData[]>([]);
 
-  const cachedData: ResponseData | undefined = queryClient.getQueryData(
-    endpoints.result.cacheKey
-  );
-  const resultdata = cachedData?.data.urduEvents;
+  // const cachedData: ResponseData | undefined = queryClient.getQueryData(
+  //   endpoints.result.cacheKey
+  // );
+  // const resultdata = cachedData?.data.urduEvents;
 
-  useEffect(() => {
-    if (resultdata) {
-      const transformedData = resultdata.map((item: Events, index: number) => ({
-        key: index + 1,
-        englishName: item.OriginalKeyword,
-        designation: "",
-        organization: "",
-        newsEvents: item.record.Events,
-        critical: item.record.negativeSentiments,
-        nonCritical: item.record.postiveSentiments,
-        keywords: item.record.neturalsentSentiments,
-      }));
-      setDataSource(transformedData);
-    }
-  }, [resultdata]);
+  // useEffect(() => {
+  //   if (resultdata) {
+  //     const transformedData = resultdata.map((item: Events, index: number) => ({
+  //       key: index + 1,
+  //       englishName: item.OriginalKeyword,
+  //       designation: "",
+  //       organization: "",
+  //       newsEvents: item.record.Events,
+  //       critical: item.record.negativeSentiments,
+  //       nonCritical: item.record.postiveSentiments,
+  //       keywords: item.record.neturalsentSentiments,
+  //     }));
+  //     setDataSource(transformedData);
+  //   }
+  // }, [resultdata]);
 
-  const handleRowClick = (record: ResultTableData) => {
-    navigate(ROUTES.details, {
-      state: record.englishName,
+  const handleRowClick = async (record: ResultTableData) => {
+    const name = record.englishName;
+    const result: DatasetItem = dataset.find(
+      (item) => item.englishName === name
+    );
+    const resultArray: DatasetItem[] = [result];
+
+    const response: DetailsResponse = await fetchDetails({
+      startDate,
+      endDate,
+      dataset: resultArray,
     });
+
+    console.log(response.success, response.message, response.data[0].PER);
+
+    navigate(ROUTES.details);
   };
 
   return (

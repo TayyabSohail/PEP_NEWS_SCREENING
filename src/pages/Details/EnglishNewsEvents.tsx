@@ -1,13 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 
 import { Checkbox, Card, Tag } from "antd";
 import type { CheckboxProps } from "antd";
 
-import { Events, ItemDetails, ResponseData } from "../../api/result.api";
+import {
+  DatasetItem,
+  Events,
+  ItemDetails,
+  ResponseData,
+} from "../../api/result.api";
+import { details } from "../../api/details.api";
+import { AppContext } from "../../contexts/AppContext";
 
 import { queryClient } from "../../utils/react-query.service";
 import { endpoints } from "../../utils/api.service";
+import { useAntdUseApp } from "../../hooks/useAntdUseApp";
+
+import { DetailsResponse, DetailsRequest } from "../../api/details.api";
+import { RequestData } from "../../api/result.api";
 
 import { styles } from "../../assets/styles";
 
@@ -31,10 +43,8 @@ interface NewsEvent {
 }
 
 export const EnglishNewsEvents = () => {
-  const location = useLocation();
-  const name = location.state;
   const [dataSource, setDataSource] = useState<NewsEvent[]>([]);
-  console.log(name);
+
   // function to randomly assign categories to each news
   function getRandomValueFromArray<T>(array: readonly T[]): T {
     const randomIndex = Math.floor(Math.random() * array.length);

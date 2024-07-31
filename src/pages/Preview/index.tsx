@@ -32,37 +32,40 @@ export const Preview = () => {
 
   const navigate = useNavigate();
 
-  const ScanMutation = useMutation(
-    result({
-      notification: notification,
-    })
-  );
+  // const ScanMutation = useMutation(
+  //   result({
+  //     notification: notification,
+  //   })
+  // );
 
-  const handleScanClick = async () => {
-    const formData: RequestData = {
-      startDate,
-      endDate,
-      dataset,
-    };
+  // const handleScanClick = async () => {
+  //   const formData: RequestData = {
+  //     startDate,
+  //     endDate,
+  //     dataset,
+  //   };
 
-    const response: ResponseData = await ScanMutation.mutateAsync(formData);
-    if (response.success) {
-      navigate(ROUTES.result);
-    }
+  //   const response: ResponseData = await ScanMutation.mutateAsync(formData);
+  //   if (response.success) {
+  //     navigate(ROUTES.result);
+  //   }
+  // };
+
+  // if (ScanMutation.isPending) {
+  //   return (
+  //     <div className="min-h-[90vh] flex flex-col justify-center gap-5 text-center">
+  //       <h5 className="!text-black">
+  //         Please wait while the system processes your file
+  //       </h5>
+  //       <p>It may take a few minutes</p>
+  //       <Spin indicator={<LoadingOutlined className="text-[50px]" spin />} />
+  //     </div>
+  //   );
+  // }
+
+  const handleScanClick = () => {
+    navigate(ROUTES.result);
   };
-
-  if (ScanMutation.isPending) {
-    return (
-      <div className="min-h-[90vh] flex flex-col justify-center gap-5 text-center">
-        <h5 className="!text-black">
-          Please wait while the system processes your file
-        </h5>
-        <p>It may take a few minutes</p>
-        <Spin indicator={<LoadingOutlined className="text-[50px]" spin />} />
-      </div>
-    );
-  }
-
   const handleCancelClick = () => {
     navigate(ROUTES.home);
   };

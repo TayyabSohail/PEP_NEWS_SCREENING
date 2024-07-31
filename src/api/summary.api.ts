@@ -1,8 +1,7 @@
 export interface SummaryRequest {
+  newsdate: string;
   Headline: string;
   englishName: string;
-  startDate: string;
-  endDate: string;
 }
 
 export interface SummaryResponse {
