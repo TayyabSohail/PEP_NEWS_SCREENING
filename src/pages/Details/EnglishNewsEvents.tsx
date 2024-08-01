@@ -1,25 +1,12 @@
-import { useEffect, useState, useContext } from "react";
-import { useLocation } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 import { Checkbox, Card, Tag } from "antd";
 import type { CheckboxProps } from "antd";
 
-import {
-  DatasetItem,
-  Events,
-  ItemDetails,
-  ResponseData,
-} from "../../api/result.api";
-import { details } from "../../api/details.api";
-import { AppContext } from "../../contexts/AppContext";
+import { NewsDetailItem } from "../../api/details.api";
 
 import { queryClient } from "../../utils/react-query.service";
 import { endpoints } from "../../utils/api.service";
-import { useAntdUseApp } from "../../hooks/useAntdUseApp";
-
-import { DetailsResponse, DetailsRequest } from "../../api/details.api";
-import { RequestData } from "../../api/result.api";
 
 import { styles } from "../../assets/styles";
 
@@ -36,7 +23,7 @@ const TAG_COLORS: Record<NEWS_CATEGORY_TYPE, string> = {
 };
 
 interface NewsEvent {
-  title: string;
+  title: string[];
   details: string[];
   date: string;
   category: NEWS_CATEGORY_TYPE;
@@ -51,36 +38,48 @@ export const EnglishNewsEvents = () => {
     return array[randomIndex];
   }
 
-  // formatting the date
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() is zero-based
-    const year = date.getFullYear();
+  function formatDate(dateObject: { $date: string }): string {
+    // Extract the date string
+    const dateString = dateObject.$date;
 
+    // Convert the ISO string to a Date object
+    const date = new Date(dateString);
+
+    // Check if the date is valid
+    if (isNaN(date.getTime())) {
+      throw new Error("Invalid Date");
+    }
+
+    // Format the date components
+    const day: string = String(date.getUTCDate()).padStart(2, "0");
+    const month: string = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
+    const year: string = String(date.getUTCFullYear());
+
+    // Return the formatted date as DD/MM/YYYY
     return `${day}/${month}/${year}`;
-  };
+  }
 
   useEffect(() => {
-    const cachedData: ResponseData | undefined = queryClient.getQueryData(
-      endpoints.result.cacheKey
-    );
-    const resultdata = cachedData?.data.urduEvents;
-    const news: Events[] =
-      resultdata?.filter((event: Events) => event.OriginalKeyword === name) ||
-      [];
-    const mappedData: NewsEvent[] = news.flatMap(
-      (event) =>
-        event.item?.map((record: ItemDetails) => ({
-          title: record.eventName,
-          details: record.descriptions,
-          date: formatDate(record.dte),
+    // Get cached data from query client
+    const cachedData: NewsDetailItem[] | undefined = queryClient.getQueryData<
+      NewsDetailItem[]
+    >(endpoints.details.cacheKey);
+
+    if (cachedData) {
+      // Map cached data to the required format
+      const mappedData: NewsEvent[] = cachedData.map(
+        (event: NewsDetailItem) => ({
+          title: event.Headline,
+          details: event.News,
+          date: formatDate(event.DateTime),
           category: getRandomValueFromArray(NEWS_CATEGORIES),
-        })) || []
-    );
-    setDataSource(mappedData);
-  }, [name]);
-  console.log(dataSource);
+        })
+      );
+
+      // Update the data source
+      setDataSource(mappedData);
+    }
+  }, []);
 
   const [checkedList, setCheckedList] = useState<NEWS_CATEGORY_TYPE[]>([
     "Keywords",
