@@ -1,8 +1,24 @@
 import React from "react";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import { styles } from "../../assets/styles";
+import { NewsDetailItem } from "../../api/details.api";
+import { queryClient } from "../../utils/react-query.service";
+import { endpoints } from "../../utils/api.service";
 
 export const PEPDetails = () => {
+  const location = useLocation();
+  const personData = location.state;
+  console.log("person data", personData);
+
+  const cachedData: NewsDetailItem[] | undefined = queryClient.getQueryData<
+    NewsDetailItem[]
+  >(endpoints.details.cacheKey);
+  console.log("API data", cachedData);
+
+  useEffect(() => {}, []);
+
   const details = [
     { label: "PEP Type", value: "Primary" },
     { label: "AKA (English)", value: ["Imran Khan", "Imran"] },
