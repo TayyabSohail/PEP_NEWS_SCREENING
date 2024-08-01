@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { useLocation } from "react-router-dom";
 
 import { Tabs } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
@@ -17,16 +16,8 @@ import { Sources } from "./Sources";
 import { styles } from "../../assets/styles";
 
 export const Details = () => {
-  const location = useLocation();
-  // retrieving the name of the person
-  const name = location.state;
-  console.log(name);
-
   // retrieving the data corresponding to the name
-  const { startDate, endDate, dataset } = useContext(AppContext);
-  const result = dataset.find((item) => item.urduName === name);
-
-  console.log(result);
+  const { startDate, endDate } = useContext(AppContext);
 
   const items: TabsProps["items"] = [
     {
