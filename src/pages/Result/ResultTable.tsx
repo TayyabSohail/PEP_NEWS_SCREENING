@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Table, Tag } from "antd";
@@ -6,10 +6,7 @@ import { ColumnsType } from "antd/es/table";
 
 import { AppContext } from "../../contexts/AppContext";
 
-import { DatasetItem, Events, ResponseData } from "../../api/result.api";
-
-import { queryClient } from "../../utils/react-query.service";
-import { endpoints } from "../../utils/api.service";
+import { DatasetItem } from "../../api/result.api";
 
 import { ROUTES } from "../../constants/routes";
 
@@ -158,7 +155,9 @@ export const ResultTable = () => {
 
     console.log(response.success, response.message, response.data[0].PER);
 
-    navigate(ROUTES.details);
+    navigate(ROUTES.details, {
+      state: result,
+    });
   };
 
   return (
