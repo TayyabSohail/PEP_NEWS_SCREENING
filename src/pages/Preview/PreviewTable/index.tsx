@@ -1,13 +1,14 @@
 import { useState, useEffect, useContext } from "react";
 
-import { Table } from "antd";
+import { Table, notification } from "antd";
 
 import { AppContext } from "../../../contexts/AppContext";
-
 import { DatasetItem } from "../../../api/result.api";
 
 import { EditableRow } from "./EditableRow";
 import { EditableCell } from "./EditableCell";
+
+import * as XLSX from "xlsx";
 
 export interface Item {
   key: string;
@@ -23,14 +24,11 @@ export interface Item {
 }
 
 export type DataType = Item;
-
 export type EditableTableProps = Parameters<typeof Table>[0];
 export type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 
 export const PreviewTable = () => {
-  // Get the dataset from the context
   const { dataset } = useContext(AppContext);
-
   const [dataSource, setDataSource] = useState<DataType[]>([]);
 
   useEffect(() => {
@@ -114,7 +112,6 @@ export const PreviewTable = () => {
     },
   ];
 
-  // handleSave function
   const handleSave = (row: DataType) => {
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
@@ -126,7 +123,6 @@ export const PreviewTable = () => {
     setDataSource(newData);
   };
 
-  // components for editable table
   const components = {
     body: {
       row: EditableRow,
@@ -134,7 +130,6 @@ export const PreviewTable = () => {
     },
   };
 
-  // transform columns to editable columns
   const columns = defaultColumns.map((col) => {
     if (!col.editable) {
       return col;
@@ -151,12 +146,28 @@ export const PreviewTable = () => {
     };
   });
 
+  const exportToExcel = () => {
+    console.log("Exporting to Excel...");
+    const worksheet = XLSX.utils.json_to_sheet(dataSource);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Preview Data");
+    XLSX.writeFile(workbook, "preview_data.xlsx");
+
+    notification.success({
+      message: "Export Successful",
+      description: "The table data has been successfully exported.",
+    });
+  };
+
   return (
-    <Table
-      components={components}
-      size="middle"
-      dataSource={dataSource}
-      columns={columns as ColumnTypes}
-    />
+    <>
+      <Table
+        components={components}
+        size="middle"
+        dataSource={dataSource}
+        columns={columns as ColumnTypes}
+      />
+      <div id="export-button" onClick={exportToExcel}></div>
+    </>
   );
 };
