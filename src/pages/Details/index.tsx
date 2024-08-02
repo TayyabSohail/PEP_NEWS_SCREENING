@@ -9,10 +9,11 @@ import { AppContext } from "../../contexts/AppContext";
 import { SecondaryButton, LinkButton } from "../../components/Button";
 
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { NewsDetailItem } from "../../api/details.api";
 
+import { ROUTES } from "../../constants/routes";
 import { PEPDetails } from "./PEPDetails";
 import { UrduNewsEvents } from "./UrduNewsEvents";
 import { EnglishNewsEvents } from "./EnglishNewsEvents";
@@ -23,6 +24,7 @@ import { queryClient } from "../../utils/react-query.service";
 import { styles } from "../../assets/styles";
 
 export const Details = () => {
+  const navigate = useNavigate();
   // retrieving the data corresponding to the name
   const { startDate, endDate } = useContext(AppContext);
   const location = useLocation();
@@ -95,7 +97,9 @@ export const Details = () => {
       {/* English and Urdu News */}
       <Tabs defaultActiveKey="1" items={items} />
 
-      <SecondaryButton>Back</SecondaryButton>
+      <SecondaryButton onClick={() => navigate(ROUTES.result)}>
+        Back
+      </SecondaryButton>
     </section>
   );
 };
