@@ -153,8 +153,6 @@ export const ResultTable = () => {
       dataset: resultArray,
     });
 
-    console.log(response.success, response.message, response.data[0].PER);
-
     navigate(ROUTES.details, {
       state: result,
     });
