@@ -33,9 +33,7 @@ export const Details = () => {
   >(endpoints.details.cacheKey);
   console.log("API data", cachedData);
 
-  useEffect(() => {
-    console.log("person data in useEffect", personData);
-  }, [personData]);
+  useEffect(() => {}, [personData]);
 
   const items: TabsProps["items"] = [
     {

@@ -12,6 +12,13 @@ import { PEPDetails } from "./PEPDetails";
 import { NewsDetails } from "./NewsDetails";
 import { NewsSummary } from "./NewsSummary";
 
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+import { NewsDetailItem } from "../../api/details.api";
+
+import { endpoints } from "../../utils/api.service";
+import { queryClient } from "../../utils/react-query.service";
 import { styles } from "../../assets/styles";
 
 const items: TabsProps["items"] = [
@@ -31,6 +38,16 @@ export const Summary = () => {
   // Get the context values
   const { startDate, endDate } = useContext(AppContext);
 
+  const location = useLocation();
+  const personData = location.state;
+
+  const cachedData: NewsDetailItem[] | undefined = queryClient.getQueryData<
+    NewsDetailItem[]
+  >(endpoints.details.cacheKey);
+  console.log("API data", cachedData);
+
+  useEffect(() => {}, [personData]);
+
   return (
     <section className={`${styles.section}`}>
       <h2 className={styles.heading2}>
@@ -38,7 +55,9 @@ export const Summary = () => {
         authority
       </h2>
 
-      <p className={styles.label}>Imran Khan Niazi - Primary PEP</p>
+      <p className={styles.label}>
+        {personData.englishName} - {personData.primarySecondary}
+      </p>
 
       <div className="flex justify-between">
         <p>
