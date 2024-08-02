@@ -8,16 +8,34 @@ import { AppContext } from "../../contexts/AppContext";
 
 import { SecondaryButton, LinkButton } from "../../components/Button";
 
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+import { NewsDetailItem } from "../../api/details.api";
+
 import { PEPDetails } from "./PEPDetails";
 import { UrduNewsEvents } from "./UrduNewsEvents";
 import { EnglishNewsEvents } from "./EnglishNewsEvents";
 import { Sources } from "./Sources";
+import { endpoints } from "../../utils/api.service";
+import { queryClient } from "../../utils/react-query.service";
 
 import { styles } from "../../assets/styles";
 
 export const Details = () => {
   // retrieving the data corresponding to the name
   const { startDate, endDate } = useContext(AppContext);
+  const location = useLocation();
+  const personData = location.state;
+
+  const cachedData: NewsDetailItem[] | undefined = queryClient.getQueryData<
+    NewsDetailItem[]
+  >(endpoints.details.cacheKey);
+  console.log("API data", cachedData);
+
+  useEffect(() => {
+    console.log("person data in useEffect", personData);
+  }, [personData]);
 
   const items: TabsProps["items"] = [
     {
@@ -55,8 +73,10 @@ export const Details = () => {
   return (
     <section className={`${styles.section}`}>
       <div className="flex flex-row gap-10">
-        <h2 className={styles.heading2}>01 Imran Khan Niazi</h2>
-        <h2 className={styles.heading2}>عمران خان نیازی</h2>
+        <h2 className={styles.heading2}>
+          {personData.ID} {personData.englishName}
+        </h2>
+        <h2 className={styles.heading2}> {personData.urduName} </h2>
       </div>
       <div className="flex justify-between">
         <p>
