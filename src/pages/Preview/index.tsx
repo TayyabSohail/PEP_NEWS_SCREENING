@@ -1,73 +1,51 @@
-import { useContext } from "react";
+// Preview.tsx
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { useMutation } from "@tanstack/react-query";
-
-import { Spin } from "antd";
 import {
   DownloadOutlined,
   CloseOutlined,
   SaveOutlined,
-  LoadingOutlined,
 } from "@ant-design/icons";
-
 import { AppContext } from "../../contexts/AppContext";
-
-import { RequestData, result, ResponseData } from "../../api/result.api";
-
 import { useAntdUseApp } from "../../hooks/useAntdUseApp";
-
 import { LinkButton, PrimaryButton } from "../../components/Button";
 import { PreviewTable } from "./PreviewTable";
-
 import { ROUTES } from "../../constants/routes";
-
 import { styles } from "../../assets/styles";
 
 export const Preview = () => {
-  // Get the context values
-  const { startDate, endDate, dataset } = useContext(AppContext);
-
-  const notification = useAntdUseApp();
-
+  const { startDate, endDate } = useContext(AppContext);
+  const [changesMade, setChangesMade] = useState(false);
+  useAntdUseApp();
   const navigate = useNavigate();
-
-  // const ScanMutation = useMutation(
-  //   result({
-  //     notification: notification,
-  //   })
-  // );
-
-  // const handleScanClick = async () => {
-  //   const formData: RequestData = {
-  //     startDate,
-  //     endDate,
-  //     dataset,
-  //   };
-
-  //   const response: ResponseData = await ScanMutation.mutateAsync(formData);
-  //   if (response.success) {
-  //     navigate(ROUTES.result);
-  //   }
-  // };
-
-  // if (ScanMutation.isPending) {
-  //   return (
-  //     <div className="min-h-[90vh] flex flex-col justify-center gap-5 text-center">
-  //       <h5 className="!text-black">
-  //         Please wait while the system processes your file
-  //       </h5>
-  //       <p>It may take a few minutes</p>
-  //       <Spin indicator={<LoadingOutlined className="text-[50px]" spin />} />
-  //     </div>
-  //   );
-  // }
 
   const handleScanClick = () => {
     navigate(ROUTES.result);
   };
+
   const handleCancelClick = () => {
     navigate(ROUTES.home);
+  };
+
+  const handleDownloadClick = () => {
+    const exportButton = document.querySelector("#export-button");
+    if (exportButton) {
+      (exportButton as HTMLButtonElement).click();
+    }
+  };
+
+  const handleDiscardClick = () => {
+    const discardButton = document.querySelector("#discard-button");
+    if (discardButton) {
+      (discardButton as HTMLButtonElement).click();
+    }
+  };
+
+  const handleSaveClick = () => {
+    const saveButton = document.querySelector("#save-button");
+    if (saveButton) {
+      (saveButton as HTMLButtonElement).click();
+    }
   };
 
   return (
@@ -79,27 +57,40 @@ export const Preview = () => {
           {startDate} - {endDate}
         </p>
         <div className="flex gap-5">
-          <LinkButton icon={<CloseOutlined />}>Discard Changes</LinkButton>
-          <LinkButton icon={<SaveOutlined />} className="text-primary">
+          <LinkButton
+            icon={<CloseOutlined />}
+            onClick={handleDiscardClick}
+            disabled={!changesMade}
+          >
+            Discard Changes
+          </LinkButton>
+          <LinkButton
+            icon={<SaveOutlined />}
+            className="text-primary"
+            onClick={handleSaveClick}
+            disabled={!changesMade}
+          >
             Save Changes
           </LinkButton>
           <div className="flex gap-5">
             <LinkButton
               icon={<DownloadOutlined />}
               className="text-primary font-bold"
+              onClick={handleDownloadClick}
             >
               Download
             </LinkButton>
           </div>
         </div>
       </div>
-
-      {/* Preview Table */}
-      <PreviewTable />
+      <PreviewTable setChangesMade={setChangesMade} />
       <div className="flex items-center gap-5">
         <LinkButton onClick={handleCancelClick}>Cancel</LinkButton>
         <PrimaryButton onClick={handleScanClick}>Scan</PrimaryButton>
       </div>
+      <button id="export-button" style={{ display: "none" }} />
+      <button id="discard-button" style={{ display: "none" }} />
+      <button id="save-button" style={{ display: "none" }} />
     </section>
   );
 };

@@ -11,12 +11,14 @@ import { SecondaryButton, LinkButton } from "../../components/Button";
 import { PEPDetails } from "./PEPDetails";
 import { NewsDetails } from "./NewsDetails";
 import { NewsSummary } from "./NewsSummary";
+import { ROUTES } from "../../constants/routes";
 
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { NewsDetailItem } from "../../api/details.api";
 
+import { useNavigate } from "react-router-dom";
 import { endpoints } from "../../utils/api.service";
 import { queryClient } from "../../utils/react-query.service";
 import { styles } from "../../assets/styles";
@@ -35,6 +37,7 @@ const items: TabsProps["items"] = [
 ];
 
 export const Summary = () => {
+  const navigate = useNavigate();
   // Get the context values
   const { startDate, endDate } = useContext(AppContext);
 
@@ -85,8 +88,9 @@ export const Summary = () => {
         items={items}
         className="p-5 rounded-lg bg-light_blue"
       />
-
-      <SecondaryButton>Back</SecondaryButton>
+      <SecondaryButton onClick={() => navigate(ROUTES.preview)}>
+        Back
+      </SecondaryButton>
     </section>
   );
 };

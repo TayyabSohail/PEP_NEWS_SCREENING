@@ -160,6 +160,7 @@ export const ResultTable = () => {
 
   return (
     <Table
+      id="resultTable"
       size="middle"
       columns={columns}
       dataSource={dataSource}
