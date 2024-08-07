@@ -10,7 +10,7 @@ export const endpoints = {
   },
   result: {
     cacheKey: ["results"],
-    url: "/userEnd/inputRec/saveUserRec",
+    url: "/scan",
   },
   details: {
     cacheKey: ["details"],

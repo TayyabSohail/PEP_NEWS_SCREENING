@@ -5,6 +5,7 @@ import {
   DownloadOutlined,
   CloseOutlined,
   SaveOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons";
 import { AppContext } from "../../contexts/AppContext";
 import { useAntdUseApp } from "../../hooks/useAntdUseApp";
@@ -12,16 +13,49 @@ import { LinkButton, PrimaryButton } from "../../components/Button";
 import { PreviewTable } from "./PreviewTable";
 import { ROUTES } from "../../constants/routes";
 import { styles } from "../../assets/styles";
+import { useMutation } from "@tanstack/react-query";
+import { RequestData, ResponseData, result } from "../../api/result.api";
+import { Spin } from "antd";
 
 export const Preview = () => {
-  const { startDate, endDate } = useContext(AppContext);
+  const { startDate, endDate, dataset } = useContext(AppContext);
+  const notification = useAntdUseApp();
+
   const [changesMade, setChangesMade] = useState(false);
   useAntdUseApp();
   const navigate = useNavigate();
 
-  const handleScanClick = () => {
-    navigate(ROUTES.result);
+  const ScanMutation = useMutation(
+    result({
+      notification: notification,
+    })
+  );
+
+  const handleScanClick = async () => {
+    const formData: RequestData = {
+      startDate,
+      endDate,
+      dataset,
+    };
+
+    const response: ResponseData = await ScanMutation.mutateAsync(formData);
+    if (response.success) {
+      console.log(response.data);
+      navigate(ROUTES.result);
+    }
   };
+
+  if (ScanMutation.isPending) {
+    return (
+      <div className="min-h-[90vh] flex flex-col justify-center gap-5 text-center">
+        <h5 className="!text-black">
+          Please wait while the system processes your file
+        </h5>
+        <p>It may take a few minutes</p>
+        <Spin indicator={<LoadingOutlined className="text-[50px]" spin />} />
+      </div>
+    );
+  }
 
   const handleCancelClick = () => {
     navigate(ROUTES.home);

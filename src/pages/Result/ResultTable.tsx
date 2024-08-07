@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Table, Tag } from "antd";
@@ -6,12 +6,14 @@ import { ColumnsType } from "antd/es/table";
 
 import { AppContext } from "../../contexts/AppContext";
 
-import { DatasetItem } from "../../api/result.api";
+import { DatasetItem, ResponseData } from "../../api/result.api";
 
 import { ROUTES } from "../../constants/routes";
 
 import { styles } from "../../assets/styles";
 import { DetailsResponse, fetchDetails } from "../../api/details.api";
+import { queryClient } from "../../utils/react-query.service";
+import { endpoints } from "../../utils/api.service";
 
 interface ResultTableData {
   key: number;
@@ -102,7 +104,7 @@ const columns: ColumnsType<ResultTableData> = [
   },
 ];
 
-const dataSource: ResultTableData[] = [
+const dataS: ResultTableData[] = [
   {
     key: 1,
     englishName: "Shah Mehmood Qureshi",
@@ -117,13 +119,15 @@ const dataSource: ResultTableData[] = [
 export const ResultTable = () => {
   const navigate = useNavigate();
   const { startDate, endDate, dataset } = useContext(AppContext);
-  //const [dataSource, setDataSource] = useState<ResultTableData[]>([]);
+  const [dataSource, setDataSource] = useState<ResultTableData[]>([]);
 
-  // const cachedData: ResponseData | undefined = queryClient.getQueryData(
-  //   endpoints.result.cacheKey
-  // );
-  // const resultdata = cachedData?.data.urduEvents;
+  const cachedData: ResponseData | undefined = queryClient.getQueryData(
+    endpoints.result.cacheKey
+  );
+  const ScanData = cachedData?.data;
+  console.log(ScanData);
 
+  //////////// MAPPING DATA FOR RESULT TABLE
   // useEffect(() => {
   //   if (resultdata) {
   //     const transformedData = resultdata.map((item: Events, index: number) => ({
@@ -140,33 +144,34 @@ export const ResultTable = () => {
   //   }
   // }, [resultdata]);
 
-  const handleRowClick = async (record: ResultTableData) => {
-    const name = record.englishName;
-    const result: DatasetItem = dataset.find(
-      (item) => item.englishName === name
-    );
-    const resultArray: DatasetItem[] = [result];
+  /////HANDLE ROW CLICKKKK FOR DETAILS PAGE/////////////////////
+  // const handleRowClick = async (record: ResultTableData) => {
+  //   const name = record.englishName;
+  //   const result: DatasetItem = dataset.find(
+  //     (item) => item.englishName === name
+  //   );
+  //   const resultArray: DatasetItem[] = [result];
 
-    const response: DetailsResponse = await fetchDetails({
-      startDate,
-      endDate,
-      dataset: resultArray,
-    });
+  //   const response: DetailsResponse = await fetchDetails({
+  //     startDate,
+  //     endDate,
+  //     dataset: resultArray,
+  //   });
 
-    navigate(ROUTES.details, {
-      state: result,
-    });
-  };
+  //   navigate(ROUTES.details, {
+  //     state: result,
+  //   });
+  // };
 
   return (
     <Table
       id="resultTable"
       size="middle"
       columns={columns}
-      dataSource={dataSource}
-      onRow={(record) => ({
-        onClick: () => handleRowClick(record),
-      })}
+      dataSource={dataS}
+      // onRow={(record) => ({
+      //   onClick: () => handleRowClick(record),
+      // })}
       rowClassName="cursor-pointer"
     />
   );
