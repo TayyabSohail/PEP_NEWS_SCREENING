@@ -14,7 +14,11 @@ export const endpoints = {
   },
   details: {
     cacheKey: ["details"],
-    url: "/result",
+    url: "/event",
+  },
+  news: {
+    cacheKey: ["news"],
+    url: "/summary",
   },
 };
 
