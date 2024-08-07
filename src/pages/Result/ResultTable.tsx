@@ -1,29 +1,24 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
-
 import { AppContext } from "../../contexts/AppContext";
-
 import { DatasetItem, ResponseData } from "../../api/result.api";
-
 import { ROUTES } from "../../constants/routes";
-
 import { styles } from "../../assets/styles";
-import { DetailsResponse, fetchDetails } from "../../api/details.api";
+import { fetchDetails } from "../../api/details.api";
 import { queryClient } from "../../utils/react-query.service";
 import { endpoints } from "../../utils/api.service";
 
 interface ResultTableData {
   key: number;
-  englishName: string;
+  name: string;
   designation: string;
   organization: string;
   newsEvents: number;
-  keywords: number;
-  critical: number;
-  nonCritical: number;
+  uniqueKeywords: number;
+  criticalEvents: number;
+  nonCriticalEvents: number;
 }
 
 const columns: ColumnsType<ResultTableData> = [
@@ -36,8 +31,8 @@ const columns: ColumnsType<ResultTableData> = [
   },
   {
     title: "English Name",
-    dataIndex: "englishName",
-    key: "englishName",
+    dataIndex: "name",
+    key: "name",
     align: "center",
   },
   {
@@ -68,54 +63,48 @@ const columns: ColumnsType<ResultTableData> = [
   },
   {
     title: "Keywords",
-    dataIndex: "keywords",
-    key: "keywords",
+    dataIndex: "uniqueKeywords",
+    key: "uniqueKeywords",
     align: "center",
-    render: (keywords: number) => (
-      <Tag key={keywords} className={`bg-pink border-none ${styles.tableTags}`}>
-        {keywords}
+    render: (uniqueKeywords: number) => (
+      <Tag
+        key={uniqueKeywords}
+        className={`bg-pink border-none ${styles.tableTags}`}
+      >
+        {uniqueKeywords}
       </Tag>
     ),
   },
   {
     title: "Critical",
-    dataIndex: "critical",
-    key: "critical",
+    dataIndex: "criticalEvents",
+    key: "criticalEvents",
     align: "center",
-    render: (critical: number) => (
-      <Tag key={critical} className={`bg-red border-none ${styles.tableTags}`}>
-        {critical}
+    render: (criticalEvents: number) => (
+      <Tag
+        key={criticalEvents}
+        className={`bg-red border-none ${styles.tableTags}`}
+      >
+        {criticalEvents}
       </Tag>
     ),
   },
   {
     title: "Non-Critical",
-    dataIndex: "nonCritical",
-    key: "nonCritical",
+    dataIndex: "nonCriticalEvents",
+    key: "nonCriticalEvents",
     align: "center",
-    render: (nonCritical: number) => (
+    render: (nonCriticalEvents: number) => (
       <Tag
-        key={nonCritical}
+        key={nonCriticalEvents}
         className={`bg-green border-none ${styles.tableTags}`}
       >
-        {nonCritical}
+        {nonCriticalEvents}
       </Tag>
     ),
   },
 ];
 
-const dataS: ResultTableData[] = [
-  {
-    key: 1,
-    englishName: "Shah Mehmood Qureshi",
-    designation: "Prime Minister",
-    organization: "PTI",
-    newsEvents: 25,
-    keywords: 25,
-    critical: 25,
-    nonCritical: 25,
-  },
-];
 export const ResultTable = () => {
   const navigate = useNavigate();
   const { startDate, endDate, dataset } = useContext(AppContext);
@@ -125,53 +114,95 @@ export const ResultTable = () => {
     endpoints.result.cacheKey
   );
   const ScanData = cachedData?.data;
-  console.log(ScanData);
 
-  //////////// MAPPING DATA FOR RESULT TABLE
-  // useEffect(() => {
-  //   if (resultdata) {
-  //     const transformedData = resultdata.map((item: Events, index: number) => ({
-  //       key: index + 1,
-  //       englishName: item.OriginalKeyword,
-  //       designation: "",
-  //       organization: "",
-  //       newsEvents: item.record.Events,
-  //       critical: item.record.negativeSentiments,
-  //       nonCritical: item.record.postiveSentiments,
-  //       keywords: item.record.neturalsentSentiments,
-  //     }));
-  //     setDataSource(transformedData);
-  //   }
-  // }, [resultdata]);
+  useEffect(() => {
+    if (ScanData) {
+      // Create a map to accumulate data for each person
+      const nameMap: Record<
+        string,
+        {
+          newsEvents: number;
+          keywords: string[];
+          criticalEvents: number;
+          nonCriticalEvents: number;
+        }
+      > = {};
 
-  /////HANDLE ROW CLICKKKK FOR DETAILS PAGE/////////////////////
-  // const handleRowClick = async (record: ResultTableData) => {
-  //   const name = record.englishName;
-  //   const result: DatasetItem = dataset.find(
-  //     (item) => item.englishName === name
-  //   );
-  //   const resultArray: DatasetItem[] = [result];
+      Object.entries(ScanData).forEach(([name, events]) => {
+        if (Array.isArray(events)) {
+          const keywords: string[] = [];
+          let criticalEvents = 0;
+          let nonCriticalEvents = 0;
 
-  //   const response: DetailsResponse = await fetchDetails({
-  //     startDate,
-  //     endDate,
-  //     dataset: resultArray,
-  //   });
+          events.forEach((event) => {
+            if (Array.isArray(event.keywords)) {
+              keywords.push(...event.keywords);
+            }
 
-  //   navigate(ROUTES.details, {
-  //     state: result,
-  //   });
-  // };
+            if (event.Sentiment_Prediction) {
+              if (event.Sentiment_Prediction === "negative") {
+                criticalEvents++;
+              } else {
+                nonCriticalEvents++;
+              }
+            }
+          });
+
+          nameMap[name] = {
+            newsEvents: events.length,
+            keywords: [...new Set(keywords)],
+            criticalEvents,
+            nonCriticalEvents,
+          };
+        }
+      });
+
+      const transformedData = Object.entries(nameMap).map(
+        ([name, data], index) => ({
+          key: index + 1,
+          name,
+          designation: "", // Empty for now
+          organization: "", // Empty for now
+          newsEvents: data.newsEvents,
+          uniqueKeywords: data.keywords.length,
+          criticalEvents: data.criticalEvents,
+          nonCriticalEvents: data.nonCriticalEvents,
+        })
+      );
+
+      setDataSource(transformedData);
+    }
+  }, [ScanData]);
+
+  const handleRowClick = async (record: ResultTableData) => {
+    const result: DatasetItem | undefined = dataset.find(
+      (item) => item.englishName === record.name
+    );
+
+    if (result) {
+      const resultArray: DatasetItem[] = [result];
+
+      await fetchDetails({
+        startDate,
+        endDate,
+        dataset: resultArray,
+      });
+
+      navigate(ROUTES.details, {
+        state: result,
+      });
+    }
+  };
 
   return (
     <Table
       id="resultTable"
       size="middle"
       columns={columns}
-      dataSource={dataS}
-      // onRow={(record) => ({
-      //   onClick: () => handleRowClick(record),
-      // })}
+      dataSource={dataSource}
+      onRow={(record) => ({
+        onClick: () => handleRowClick(record),
+      })}
       rowClassName="cursor-pointer"
     />
   );
