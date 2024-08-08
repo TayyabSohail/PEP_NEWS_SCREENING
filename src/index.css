@@ -81,3 +81,7 @@ table tr:last-of-type td:last-child {
 :where(.css-dev-only-do-not-override-dphzit).ant-modal .ant-modal-content {
   padding: 0 !important;
 }
+
+:where(.css-dev-only-do-not-override-dphzit).ant-modal .ant-modal-close-x {
+display: contents;
+}
