@@ -30,11 +30,6 @@ export const Details = () => {
   const location = useLocation();
   const personData = location.state;
 
-  const cachedData: NewsDetailItem[] | undefined = queryClient.getQueryData<
-    NewsDetailItem[]
-  >(endpoints.details.cacheKey);
-  console.log("API data", cachedData);
-
   useEffect(() => {}, [personData]);
 
   const items: TabsProps["items"] = [

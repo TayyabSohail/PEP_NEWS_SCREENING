@@ -6,11 +6,10 @@ import { AppContext } from "../../contexts/AppContext";
 import { DatasetItem, ResponseData } from "../../api/result.api";
 import { ROUTES } from "../../constants/routes";
 import { styles } from "../../assets/styles";
-import { fetchDetails } from "../../api/details.api";
 import { queryClient } from "../../utils/react-query.service";
 import { endpoints } from "../../utils/api.service";
 
-interface ResultTableData {
+export interface ResultTableData {
   key: number;
   name: string;
   designation: string;
@@ -107,7 +106,7 @@ const columns: ColumnsType<ResultTableData> = [
 
 export const ResultTable = () => {
   const navigate = useNavigate();
-  const { startDate, endDate, dataset } = useContext(AppContext);
+  const { dataset } = useContext(AppContext);
   const [dataSource, setDataSource] = useState<ResultTableData[]>([]);
 
   const cachedData: ResponseData | undefined = queryClient.getQueryData(
@@ -186,23 +185,14 @@ export const ResultTable = () => {
   }, [ScanData, dataset]);
 
   const handleRowClick = async (record: ResultTableData) => {
+    console.log(record.name);
     const result: DatasetItem | undefined = dataset.find(
       (item) => item.englishName === record.name
     );
 
-    if (result) {
-      const resultArray: DatasetItem[] = [result];
-
-      await fetchDetails({
-        startDate,
-        endDate,
-        dataset: resultArray,
-      });
-
-      navigate(ROUTES.details, {
-        state: result,
-      });
-    }
+    navigate(ROUTES.details, {
+      state: result,
+    });
   };
 
   return (
