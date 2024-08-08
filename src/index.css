@@ -76,3 +76,8 @@ table tr:last-of-type td:last-child {
 .ant-tag {
   margin-inline: 0px !important;
 }
+
+/* Custom CSS for removing padding from Ant Design Modal */
+:where(.css-dev-only-do-not-override-dphzit).ant-modal .ant-modal-content {
+  padding: 0 !important;
+}

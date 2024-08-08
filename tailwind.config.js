@@ -17,6 +17,7 @@ export default {
         primary: "#085FAB",
         secondary: "#08ABA6",
         text_color: "#454545",
+        modal_bg: "#E1EEFF",
       },
       fontFamily: {
         lato: ["Lato", "sans-serif"],

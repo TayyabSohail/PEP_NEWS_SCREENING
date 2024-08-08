@@ -124,6 +124,8 @@ export const ResultTable = () => {
           keywords: string[];
           criticalEvents: number;
           nonCriticalEvents: number;
+          designation: string;
+          organization: string;
         }
       > = {};
 
@@ -152,7 +154,16 @@ export const ResultTable = () => {
             keywords: [...new Set(keywords)],
             criticalEvents,
             nonCriticalEvents,
+            designation: "",
+            organization: "",
           };
+        }
+      });
+
+      dataset.forEach((item) => {
+        if (nameMap[item.englishName]) {
+          nameMap[item.englishName].designation = item.designations || "";
+          nameMap[item.englishName].organization = item.organizations || "";
         }
       });
 
@@ -160,8 +171,8 @@ export const ResultTable = () => {
         ([name, data], index) => ({
           key: index + 1,
           name,
-          designation: "", // Empty for now
-          organization: "", // Empty for now
+          designation: data.designation,
+          organization: data.organization,
           newsEvents: data.newsEvents,
           uniqueKeywords: data.keywords.length,
           criticalEvents: data.criticalEvents,
@@ -171,7 +182,7 @@ export const ResultTable = () => {
 
       setDataSource(transformedData);
     }
-  }, [ScanData]);
+  }, [ScanData, dataset]);
 
   const handleRowClick = async (record: ResultTableData) => {
     console.log(record.name);
