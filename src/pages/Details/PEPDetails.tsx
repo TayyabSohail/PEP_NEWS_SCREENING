@@ -10,12 +10,6 @@ import { endpoints } from "../../utils/api.service";
 export const PEPDetails = () => {
   const location = useLocation();
   const personData = location.state;
-  // console.log("person data", personData);
-
-  const cachedData: NewsDetailItem[] | undefined = queryClient.getQueryData<
-    NewsDetailItem[]
-  >(endpoints.details.cacheKey);
-  console.log("API data", cachedData);
 
   useEffect(() => {
     console.log("person data in useEffect", personData);
