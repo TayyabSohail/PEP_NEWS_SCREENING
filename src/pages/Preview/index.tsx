@@ -1,4 +1,3 @@
-// Preview.tsx
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -9,20 +8,24 @@ import {
 } from "@ant-design/icons";
 import { AppContext } from "../../contexts/AppContext";
 import { useAntdUseApp } from "../../hooks/useAntdUseApp";
-import { LinkButton, PrimaryButton } from "../../components/Button";
+import {
+  LinkButton,
+  PrimaryButton,
+  SecondaryButton,
+} from "../../components/Button";
 import { PreviewTable } from "./PreviewTable";
 import { ROUTES } from "../../constants/routes";
 import { styles } from "../../assets/styles";
 import { useMutation } from "@tanstack/react-query";
 import { RequestData, ResponseData, result } from "../../api/result.api";
-import { Spin } from "antd";
+import { Spin, Modal } from "antd";
 
 export const Preview = () => {
   const { startDate, endDate, dataset } = useContext(AppContext);
   const notification = useAntdUseApp();
 
   const [changesMade, setChangesMade] = useState(false);
-  useAntdUseApp();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
 
   const ScanMutation = useMutation(
@@ -57,8 +60,16 @@ export const Preview = () => {
     );
   }
 
-  const handleCancelClick = () => {
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
     navigate(ROUTES.home);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   const handleDownloadClick = () => {
@@ -119,12 +130,39 @@ export const Preview = () => {
       </div>
       <PreviewTable setChangesMade={setChangesMade} />
       <div className="flex items-center gap-5">
-        <LinkButton onClick={handleCancelClick}>Cancel</LinkButton>
+        <LinkButton onClick={showModal}>Cancel</LinkButton>
         <PrimaryButton onClick={handleScanClick}>Scan</PrimaryButton>
       </div>
       <button id="export-button" style={{ display: "none" }} />
       <button id="discard-button" style={{ display: "none" }} />
       <button id="save-button" style={{ display: "none" }} />
+
+      <Modal
+        title={
+          <div className="w-full bg-modal_bg flex justify-center items-center p-2 rounded-t-lg">
+            <span className="text-primary">Are you sure?</span>
+          </div>
+        }
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        centered
+        width={330}
+        footer={null}
+        bodyStyle={{ padding: 0 }}
+      >
+        <div className="bg-white p-6">
+          <p className="text-center text-gray-500 mb-4">
+            All changes you’ve made will be discarded once you exit.
+          </p>
+          <div className="flex justify-center gap-4 mb-4 flex-wrap">
+            <button className="font-bold text-black" onClick={handleCancel}>
+              Cancel
+            </button>
+            <SecondaryButton onClick={handleOk}>Exit</SecondaryButton>
+          </div>
+        </div>
+      </Modal>
     </section>
   );
 };
