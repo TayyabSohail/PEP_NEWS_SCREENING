@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 import { Checkbox, Card, Tag } from "antd";
 import type { CheckboxProps } from "antd";
 
 import { queryClient } from "../../utils/react-query.service";
 import { endpoints } from "../../utils/api.service";
 
-import { styles } from "../../assets/styles";
 import {
   DatasetItem,
   ResponseData,
@@ -14,7 +15,7 @@ import {
   ResponseItem,
 } from "../../api/result.api";
 
-import { useLocation } from "react-router-dom";
+import { styles } from "../../assets/styles";
 
 const CheckboxGroup = Checkbox.Group;
 
@@ -40,8 +41,8 @@ export const EnglishNewsEvents = () => {
   const navigate = useNavigate();
   const personData: DatasetItem = location.state;
   const [dataSource, setDataSource] = useState<NewsEvent[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loading] = useState<boolean>(true);
+  const [error] = useState<string | null>(null);
 
   const determineCategory = (sentiment: string): NEWS_CATEGORY_TYPE => {
     switch (sentiment) {
@@ -62,44 +63,27 @@ export const EnglishNewsEvents = () => {
       throw new Error("Invalid Date");
     }
     const day: string = String(date.getUTCDate()).padStart(2, "0");
-    const month: string = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
+    const month: string = String(date.getUTCMonth() + 1).padStart(2, "0");
     const year: string = String(date.getUTCFullYear());
     return `${day}/${month}/${year}`;
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const cachedData: ResponseData | undefined = queryClient.getQueryData(
-          endpoints.result.cacheKey
-        );
+    const cachedData: ResponseData | undefined = queryClient.getQueryData(
+      endpoints.result.cacheKey
+    );
+    const ScanData: ResponseItem = cachedData?.data ?? {};
+    const events: ResponseEvent[] = ScanData[personData.englishName];
 
-        if (cachedData) {
-          const ScanData: ResponseItem[] = cachedData.data ?? [];
-          const events: ResponseEvent[] = ScanData[personData.englishName];
-
-          if (events) {
-            const mappedData: NewsEvent[] = events.map(
-              (event: ResponseEvent) => ({
-                title: event.Event,
-                details: event.Description[0],
-                date: formatDate(event.StartDate),
-                category: determineCategory(event.Sentiment_Prediction),
-              })
-            );
-
-            setDataSource(mappedData);
-          }
-        }
-      } catch (err) {
-        setError("Failed to fetch data.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    if (events) {
+      const mappedData: NewsEvent[] = events.map((event: ResponseEvent) => ({
+        title: event.Event,
+        details: event.Description[0],
+        date: formatDate(event.StartDate),
+        category: determineCategory(event.Sentiment_Prediction),
+      }));
+      setDataSource(mappedData);
+    }
   }, [personData]);
 
   const handleCardClick = (news: NewsEvent) => {

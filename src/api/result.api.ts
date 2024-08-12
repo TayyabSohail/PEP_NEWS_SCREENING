@@ -73,9 +73,10 @@ export interface ResponseEvent {
 export interface ResponseItem {
   [key: string]: ResponseEvent[];
 }
+[];
 
 export interface ResponseData {
-  data: ResponseItem[];
+  data: ResponseItem;
   success: boolean;
   message: string;
 }
