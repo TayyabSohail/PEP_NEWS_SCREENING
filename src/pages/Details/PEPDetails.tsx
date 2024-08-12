@@ -3,17 +3,12 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { styles } from "../../assets/styles";
-import { NewsDetailItem } from "../../api/details.api";
-import { queryClient } from "../../utils/react-query.service";
-import { endpoints } from "../../utils/api.service";
 
 export const PEPDetails = () => {
   const location = useLocation();
   const personData = location.state;
 
-  useEffect(() => {
-    console.log("person data in useEffect", personData);
-  }, [personData]);
+  useEffect(() => {}, [personData]);
 
   const details = [
     { label: "PEP Type", value: personData.primarySecondary },
