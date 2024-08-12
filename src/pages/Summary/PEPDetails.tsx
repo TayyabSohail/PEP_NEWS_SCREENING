@@ -1,25 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { styles } from "../../assets/styles";
-import { NewsDetailItem } from "../../api/details.api";
-import { queryClient } from "../../utils/react-query.service";
+import {
+  ResponseData,
+  ResponseEvent,
+  ResponseItem,
+} from "../../api/result.api";
 import { endpoints } from "../../utils/api.service";
+import { queryClient } from "../../utils/react-query.service";
 
 export const PEPDetails = () => {
   const location = useLocation();
   const personData = location.state;
-  // console.log("person data", personData);
-
-  const cachedData: NewsDetailItem[] | undefined = queryClient.getQueryData<
-    NewsDetailItem[]
-  >(endpoints.details.cacheKey);
-  console.log("API data", cachedData);
+  const [amlTopology, setAmlTopology] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log("person data in useEffect", personData);
-  }, [personData]);
+    const cachedData: ResponseData | undefined = queryClient.getQueryData(
+      endpoints.result.cacheKey
+    );
+    const ScanData: ResponseItem = cachedData?.data ?? {};
+    const events: ResponseEvent[] = ScanData[personData.englishName];
+    const amlKeys = events.flatMap((event) =>
+      (Object.keys(event.AML) as (keyof typeof event.AML)[]).filter(
+        (key) => event.AML[key]?.length > 0
+      )
+    );
+
+    const uniqueAmlKeys = Array.from(new Set(amlKeys));
+    setAmlTopology(uniqueAmlKeys);
+  }, [amlTopology, personData]);
 
   const details = [
     { label: "PEP Type", value: personData.primarySecondary },
@@ -28,14 +39,8 @@ export const PEPDetails = () => {
     { label: "Organization", value: personData.organizations.split(", ") },
     { label: "Designation", value: personData.designations.split(", ") },
     {
-      label: "Keywords",
-      value: [
-        personData.keywords1,
-        personData.keywords2,
-        personData.keywords3,
-        personData.keywords4,
-        personData.keywords5,
-      ].filter((keyword) => keyword), // Filter out empty keywords
+      label: "AML Topology",
+      value: amlTopology,
     },
   ];
 
