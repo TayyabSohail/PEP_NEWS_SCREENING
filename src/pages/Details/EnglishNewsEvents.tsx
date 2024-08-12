@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import { Checkbox, Card, Tag } from "antd";
 import type { CheckboxProps } from "antd";
 
@@ -13,6 +13,7 @@ import {
   ResponseEvent,
   ResponseItem,
 } from "../../api/result.api";
+
 import { useLocation } from "react-router-dom";
 
 const CheckboxGroup = Checkbox.Group;
@@ -36,8 +37,11 @@ interface NewsEvent {
 
 export const EnglishNewsEvents = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const personData: DatasetItem = location.state;
   const [dataSource, setDataSource] = useState<NewsEvent[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const determineCategory = (sentiment: string): NEWS_CATEGORY_TYPE => {
     switch (sentiment) {
@@ -47,7 +51,7 @@ export const EnglishNewsEvents = () => {
       case "positive":
         return "Non Critical";
       default:
-        return "Non Critical"; // Default fallback
+        return "Non Critical";
     }
   };
 
@@ -64,27 +68,54 @@ export const EnglishNewsEvents = () => {
   }
 
   useEffect(() => {
-    const cachedData: ResponseData | undefined = queryClient.getQueryData(
-      endpoints.result.cacheKey
-    );
-    const ScanData: ResponseItem[] = cachedData?.data ?? [];
-    const events: ResponseEvent[] = ScanData[personData.englishName];
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const cachedData: ResponseData | undefined = queryClient.getQueryData(
+          endpoints.result.cacheKey
+        );
 
-    if (events) {
-      const mappedData: NewsEvent[] = events.map((event: ResponseEvent) => ({
-        title: event.Event,
-        details: event.Description[0],
-        date: formatDate(event.StartDate),
-        category: determineCategory(event.Sentiment_Prediction),
-      }));
+        if (cachedData) {
+          const ScanData: ResponseItem[] = cachedData.data ?? [];
+          const events: ResponseEvent[] = ScanData[personData.englishName];
 
-      // Update the data source
-      setDataSource(mappedData);
-    }
+          if (events) {
+            const mappedData: NewsEvent[] = events.map(
+              (event: ResponseEvent) => ({
+                title: event.Event,
+                details: event.Description[0],
+                date: formatDate(event.StartDate),
+                category: determineCategory(event.Sentiment_Prediction),
+              })
+            );
+
+            setDataSource(mappedData);
+          }
+        }
+      } catch (err) {
+        setError("Failed to fetch data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [personData]);
 
   const handleCardClick = (news: NewsEvent) => {
-    console.log("Card data:", news);
+    const requestData = {
+      eventDate: news.date,
+      Event: news.title,
+    };
+
+    console.log(requestData);
+
+    navigate("/summary", {
+      state: {
+        requestData,
+        personData,
+      },
+    });
   };
 
   const [checkedList, setCheckedList] = useState<NEWS_CATEGORY_TYPE[]>([
@@ -94,12 +125,10 @@ export const EnglishNewsEvents = () => {
     dataSource.filter((news) => checkedList.includes(news.category))
   );
 
-  // Determine if all checkboxes are checked or some are checked
   const checkAll = NEWS_CATEGORIES.length === checkedList.length;
   const indeterminate =
     checkedList.length > 0 && checkedList.length < NEWS_CATEGORIES.length;
 
-  // Handle checkbox group change
   const onChange = (list: NEWS_CATEGORY_TYPE[]) => {
     setCheckedList(list);
     setFilteredNewsEvents(
@@ -107,7 +136,6 @@ export const EnglishNewsEvents = () => {
     );
   };
 
-  // Handle "Check All" checkbox change
   const onCheckAllChange: CheckboxProps["onChange"] = (e) => {
     setCheckedList(e.target.checked ? Array.from(NEWS_CATEGORIES) : []);
     setFilteredNewsEvents(e.target.checked ? dataSource : []);
@@ -115,6 +143,8 @@ export const EnglishNewsEvents = () => {
 
   return (
     <div className="flex flex-col gap-10">
+      {loading && <p>Loading...</p>}
+      {error && <p className="text-red-500">{error}</p>}
       <div className="flex gap-5">
         <Checkbox
           indeterminate={indeterminate}

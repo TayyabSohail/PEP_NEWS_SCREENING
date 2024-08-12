@@ -1,27 +1,21 @@
-import { useContext } from "react";
-
+import { useContext, useEffect, useState } from "react";
 import { Tabs } from "antd";
 import type { TabsProps } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 
 import { AppContext } from "../../contexts/AppContext";
-
 import { SecondaryButton, LinkButton } from "../../components/Button";
-
 import { PEPDetails } from "./PEPDetails";
 import { NewsDetails } from "./NewsDetails";
 import { NewsSummary } from "./NewsSummary";
 import { ROUTES } from "../../constants/routes";
-
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-
-import { NewsDetailItem } from "../../api/details.api";
-
-import { useNavigate } from "react-router-dom";
-import { endpoints } from "../../utils/api.service";
-import { queryClient } from "../../utils/react-query.service";
+import { useLocation, useNavigate } from "react-router-dom";
 import { styles } from "../../assets/styles";
+import {
+  fetchDetails,
+  DetailsRequest,
+  DetailsResponseItem,
+} from "../../api/details.api";
 
 const items: TabsProps["items"] = [
   {
@@ -38,28 +32,34 @@ const items: TabsProps["items"] = [
 
 export const Summary = () => {
   const navigate = useNavigate();
-  // Get the context values
   const { startDate, endDate } = useContext(AppContext);
-
   const location = useLocation();
-  const personData = location.state;
+  const { requestData, personData } = location.state;
 
-  const cachedData: NewsDetailItem[] | undefined = queryClient.getQueryData<
-    NewsDetailItem[]
-  >(endpoints.details.cacheKey);
-  console.log("API data", cachedData);
+  const [details, setDetails] = useState<DetailsResponseItem>();
 
-  useEffect(() => {}, [personData]);
+  useEffect(() => {
+    if (requestData) {
+      const fetchData = async () => {
+        try {
+          const data = await fetchDetails(requestData as DetailsRequest);
+          if (data?.success) {
+            setDetails(data.data[0]);
+          }
+        } catch (error) {
+          console.error("Error fetching details:", error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [requestData]);
 
   return (
     <section className={`${styles.section}`}>
-      <h2 className={styles.heading2}>
-        Pakistan minister ditched offshore plans amid `concerns` over tax
-        authority
-      </h2>
-
+      <h2 className={styles.heading2}>{details?.Event}</h2>
       <p className={styles.label}>
-        {personData.englishName} - {personData.primarySecondary}
+        {personData?.englishName} - {personData?.primarySecondary}
       </p>
 
       <div className="flex justify-between">
