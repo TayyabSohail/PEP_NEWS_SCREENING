@@ -11,21 +11,16 @@ import { SecondaryButton, LinkButton } from "../../components/Button";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { NewsDetailItem } from "../../api/details.api";
-
 import { ROUTES } from "../../constants/routes";
 import { PEPDetails } from "./PEPDetails";
 import { UrduNewsEvents } from "./UrduNewsEvents";
 import { EnglishNewsEvents } from "./EnglishNewsEvents";
 import { Sources } from "./Sources";
-import { endpoints } from "../../utils/api.service";
-import { queryClient } from "../../utils/react-query.service";
 
 import { styles } from "../../assets/styles";
 
 export const Details = () => {
   const navigate = useNavigate();
-  // retrieving the data corresponding to the name
   const { startDate, endDate } = useContext(AppContext);
   const location = useLocation();
   const personData = location.state;

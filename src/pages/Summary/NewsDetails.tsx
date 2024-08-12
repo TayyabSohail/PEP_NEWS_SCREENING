@@ -11,6 +11,9 @@ import bbc_urdu from "../../assets/icons/bbc_urdu.png";
 import Dunya from "../../assets/icons/dunya.png";
 import Jang from "../../assets/icons/jang.png";
 import Nawaiwaqt from "../../assets/icons/nawaiwaqt.png";
+import { queryClient } from "../../utils/react-query.service";
+import { endpoints } from "../../utils/api.service";
+import { DetailsResponseItem } from "../../api/details.api";
 
 type NewspaperNames =
   | "Jang"
@@ -40,67 +43,28 @@ const newspaperIcons: Record<NewspaperNames, JSX.Element> = {
   "Daily Times": <img src={DT} alt="Daily Times" className="w-10 h-10" />,
 };
 
-// Sample data for news details
-const newsData = [
-  {
-    title: "Dawn",
-    news: "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority...",
-    date: "15/07/2022",
-  },
-  {
-    title: "Jang",
-    news: "A minister of Pakistan ditched offshore plans due to concerns over tax authority...",
-    date: "15/07/2022",
-  },
-  {
-    title: "BBC",
-    news: "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority...",
-    date: "15/07/2022",
-  },
-  {
-    title: "Nawaiwaqt",
-    news: "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority...",
-    date: "15/07/2022",
-  },
-  {
-    title: "Dunya",
-    news: "A minister of Pakistan ditched offshore plans due to concerns over tax authority...",
-    date: "15/07/2022",
-  },
-  {
-    title: "Tribune",
-    news: "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority...",
-    date: "15/07/2022",
-  },
-  {
-    title: "Pakistan Today",
-    news: "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority...",
-    date: "15/07/2022",
-  },
-  {
-    title: "Business Recorder",
-    news: "A minister of Pakistan ditched offshore plans due to concerns over tax authority...",
-    date: "15/07/2022",
-  },
-  {
-    title: "Daily Times",
-    news: "Pakistan minister ditched offshore plans amid ‘concerns’ over tax authority...",
-    date: "15/07/2022",
-  },
-];
 export const NewsDetails = () => {
+  const cachedData: DetailsResponseItem | undefined = queryClient.getQueryData(
+    endpoints.details.cacheKey
+  );
+  const headlines = cachedData?.Headlines || [];
+  const sources = cachedData?.Sources || [];
+  const startDate = cachedData?.StartDate?.$date || "";
+
   return (
     <div className="w-2/3 flex flex-col gap-5 overflow-y-auto max-h-[390px] pr-2">
-      {newsData.map((item, index) => (
+      {headlines.map((headline, index) => (
         <Card key={index} className="border border-light_gray">
           <div className="flex items-center gap-5 p-2">
-            {newspaperIcons[item.title as NewspaperNames] || (
+            {newspaperIcons[sources[index] as NewspaperNames] || (
               <FileTextOutlined className="text-5xl" />
             )}
             <div className="line-clamp-1 flex flex-col gap-1">
-              <h6 className={`line-clamp-1 ${styles.heading6}`}>{item.news}</h6>
-              <p className="font-semibold">{item.title}</p>
-              <p>{item.date}</p>
+              <h6 className={`line-clamp-1 ${styles.heading6}`}>{headline}</h6>
+              <p className="font-semibold">
+                {sources[index] || "Unknown Source"}
+              </p>
+              <p>{new Date(startDate).toLocaleDateString()}</p>
             </div>
           </div>
         </Card>

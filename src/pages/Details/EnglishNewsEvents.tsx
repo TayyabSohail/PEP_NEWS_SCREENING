@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 import { Checkbox, Card, Tag } from "antd";
@@ -37,8 +38,11 @@ interface NewsEvent {
 
 export const EnglishNewsEvents = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const personData: DatasetItem = location.state;
   const [dataSource, setDataSource] = useState<NewsEvent[]>([]);
+  const [loading] = useState<boolean>(true);
+  const [error] = useState<string | null>(null);
 
   const determineCategory = (sentiment: string): NEWS_CATEGORY_TYPE => {
     switch (sentiment) {
@@ -83,7 +87,19 @@ export const EnglishNewsEvents = () => {
   }, [personData]);
 
   const handleCardClick = (news: NewsEvent) => {
-    console.log("Card data:", news);
+    const requestData = {
+      eventDate: news.date,
+      Event: news.title,
+    };
+
+    console.log(requestData);
+
+    navigate("/summary", {
+      state: {
+        requestData,
+        personData,
+      },
+    });
   };
 
   const [checkedList, setCheckedList] = useState<NEWS_CATEGORY_TYPE[]>([
@@ -93,12 +109,10 @@ export const EnglishNewsEvents = () => {
     dataSource.filter((news) => checkedList.includes(news.category))
   );
 
-  // Determine if all checkboxes are checked or some are checked
   const checkAll = NEWS_CATEGORIES.length === checkedList.length;
   const indeterminate =
     checkedList.length > 0 && checkedList.length < NEWS_CATEGORIES.length;
 
-  // Handle checkbox group change
   const onChange = (list: NEWS_CATEGORY_TYPE[]) => {
     setCheckedList(list);
     setFilteredNewsEvents(
@@ -106,7 +120,6 @@ export const EnglishNewsEvents = () => {
     );
   };
 
-  // Handle "Check All" checkbox change
   const onCheckAllChange: CheckboxProps["onChange"] = (e) => {
     setCheckedList(e.target.checked ? Array.from(NEWS_CATEGORIES) : []);
     setFilteredNewsEvents(e.target.checked ? dataSource : []);
@@ -114,6 +127,8 @@ export const EnglishNewsEvents = () => {
 
   return (
     <div className="flex flex-col gap-10">
+      {loading && <p>Loading...</p>}
+      {error && <p className="text-red-500">{error}</p>}
       <div className="flex gap-5">
         <Checkbox
           indeterminate={indeterminate}

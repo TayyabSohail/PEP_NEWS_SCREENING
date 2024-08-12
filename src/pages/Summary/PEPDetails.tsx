@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-
 import { styles } from "../../assets/styles";
 import {
   ResponseData,
@@ -49,7 +48,7 @@ export const PEPDetails = () => {
       <h3 className={`${styles.heading3}`}>PEP Details</h3>
       <div className="flex flex-col gap-5">
         {details.map((detail, index) => (
-          <div key={index} className="flex flex-row">
+          <div key={index} className="flex flex-row gap-10">
             <p className={`${styles.label} w-1/3`}>{detail.label}</p>
             <div className="w-2/3">
               {Array.isArray(detail.value) ? (
