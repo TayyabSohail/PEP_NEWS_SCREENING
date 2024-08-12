@@ -14,6 +14,9 @@ import Nawaiwaqt from "../../assets/icons/nawaiwaqt.png";
 import { queryClient } from "../../utils/react-query.service";
 import { endpoints } from "../../utils/api.service";
 import { DetailsResponseItem } from "../../api/details.api";
+import { useLocation } from "react-router-dom";
+import { fetchNewsDetails, NewsDetailRequest } from "../../api/news.api";
+
 
 type NewspaperNames =
   | "Jang"
@@ -44,6 +47,8 @@ const newspaperIcons: Record<NewspaperNames, JSX.Element> = {
 };
 
 export const NewsDetails = () => {
+  const location = useLocation();
+  const {personData} = location.state;
   const cachedData: DetailsResponseItem | undefined = queryClient.getQueryData(
     endpoints.details.cacheKey
   );
@@ -51,10 +56,28 @@ export const NewsDetails = () => {
   const sources = cachedData?.Sources || [];
   const startDate = cachedData?.StartDate?.$date || "";
 
+  const handleNewsDetails = async (headline: string, date: string) => {
+    const requestData :NewsDetailRequest = {
+      newsDate: date,
+      Headline: headline,
+      englishName:personData.englishName
+    };
+    console.log(requestData);
+     const data= await fetchNewsDetails(requestData)
+     console.log(data)
+     
+  
+
+  };
+
   return (
     <div className="w-2/3 flex flex-col gap-5 overflow-y-auto max-h-[390px] pr-2">
       {headlines.map((headline, index) => (
-        <Card key={index} className="border border-light_gray">
+        <Card
+          key={index}
+          className="border border-light_gray cursor-pointer"
+          onClick={() => handleNewsDetails(headline, new Date(startDate).toLocaleDateString())}
+        >
           <div className="flex items-center gap-5 p-2">
             {newspaperIcons[sources[index] as NewspaperNames] || (
               <FileTextOutlined className="text-5xl" />

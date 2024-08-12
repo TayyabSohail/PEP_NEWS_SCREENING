@@ -12,7 +12,7 @@ import { queryClient } from "../../utils/react-query.service";
 
 export const PEPDetails = () => {
   const location = useLocation();
-  const personData = location.state;
+  const {personData} = location.state;
   const [amlTopology, setAmlTopology] = useState<string[]>([]);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export const PEPDetails = () => {
 
     const uniqueAmlKeys = Array.from(new Set(amlKeys));
     setAmlTopology(uniqueAmlKeys);
-  }, [amlTopology, personData]);
+  }, [personData]);
 
   const details = [
     { label: "PEP Type", value: personData.primarySecondary },

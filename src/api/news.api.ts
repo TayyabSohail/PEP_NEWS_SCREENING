@@ -1,3 +1,6 @@
+import { endpoints, POST } from "../utils/api.service";
+import { queryClient } from "../utils/react-query.service";
+
 export interface NewsDetailRequest {
   newsDate: string;
   Headline: string;
@@ -58,3 +61,21 @@ export interface NewsDetailResponse {
   success: boolean;
   data: NewsDetailItem;
 }
+
+export const fetchNewsDetails = async (
+  requestData: NewsDetailRequest
+): Promise<NewsDetailResponse> => {
+  try {
+    const { data } = await POST<NewsDetailRequest, NewsDetailResponse>(
+      endpoints.news.url,
+      requestData
+    );
+    if (data?.success) {
+      queryClient.setQueryData(endpoints.news.cacheKey, data);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error occurred:", error);
+    throw error;
+  }
+};

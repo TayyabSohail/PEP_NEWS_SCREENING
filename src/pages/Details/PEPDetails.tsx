@@ -30,7 +30,7 @@ export const PEPDetails = () => {
 
     const uniqueAmlKeys = Array.from(new Set(amlKeys));
     setAmlTopology(uniqueAmlKeys);
-  }, [amlTopology, personData]);
+  }, [personData]);
 
   const details = [
     { label: "PEP Type", value: personData.primarySecondary },
