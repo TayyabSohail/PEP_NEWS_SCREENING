@@ -68,8 +68,6 @@ export const NewsDetails = () => {
     endpoints.details.cacheKey
   );
 
-  console.log("Wooloolooo", cachedData);
-
   const headlines = cachedData?.Headlines || [];
   const urls = cachedData?.Urls || [];
   const startDate = cachedData?.StartDate?.$date || "";
