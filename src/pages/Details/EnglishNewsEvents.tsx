@@ -127,7 +127,7 @@ export const EnglishNewsEvents = () => {
 
   return (
     <div className="flex flex-col gap-10">
-      {loading && <p>Loading...</p>}
+      {loading}
       {error && <p className="text-red-500">{error}</p>}
       <div className="flex gap-5">
         <Checkbox
