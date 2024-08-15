@@ -185,7 +185,6 @@ export const ResultTable = () => {
   }, [ScanData, dataset]);
 
   const handleRowClick = async (record: ResultTableData) => {
-    console.log(record.name);
     const result: DatasetItem | undefined = dataset.find(
       (item) => item.englishName === record.name
     );

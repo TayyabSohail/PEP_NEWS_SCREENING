@@ -143,7 +143,6 @@ export const PreviewTable = ({ setChangesMade }: PreviewTableProps) => {
       message: "Changes Saved",
       description: "All changes have been successfully saved.",
     });
-    console.log("Updated dataset:", dataSource); // Log the dataset
   };
 
   const components = {

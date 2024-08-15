@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Checkbox, Card, Tag } from "antd";
 import type { CheckboxProps } from "antd";
 
-import { Events, ItemDetails, ResponseData } from "../../api/result.api";
+import { ResponseData } from "../../api/result.api";
 
 import { queryClient } from "../../utils/react-query.service";
 import { endpoints } from "../../utils/api.service";
@@ -34,7 +34,6 @@ export const UrduNewsEvents = () => {
   const location = useLocation();
   const name = location.state;
   const [dataSource, setDataSource] = useState<NewsEvent[]>([]);
-  console.log(name);
   // function to randomly assign categories to each news
   function getRandomValueFromArray<T>(array: readonly T[]): T {
     const randomIndex = Math.floor(Math.random() * array.length);
@@ -70,7 +69,6 @@ export const UrduNewsEvents = () => {
     );
     setDataSource(mappedData);
   }, [name]);
-  console.log(dataSource);
 
   const [checkedList, setCheckedList] = useState<NEWS_CATEGORY_TYPE[]>([
     "Keywords",

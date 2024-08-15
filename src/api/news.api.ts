@@ -3,7 +3,7 @@ import { queryClient } from "../utils/react-query.service";
 
 export interface NewsDetailRequest {
   newsDate: string;
-  Headline: string;
+  Headline: string | undefined;
   englishName: string;
 }
 export interface NewsDetailItem {
@@ -59,7 +59,7 @@ export interface NewsDetailItem {
 export interface NewsDetailResponse {
   message: string;
   success: boolean;
-  data: NewsDetailItem;
+  data: NewsDetailItem[];
 }
 
 export const fetchNewsDetails = async (

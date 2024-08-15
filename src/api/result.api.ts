@@ -16,11 +16,7 @@ export interface DatasetItem {
   designations: string;
   relationships: string;
   primarySecondary: string;
-  keywords1: string;
-  keywords2: string;
-  keywords3: string;
-  keywords4: string;
-  keywords5: string;
+  Keywords: string;
 }
 export interface RequestData {
   startDate: string;

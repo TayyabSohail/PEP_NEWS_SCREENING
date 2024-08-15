@@ -39,11 +39,7 @@ interface Item {
   Relationship: string;
   "Primary/Secondary": string;
   "Other Attributes": string;
-  keywords1: string;
-  keywords2: string;
-  keywords3: string;
-  keywords4: string;
-  keywords5: string;
+  Keywords: string;
 }
 
 export const Home = () => {
@@ -98,11 +94,7 @@ export const Home = () => {
             designations: item.Designation,
             relationships: item.Relationship || "",
             primarySecondary: item["Primary/Secondary"],
-            keywords1: item["keywords1"] || "",
-            keywords2: item["keywords2"] || "",
-            keywords3: item["keywords3"] || "",
-            keywords4: item["keywords4"] || "",
-            keywords5: item["keywords5"] || "",
+            Keywords: item.Keywords,
           }))
         );
 

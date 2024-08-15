@@ -5,6 +5,10 @@ export interface DetailsRequest {
   eventDate: string;
   Event: string;
 }
+export interface EventSummarys {
+  [key: string]: string;
+}
+[];
 
 export interface DetailsResponseItem {
   AML: {
@@ -35,6 +39,7 @@ export interface DetailsResponseItem {
   Description: string[];
   EndDate: { $date: string };
   Event: string;
+  Event_Summary: EventSummarys;
   Headlines: string[];
   LOC: string[];
   Major_Cat: string;

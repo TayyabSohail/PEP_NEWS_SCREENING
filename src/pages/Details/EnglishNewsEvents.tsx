@@ -43,6 +43,8 @@ export const EnglishNewsEvents = () => {
   const [dataSource, setDataSource] = useState<NewsEvent[]>([]);
   const [loading] = useState<boolean>(true);
   const [error] = useState<string | null>(null);
+  const keywords: string = personData.Keywords;
+  const keywordsArray: string[] = keywords.split(",\r\n");
 
   const determineCategory = (sentiment: string): NEWS_CATEGORY_TYPE => {
     switch (sentiment) {
@@ -91,8 +93,6 @@ export const EnglishNewsEvents = () => {
       eventDate: news.date,
       Event: news.title,
     };
-
-    console.log(requestData);
 
     navigate("/summary", {
       state: {

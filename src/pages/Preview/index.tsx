@@ -23,6 +23,7 @@ import { Spin, Modal } from "antd";
 export const Preview = () => {
   const { startDate, endDate, dataset } = useContext(AppContext);
   const notification = useAntdUseApp();
+  console.log(dataset);
 
   const [changesMade, setChangesMade] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -43,7 +44,6 @@ export const Preview = () => {
 
     const response: ResponseData = await ScanMutation.mutateAsync(formData);
     if (response.success) {
-      console.log(response.data);
       navigate(ROUTES.result);
     }
   };
