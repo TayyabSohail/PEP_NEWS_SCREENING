@@ -1,4 +1,5 @@
 import { Card } from "antd";
+
 import { FileTextOutlined } from "@ant-design/icons";
 
 import { styles } from "../../assets/styles";
@@ -11,6 +12,9 @@ import bbc_urdu from "../../assets/icons/bbc_urdu.png";
 import Dunya from "../../assets/icons/dunya.png";
 import Jang from "../../assets/icons/jang.png";
 import Nawaiwaqt from "../../assets/icons/nawaiwaqt.png";
+import { endpoints } from "../../utils/api.service";
+import { queryClient } from "../../utils/react-query.service";
+import { DetailsResponseItem } from "../../api/details.api";
 
 type NewspaperNames =
   | "Jang"
@@ -23,7 +27,6 @@ type NewspaperNames =
   | "Business Recorder"
   | "Daily Times";
 
-// Mapping of newspaper names to their icons
 const newspaperIcons: Record<NewspaperNames, JSX.Element> = {
   Jang: <img src={Jang} alt="Jang" className="w-10 h-10" />,
   Nawaiwaqt: <img src={Nawaiwaqt} alt="Nawaiwaqt" className="w-10 h-10" />,
@@ -42,39 +45,65 @@ const newspaperIcons: Record<NewspaperNames, JSX.Element> = {
 
 interface NewsEventProps {
   headlines: string[];
-  sources: string[];
   startDate: string;
   handleNewsDetails: (headline: string, date: string) => void;
 }
+const extractSourceFromUrl = (url: string): NewspaperNames | null => {
+  if (url.includes("tribune.com.pk")) return "Tribune";
+  if (url.includes("dawn.com")) return "Dawn";
+  if (url.includes("jang.com.pk")) return "Jang";
+  if (url.includes("nawaiwaqt.com.pk")) return "Nawaiwaqt";
+  if (url.includes("dunya.com.pk")) return "Dunya";
+  if (url.includes("bbc.com")) return "BBC";
+  if (url.includes("pakistantoday.com.pk")) return "Pakistan Today";
+  if (url.includes("brecorder.com")) return "Business Recorder";
+  if (url.includes("dailytimes.com.pk")) return "Daily Times";
+  return null;
+};
 
 export const NewsDetails: React.FC<NewsEventProps> = ({
   headlines,
-  sources,
   startDate,
   handleNewsDetails,
 }) => {
+  const cachedData: DetailsResponseItem | undefined = queryClient.getQueryData(
+    endpoints.details.cacheKey
+  );
+
+  const urls = cachedData?.Urls || [];
+
   return (
-    <div className="w-full flex flex-col gap-5 overflow-y-auto max-h-[390px] pr-2">
-      {headlines?.map((headline: string, index: number) => (
-        <Card
-          key={index}
-          className="border border-light_gray cursor-pointer"
-          onClick={() => handleNewsDetails(headline, startDate)}
-        >
-          <div className="flex items-center gap-5 p-2">
-            {newspaperIcons[sources[index] as NewspaperNames] || (
-              <FileTextOutlined className="text-5xl" />
-            )}
-            <div className="line-clamp-1 flex flex-col gap-1">
-              <h6 className={`line-clamp-1 ${styles.heading6}`}>{headline}</h6>
-              <p className="font-semibold">
-                {sources[index] || "Unknown Source"}
-              </p>
-              <p>{startDate}</p>
+    <div className="w-2/3 flex flex-col gap-5 overflow-y-auto max-h-[390px] pr-2">
+      {headlines.map((headline, index) => {
+        const source = extractSourceFromUrl(urls[index]);
+        return (
+          <Card
+            key={index}
+            className="border border-light_gray cursor-pointer"
+            onClick={() =>
+              handleNewsDetails(
+                headline,
+                new Date(startDate).toLocaleDateString()
+              )
+            }
+          >
+            <div className="flex items-center gap-5 p-2">
+              {source ? (
+                newspaperIcons[source]
+              ) : (
+                <FileTextOutlined className="text-5xl" />
+              )}
+              <div className="line-clamp-1 flex flex-col gap-1">
+                <h6 className={`line-clamp-1 ${styles.heading6}`}>
+                  {headline}
+                </h6>
+                <p className="font-semibold">{source || "Unknown Source"}</p>
+                <p>{new Date(startDate).toLocaleDateString()}</p>
+              </div>
             </div>
-          </div>
-        </Card>
-      ))}
+          </Card>
+        );
+      })}
     </div>
   );
 };

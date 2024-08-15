@@ -17,6 +17,12 @@ export interface DatasetItem {
   relationships: string;
   primarySecondary: string;
   Keywords: string;
+  keywords1: string;
+  keywords2: string;
+  keywords3: string;
+  keywords4: string;
+  keywords5: string;
+  events?: ResponseEvent[];
 }
 export interface RequestData {
   startDate: string;

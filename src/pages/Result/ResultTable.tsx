@@ -116,7 +116,6 @@ export const ResultTable = () => {
 
   useEffect(() => {
     if (ScanData) {
-      // Create a map to accumulate data for each person
       const nameMap: Record<
         string,
         {
