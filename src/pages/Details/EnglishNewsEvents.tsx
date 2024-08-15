@@ -42,9 +42,9 @@ export const EnglishNewsEvents = () => {
   const personData: DatasetItem = location.state;
   const [dataSource, setDataSource] = useState<NewsEvent[]>([]);
   const [loading] = useState<boolean>(true);
-  const [error] = useState<string | null>(null);
+
   const keywords: string = personData.Keywords;
-  const keywordsArray: string[] = keywords.split(",\r\n");
+  const keywordsArray: string[] = keywords.split(",");
 
   const determineCategory = (sentiment: string): NEWS_CATEGORY_TYPE => {
     switch (sentiment) {
@@ -85,6 +85,7 @@ export const EnglishNewsEvents = () => {
         category: determineCategory(event.Sentiment_Prediction),
       }));
       setDataSource(mappedData);
+      setFilteredNewsEvents(mappedData);
     }
   }, [personData]);
 
@@ -103,32 +104,43 @@ export const EnglishNewsEvents = () => {
   };
 
   const [checkedList, setCheckedList] = useState<NEWS_CATEGORY_TYPE[]>([
-    "Keywords",
+    ...NEWS_CATEGORIES,
   ]);
-  const [filteredNewsEvents, setFilteredNewsEvents] = useState<NewsEvent[]>(
-    dataSource.filter((news) => checkedList.includes(news.category))
-  );
+  const [filteredNewsEvents, setFilteredNewsEvents] =
+    useState<NewsEvent[]>(dataSource);
 
   const checkAll = NEWS_CATEGORIES.length === checkedList.length;
   const indeterminate =
     checkedList.length > 0 && checkedList.length < NEWS_CATEGORIES.length;
 
+  const filterNewsEvents = (list: NEWS_CATEGORY_TYPE[]) => {
+    return dataSource.filter((news) => {
+      const matchesCategory = list.includes(news.category);
+      const matchesKeywords = list.includes("Keywords")
+        ? keywordsArray.some((keyword) => news.details.includes(keyword))
+        : true;
+      return matchesCategory && matchesKeywords;
+    });
+  };
+
+  // useEffect(() => {
+  //   setFilteredNewsEvents(filterNewsEvents(checkedList));
+  // }, [dataSource, checkedList]);
+
   const onChange = (list: NEWS_CATEGORY_TYPE[]) => {
     setCheckedList(list);
-    setFilteredNewsEvents(
-      dataSource.filter((news) => list.includes(news.category))
-    );
+    setFilteredNewsEvents(filterNewsEvents(list));
   };
 
   const onCheckAllChange: CheckboxProps["onChange"] = (e) => {
-    setCheckedList(e.target.checked ? Array.from(NEWS_CATEGORIES) : []);
-    setFilteredNewsEvents(e.target.checked ? dataSource : []);
+    const newCheckedList = e.target.checked ? Array.from(NEWS_CATEGORIES) : [];
+    setCheckedList(newCheckedList);
+    setFilteredNewsEvents(filterNewsEvents(newCheckedList));
   };
 
   return (
     <div className="flex flex-col gap-10">
       {loading}
-      {error && <p className="text-red-500">{error}</p>}
       <div className="flex gap-5">
         <Checkbox
           indeterminate={indeterminate}
