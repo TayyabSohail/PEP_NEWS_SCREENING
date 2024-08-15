@@ -138,7 +138,6 @@ export const Summary = () => {
         <div className="w-2/3">
           <NewsDetails
             headlines={details?.Headlines}
-            sources={details?.Sources}
             startDate={formatDate(details?.StartDate)}
             handleNewsDetails={handleNewsDetails}
           />
