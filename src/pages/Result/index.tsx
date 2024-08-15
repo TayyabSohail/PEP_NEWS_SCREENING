@@ -312,28 +312,6 @@ export const Result = () => {
                   contentHeight - margin,
                   false
                 );
-
-                pdf.setTextColor(...linkColor);
-                yOffset = addParagraph(
-                  `Additional URLs: ${event.Urls.slice(1).join(", ")}`,
-                  margin,
-                  yOffset,
-                  contentWidth,
-                  contentHeight - margin,
-                  false
-                );
-                pdf.setTextColor(0, 0, 0);
-
-                yOffset = addParagraph(
-                  `Additional Descriptions: ${event.Description.slice(1).join(
-                    ", "
-                  )}`,
-                  margin,
-                  yOffset,
-                  contentWidth,
-                  contentHeight - margin,
-                  false
-                );
               }
 
               pdf.setFont("helvetica", "bold");
