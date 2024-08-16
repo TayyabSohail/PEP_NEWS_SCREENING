@@ -6,7 +6,11 @@ import jsPDF from "jspdf";
 import { notification } from "antd";
 
 import { AppContext } from "../../contexts/AppContext";
-import { SecondaryButton, LinkButton } from "../../components/Button";
+import {
+  SecondaryButton,
+  LinkButton,
+  PrimaryButton,
+} from "../../components/Button";
 import { PEPDetails } from "./PEPDetails";
 import { UrduNewsEvents } from "./UrduNewsEvents";
 import { EnglishNewsEvents } from "./EnglishNewsEvents";
@@ -427,53 +431,10 @@ export const Details = () => {
     <section className={`${styles.section}`}>
       <Modal
         title={
-          <div className="w-full bg-modal_bg flex justify-center items-center p-2 rounded-t-lg">
-            <span className="text-primary">Are you sure?</span>
-            <div className="flex flex-col gap-5">
-              <Checkbox
-                indeterminate={indeterminate}
-                onChange={onCheckAllChange}
-                checked={checkAll}
-                className={`${styles.label} ${
-                  !checkAll && "!font-normal !text-text_color"
-                }`}
-              >
-                All Events{" "}
-                <Tag className={`bg-blue ${styles.filtertags}`}>
-                  {criticalEvents + nonCriticalEvents}
-                </Tag>
-              </Checkbox>
-
-              <CheckboxGroup
-                className="flex gap-5"
-                value={checkedList}
-                onChange={onChange}
-              >
-                {NEWS_CATEGORIES.map((category) => (
-                  <Checkbox
-                    key={category}
-                    value={category}
-                    className={`${styles.label} ${
-                      !checkedList.includes(category) &&
-                      "!font-normal !text-text_color"
-                    }`}
-                  >
-                    {category}{" "}
-                    <Tag
-                      className={`${TAG_COLORS[category]} ${styles.filtertags}`}
-                    >
-                      {category === "Critical"
-                        ? criticalEvents
-                        : category === "Non Critical"
-                        ? nonCriticalEvents
-                        : category === "Keywords"
-                        ? keywordsArray.length
-                        : 0}
-                    </Tag>
-                  </Checkbox>
-                ))}
-              </CheckboxGroup>
-            </div>
+          <div className="w-full bg-modal_bg flex justify-start items-center p-2 rounded-t-lg">
+            <span className="text-primary">
+              <DownloadOutlined /> Download
+            </span>
           </div>
         }
         open={isModalVisible}
@@ -482,7 +443,69 @@ export const Details = () => {
         centered
         width={330}
         footer={null}
-      ></Modal>
+        bodyStyle={{ padding: 0 }}
+      >
+        <div className="bg-white p-6">
+          <p className="text-center text-gray-500 mb-4">
+            Select the events that you want to Download.
+          </p>
+
+          <div className="flex flex-col items-start gap-1 mb-4">
+            <Checkbox
+              indeterminate={indeterminate}
+              onChange={onCheckAllChange}
+              checked={checkAll}
+              className={`${styles.label} ${
+                !checkAll && "!font-normal !text-text_color"
+              }`}
+            >
+              <Tag className={`bg-blue ${styles.filtertags}`}>
+                {criticalEvents + nonCriticalEvents}
+              </Tag>{" "}
+              All Events
+            </Checkbox>
+
+            <CheckboxGroup
+              className="flex flex-col gap-2 mt-3"
+              value={checkedList}
+              onChange={onChange}
+            >
+              {NEWS_CATEGORIES.map((category) => (
+                <Checkbox
+                  key={category}
+                  value={category}
+                  className={`${styles.label} ${
+                    !checkedList.includes(category) &&
+                    "!font-normal !text-text_color"
+                  }`}
+                >
+                  <Tag
+                    className={`${TAG_COLORS[category]} ${styles.filtertags}`}
+                  >
+                    {category === "Critical"
+                      ? criticalEvents
+                      : category === "Non Critical"
+                      ? nonCriticalEvents
+                      : category === "Keywords"
+                      ? keywordsArray.length
+                      : 0}
+                  </Tag>{" "}
+                  {category}
+                </Checkbox>
+              ))}
+            </CheckboxGroup>
+          </div>
+          <div className="flex justify-center items-center mt-2">
+            <PrimaryButton
+              icon={<DownloadOutlined />}
+              className="text-primary  font-bold"
+              onClick={exportToPDF}
+            >
+              Download
+            </PrimaryButton>
+          </div>
+        </div>
+      </Modal>
       <div className="flex flex-row gap-10">
         <h2 className={styles.heading2}>
           {personData.ID} {personData.englishName}
