@@ -15,7 +15,6 @@ import Jang from "../../assets/icons/jang.png";
 import Nawaiwaqt from "../../assets/icons/nawaiwaqt.png";
 
 import {
-  DatasetItem,
   ResponseData,
   ResponseEvent,
   ResponseItem,
@@ -98,7 +97,7 @@ const sourcesData = [
 
 export const Sources = () => {
   const location = useLocation();
-  const personData: DatasetItem = location.state;
+  const { personData } = location.state;
   const [dataSource, setDataSource] = useState<SourceDetails[]>([]);
 
   useEffect(() => {

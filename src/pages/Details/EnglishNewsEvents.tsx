@@ -9,7 +9,6 @@ import { queryClient } from "../../utils/react-query.service";
 import { endpoints } from "../../utils/api.service";
 
 import {
-  DatasetItem,
   ResponseData,
   ResponseEvent,
   ResponseItem,
@@ -39,13 +38,12 @@ interface NewsEvent {
 export const EnglishNewsEvents = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const personData: DatasetItem = location.state;
+  const { personData, criticalEvents, nonCriticalEvents } = location.state;
   const [dataSource, setDataSource] = useState<NewsEvent[]>([]);
   const [loading] = useState<boolean>(true);
 
   const keywords: string = personData.Keywords;
   const keywordsArray: string[] = keywords.split(",");
-
   const determineCategory = (sentiment: string): NEWS_CATEGORY_TYPE => {
     switch (sentiment) {
       case "negative":
@@ -117,19 +115,34 @@ export const EnglishNewsEvents = () => {
     return dataSource.filter((news) => {
       const matchesCategory = list.includes(news.category);
       const matchesKeywords = list.includes("Keywords")
-        ? keywordsArray.some((keyword) => news.details.includes(keyword))
-        : true;
+        ? keywordsArray.some(
+            (keyword) =>
+              news.details.includes(keyword) || news.title.includes(keyword)
+          )
+        : false;
+
+      if (
+        list.includes("Keywords") &&
+        !list.some((category) => category !== "Keywords")
+      ) {
+        return matchesKeywords;
+      }
+
+      if (
+        !list.includes("Keywords") &&
+        list.some((category) => category !== "Keywords")
+      ) {
+        return matchesCategory;
+      }
+
       return matchesCategory && matchesKeywords;
     });
   };
-
-  // useEffect(() => {
-  //   setFilteredNewsEvents(filterNewsEvents(checkedList));
-  // }, [dataSource, checkedList]);
-
   const onChange = (list: NEWS_CATEGORY_TYPE[]) => {
     setCheckedList(list);
+    console.log(list);
     setFilteredNewsEvents(filterNewsEvents(list));
+    console.log(filterNewsEvents(list));
   };
 
   const onCheckAllChange: CheckboxProps["onChange"] = (e) => {
@@ -150,7 +163,10 @@ export const EnglishNewsEvents = () => {
             !checkAll && "!font-normal !text-text_color"
           }`}
         >
-          All Events <Tag className={`bg-blue ${styles.filtertags}`}>25</Tag>
+          All Events{" "}
+          <Tag className={`bg-blue ${styles.filtertags}`}>
+            {criticalEvents + nonCriticalEvents}
+          </Tag>
         </Checkbox>
 
         <CheckboxGroup
@@ -169,7 +185,13 @@ export const EnglishNewsEvents = () => {
             >
               {category}{" "}
               <Tag className={`${TAG_COLORS[category]} ${styles.filtertags}`}>
-                05
+                {category === "Critical"
+                  ? criticalEvents
+                  : category === "Non Critical"
+                  ? nonCriticalEvents
+                  : category === "Keywords"
+                  ? keywordsArray.length
+                  : 0}
               </Tag>
             </Checkbox>
           ))}
