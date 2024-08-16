@@ -1,10 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import { Tabs } from "antd";
+import { Modal, Tabs } from "antd";
 import type { TabsProps } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 
 import { AppContext } from "../../contexts/AppContext";
-import { SecondaryButton, LinkButton } from "../../components/Button";
+import {
+  SecondaryButton,
+  LinkButton,
+  PrimaryButton,
+} from "../../components/Button";
 import { PEPDetails } from "./PEPDetails";
 import { NewsDetails } from "./NewsDetails";
 import { NewsSummary } from "./NewsSummary";
@@ -30,6 +34,20 @@ export const Summary = () => {
   const [selectedNews, setSelectedNews] = useState<NewsDetailRequest | null>(
     null
   );
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const items: TabsProps["items"] = [
     {
@@ -127,6 +145,7 @@ export const Summary = () => {
         <LinkButton
           icon={<DownloadOutlined />}
           className="text-primary font-bold"
+          onClick={showModal}
         >
           Download
         </LinkButton>
@@ -155,6 +174,36 @@ export const Summary = () => {
       <SecondaryButton onClick={() => navigate(ROUTES.preview)}>
         Back
       </SecondaryButton>
+      <Modal
+        title={
+          <div className="w-full bg-modal_bg flex justify-center items-center p-2 rounded-t-lg">
+            <span className="text-primary">Are you sure?</span>
+          </div>
+        }
+        open={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        centered
+        width={330}
+        footer={null}
+        bodyStyle={{ padding: 0 }}
+      >
+        <div className="bg-white p-6">
+          <p className="text-center text-gray-500 mb-4">
+            Re you sure you want to download the event of
+            <b> "{personData.englishName}"</b>?
+          </p>
+          <div className="flex justify-center items-center mt-2">
+            <PrimaryButton
+              icon={<DownloadOutlined />}
+              className="text-primary  font-bold"
+              onClick={handleOk}
+            >
+              Download
+            </PrimaryButton>
+          </div>
+        </div>
+      </Modal>
     </section>
   );
 };
