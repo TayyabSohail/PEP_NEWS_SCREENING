@@ -73,10 +73,7 @@ export const Preview = () => {
   };
 
   const handleDownloadClick = () => {
-    const exportButton = document.querySelector("#export-button");
-    if (exportButton) {
-      (exportButton as HTMLButtonElement).click();
-    }
+    setIsModalVisible(true);
   };
 
   const handleDiscardClick = () => {
