@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react";
-import { Tabs } from "antd";
+import { useContext, useEffect, useState } from "react";
+import { Checkbox, CheckboxProps, Modal, Tabs, Tag } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
@@ -38,15 +38,59 @@ type Dataset = Record<
 
 export const Details = () => {
   const navigate = useNavigate();
+
+  const CheckboxGroup = Checkbox.Group;
   const { startDate, endDate, dataset: rawDataset } = useContext(AppContext);
   const location = useLocation();
-  const personData = location.state;
+  const { personData, criticalEvents, nonCriticalEvents } = location.state;
+  const plainOptions = ["Keywords", "Critical", "Non Critical"];
+  const defaultCheckedList = ["Critical", "Non Critical"];
+
+  const [checkedList, setCheckedList] = useState<string[]>(defaultCheckedList);
+
+  const checkAll = plainOptions.length === checkedList.length;
+  const indeterminate =
+    checkedList.length > 0 && checkedList.length < plainOptions.length;
+
+  const NEWS_CATEGORIES = ["Keywords", "Critical", "Non Critical"] as const;
+
+  type NEWS_CATEGORY_TYPE = (typeof NEWS_CATEGORIES)[number];
+  const keywords: string = personData.Keywords;
+  const keywordsArray: string[] = keywords.split(",");
+
+  const TAG_COLORS: Record<NEWS_CATEGORY_TYPE, string> = {
+    Keywords: "bg-pink",
+    Critical: "bg-red",
+    "Non Critical": "bg-green",
+  };
+
+  const onChange = (list: string[]) => {
+    setCheckedList(list);
+  };
+
+  const onCheckAllChange: CheckboxProps["onChange"] = (e) => {
+    setCheckedList(e.target.checked ? plainOptions : []);
+  };
 
   const cachedData: ResponseData | undefined = queryClient.getQueryData(
     endpoints.result.cacheKey
   );
 
   const ScanData: ResponseItem = cachedData?.data ?? {};
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const typedDataset: Dataset = rawDataset.reduce((acc: Dataset, item) => {
     const key = item.englishName;
@@ -381,6 +425,64 @@ export const Details = () => {
 
   return (
     <section className={`${styles.section}`}>
+      <Modal
+        title={
+          <div className="w-full bg-modal_bg flex justify-center items-center p-2 rounded-t-lg">
+            <span className="text-primary">Are you sure?</span>
+            <div className="flex flex-col gap-5">
+              <Checkbox
+                indeterminate={indeterminate}
+                onChange={onCheckAllChange}
+                checked={checkAll}
+                className={`${styles.label} ${
+                  !checkAll && "!font-normal !text-text_color"
+                }`}
+              >
+                All Events{" "}
+                <Tag className={`bg-blue ${styles.filtertags}`}>
+                  {criticalEvents + nonCriticalEvents}
+                </Tag>
+              </Checkbox>
+
+              <CheckboxGroup
+                className="flex gap-5"
+                value={checkedList}
+                onChange={onChange}
+              >
+                {NEWS_CATEGORIES.map((category) => (
+                  <Checkbox
+                    key={category}
+                    value={category}
+                    className={`${styles.label} ${
+                      !checkedList.includes(category) &&
+                      "!font-normal !text-text_color"
+                    }`}
+                  >
+                    {category}{" "}
+                    <Tag
+                      className={`${TAG_COLORS[category]} ${styles.filtertags}`}
+                    >
+                      {category === "Critical"
+                        ? criticalEvents
+                        : category === "Non Critical"
+                        ? nonCriticalEvents
+                        : category === "Keywords"
+                        ? keywordsArray.length
+                        : 0}
+                    </Tag>
+                  </Checkbox>
+                ))}
+              </CheckboxGroup>
+            </div>
+          </div>
+        }
+        open={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        centered
+        width={330}
+        footer={null}
+      ></Modal>
       <div className="flex flex-row gap-10">
         <h2 className={styles.heading2}>
           {personData.ID} {personData.englishName}
@@ -396,7 +498,7 @@ export const Details = () => {
         <LinkButton
           icon={<DownloadOutlined />}
           className="text-primary font-bold"
-          onClick={exportToPDF}
+          onClick={showModal}
         >
           Download
         </LinkButton>
