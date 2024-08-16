@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Modal } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { notification } from "antd";
+import { Tabs, notification } from "antd";
 import type { TabsProps } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import jsPDF from "jspdf";
@@ -420,7 +420,7 @@ export const Summary = () => {
             <PrimaryButton
               icon={<DownloadOutlined />}
               className="text-primary  font-bold"
-              onClick={handleOk}
+              onClick={exportToPDF}
             >
               Download
             </PrimaryButton>

@@ -499,7 +499,7 @@ export const Details = () => {
             <PrimaryButton
               icon={<DownloadOutlined />}
               className="text-primary  font-bold"
-              onClick={handleOk}
+              onClick={exportToPDF}
             >
               Download
             </PrimaryButton>

@@ -1,15 +1,19 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { DownloadOutlined } from "@ant-design/icons";
 
 import jsPDF from "jspdf";
 
-import { notification } from "antd";
+import { Modal, notification } from "antd";
 
 import { AppContext } from "../../contexts/AppContext";
 
-import { LinkButton, SecondaryButton } from "../../components/Button";
+import {
+  LinkButton,
+  PrimaryButton,
+  SecondaryButton,
+} from "../../components/Button";
 import { ResultTable } from "./ResultTable";
 import { ROUTES } from "../../constants/routes";
 import { styles } from "../../assets/styles";
@@ -45,6 +49,20 @@ export const Result = () => {
   );
 
   const ScanData: ResponseItem = cachedData?.data ?? {};
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const typedDataset: Dataset = rawDataset.reduce((acc: Dataset, item) => {
     const key = item.englishName;
@@ -357,7 +375,7 @@ export const Result = () => {
           <LinkButton
             icon={<DownloadOutlined />}
             className="text-primary font-bold"
-            onClick={exportToPDF}
+            onClick={showModal}
           >
             Download
           </LinkButton>
@@ -369,6 +387,34 @@ export const Result = () => {
       <div className="flex items-center gap-5">
         <SecondaryButton onClick={handleExitButton}>Exit</SecondaryButton>
       </div>
+      <Modal
+        title={
+          <div className="w-full bg-modal_bg flex justify-center items-center p-2 rounded-t-lg">
+            <span className="text-primary">Are you sure?</span>
+          </div>
+        }
+        open={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        centered
+        width={330}
+        footer={null}
+      >
+        <div className="bg-white p-6">
+          <p className="text-center text-gray-500 mb-4">
+            Re you sure you want to download data of all the PEPs from the list?
+          </p>
+          <div className="flex justify-center items-center mt-2">
+            <PrimaryButton
+              icon={<DownloadOutlined />}
+              className="text-primary  font-bold"
+              onClick={exportToPDF}
+            >
+              Download
+            </PrimaryButton>
+          </div>
+        </div>
+      </Modal>
     </section>
   );
 };
