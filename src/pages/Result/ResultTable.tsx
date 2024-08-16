@@ -187,9 +187,14 @@ export const ResultTable = () => {
     const result: DatasetItem | undefined = dataset.find(
       (item) => item.englishName === record.name
     );
+    console.log();
 
     navigate(ROUTES.details, {
-      state: result,
+      state: {
+        personData: result,
+        criticalEvents: record.criticalEvents,
+        nonCriticalEvents: record.nonCriticalEvents,
+      },
     });
   };
 

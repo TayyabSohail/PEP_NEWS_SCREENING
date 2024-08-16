@@ -13,7 +13,7 @@ import { queryClient } from "../../utils/react-query.service";
 
 export const PEPDetails = () => {
   const location = useLocation();
-  const personData = location.state;
+  const { personData } = location.state;
   const [amlTopology, setAmlTopology] = useState<string[]>([]);
 
   useEffect(() => {

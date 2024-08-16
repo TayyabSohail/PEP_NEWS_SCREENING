@@ -73,7 +73,7 @@ export const NewsDetails: React.FC<NewsEventProps> = ({
   const urls = cachedData?.Urls || [];
 
   return (
-    <div className="w-2/3 flex flex-col gap-5 overflow-y-auto max-h-[390px] pr-2">
+    <div className="w-full flex flex-col gap-5 overflow-y-auto max-h-[390px] pr-2">
       {headlines.map((headline, index) => {
         const source = extractSourceFromUrl(urls[index]);
         return (
