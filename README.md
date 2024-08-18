@@ -39,6 +39,8 @@ https://github.com/user-attachments/assets/1300c1da-daab-411b-a834-82bb07edde04
 ## DETAILS PAGE
 ![Desktop - 33](https://github.com/user-attachments/assets/750d8a5d-c773-49a7-b18c-d1f9f5b9c82b)
 
+https://github.com/user-attachments/assets/715e04dd-e18e-431a-8d74-20788cad91e3
+
 https://github.com/user-attachments/assets/f4f26590-b1ca-4f74-a94e-06fb49746fe9
 
 
