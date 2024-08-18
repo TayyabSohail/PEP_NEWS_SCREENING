@@ -18,8 +18,6 @@ https://github.com/user-attachments/assets/91112e8c-9462-4886-9fa5-71ce0d7e3db5
 
 
 ## PREVIEW PAGE
-https://github.com/user-attachments/assets/0eb01475-d065-49b6-80da-5ab2187ada98
-
 ![modal preview](https://github.com/user-attachments/assets/d2ec79ad-1b28-4c64-9937-23cd33c58662)
 
 https://github.com/user-attachments/assets/862f90f8-7b5d-40cf-a58b-7fd6fcf07d23
