@@ -4,18 +4,22 @@ __________________________________________________________________________
 
 ## LOGIN PAGE
 https://github.com/user-attachments/assets/0f97f0c9-62cd-40af-98bf-84d480480b37
+
 ![Screenshot 2024-08-12 103720](https://github.com/user-attachments/assets/4e7ed546-4fba-4e65-8563-a35a1fc0b4f8)
 
 ## HOME PAGE
 https://github.com/user-attachments/assets/e68f12cf-f70e-4b1a-af94-fcacf8d1d745
 
 https://github.com/user-attachments/assets/91112e8c-9462-4886-9fa5-71ce0d7e3db5
+
 ![Screenshot 2024-08-12 103806](https://github.com/user-attachments/assets/7578399e-bb03-41fa-9b95-c6ee1469e006)
+
 ![Screenshot 2024-08-12 103627](https://github.com/user-attachments/assets/b71be928-a0aa-4c4d-bcca-e6ee5277d7ea)
 
 
 ## PREVIEW PAGE
 https://github.com/user-attachments/assets/0eb01475-d065-49b6-80da-5ab2187ada98
+
 ![modal preview](https://github.com/user-attachments/assets/d2ec79ad-1b28-4c64-9937-23cd33c58662)
 
 https://github.com/user-attachments/assets/862f90f8-7b5d-40cf-a58b-7fd6fcf07d23
