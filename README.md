@@ -36,7 +36,7 @@ __________________________________________________________________________
 
 ## PREVIEW PAGE
 
-### File uploaded by user is displayed here
+### The file uploaded by the user is displayed here
 
 ![Desktop - 23](https://github.com/user-attachments/assets/73d3c27e-df2a-4033-bc96-c0c92b95d41f)
 
@@ -60,9 +60,12 @@ __________________________________________________________________________
 
 ## DETAILS PAGE
 
-### List of Events is Displayed for the particular person user selected in Result Page and API is called. All the data related to PEP is displayed as well as Relevant sources of events are displayed. 
+### Filters are added to select the Events as the user pleases.
+### A list of Events is Displayed for the person the user selected in the Result Page and API is called. All the data related to PEP is displayed, and relevant sources of events are shown. 
 
 ![Desktop - 33](https://github.com/user-attachments/assets/750d8a5d-c773-49a7-b18c-d1f9f5b9c82b)
+
+Download the data by selecting the appropriate filters
 
 https://github.com/user-attachments/assets/715e04dd-e18e-431a-8d74-20788cad91e3
 
@@ -72,7 +75,7 @@ __________________________________________________________________________
 
 ## SUMMARY PAGE
 
-### All the NEWS of Selected Event is displayed in a List along with the summary of each NEWS on clicking as well as a complete summary of the event.
+### All the NEWS of Selected Events is displayed in a List along with the summary of each NEWS on clicking as well as a complete summary of the event.
 
 ![Desktop - 34](https://github.com/user-attachments/assets/b379693f-3238-41f8-9f49-a659829bcb43)
 __________________________________________________________________________
