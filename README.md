@@ -1,5 +1,8 @@
 # PEP_NEWS_Screening
 THIS IS THE PROPERTY OF AWAAZ AI (NSTP)
+
+## FIGMA
+https://www.figma.com/design/n5RhpOSWWKryHTDg8aO7GK/PEP-Screening?node-id=171-208&t=kdhNjC9dtE4XEB00-0
 __________________________________________________________________________
 
 ## LOGIN PAGE
@@ -34,7 +37,4 @@ https://github.com/user-attachments/assets/f4f26590-b1ca-4f74-a94e-06fb49746fe9
 
 
 ## SUMMARY PAGE
-
-
-
 https://github.com/user-attachments/assets/e16eb51d-516a-4f5d-bea5-bc6eae5de833
