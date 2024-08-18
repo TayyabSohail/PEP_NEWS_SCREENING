@@ -30,8 +30,6 @@ https://github.com/user-attachments/assets/1300c1da-daab-411b-a834-82bb07edde04
 
 
 ## DETAILS PAGE
-https://github.com/user-attachments/assets/e47abe95-be6c-4a5f-9d91-2a359d90e2d7
-
 https://github.com/user-attachments/assets/f4f26590-b1ca-4f74-a94e-06fb49746fe9
 
 
