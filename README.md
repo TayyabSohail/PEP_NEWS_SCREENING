@@ -1,6 +1,6 @@
 # PEP_NEWS_Screening
 THIS IS THE PROPERTY OF AWAAZ AI (NSTP)
-This is a Full-Stack development of the PEP NEWS Screening Web Application used by Bank Islami.
+A product made for Bank Islami under the guidance of Aawaz AI at NUST. This product is used by the bank for filtering the NEWS for the selected PEP. It is utilized for financial analysis.
 
 ## TECHNOLOGIES USED
 1) REACT + VITE
